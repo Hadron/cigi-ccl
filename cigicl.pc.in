@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: CIGI Class Library
+Description: Library for unpacking, manipulating, and packing CIGI packets
+Version: @VERSION@
+Libs: -L${libdir} -lcigicl
+Cflags: -I${includedir}/cigicl 

@@ -1,0 +1,55 @@
+This is the source distribution of the CIGI Class Library (CCL).  This library 
+makes integration of CIGI into an application much easier.  More information 
+about CIGI and the CCL can be found on the CIGI web site: 
+	http://cigi.sourceforge.net
+
+
+INSTALLATION
+============
+
+Windows systems
+---------------
+
+The CCL can be compiled as a DLL or as a static LIB.  The project files for 
+compiling as a DLL can be found in the ccl_dll directory, and project files 
+for compiling as a LIB can be found in the ccl_lib directory.
+
+UNIX systems
+------------
+
+UNIX installation instructions can be found in the INSTALL file.
+
+Briefly, the process goes like this:
+	./configure
+	make
+
+And run the following as 'root':
+	make install
+
+
+USAGE
+=====
+
+API Documentation
+-----------------
+
+Documentation for the CCL API is available from the CIGI web site, and in the 
+form of Doxygen-generated help files.
+
+pkg-config
+----------
+
+If you are building a program that uses the CIGI Class Library, and you are 
+using a modern UNIX-like system, you may be able to take advantage of the 
+'pkg-config' utility.  The CCL includes a configuration file for pkg-config, 
+and this file is installed by default when you run 'make install'.  If your 
+system has pkg-config installed, you can build CCL programs using a series of 
+commands similar to the following:
+
+cc `pkg-config --cflags cigicl` ...etc...
+cc `pkg-config --libs cigicl` *.o ...etc...
+
+This makes your Makefiles much more readable, and saves you time spent 
+tracking down the location of header and library files.  You can get more info 
+on pkg-config by running 'man pkg-config'.
+

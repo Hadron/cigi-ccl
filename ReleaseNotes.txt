@@ -1,0 +1,277 @@
+
+Release Notes:
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.5
+  Date: April 24, 2007
+ -------------------------------------------------------------------------------
+
+Corrected a problem with Database request number adjustment.
+Changed V1 & V2 LOS requests to request extended responses if they are
+converted to V3.
+Changed the CigiHotReqV2 constructor to correctly set the request type to HOT
+instead of HAT.
+Corrected V3 & V3.2 SOF to correctly unpack the timestamp value.
+Removed the SetReqTyp member function from CigiHatHotXRespV3 & V3_2, because V3
+and V3.2 does not have that parameter in the packet.
+
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.4
+  Date: December 6, 2006
+ -------------------------------------------------------------------------------
+
+Corrects a bug with the Version Jump Table that was causing a memory leak.
+Corrected the way V3 Celestial Control and Atmosphere Control flags were
+being set by the V1 and V2 Environmental Control classes.
+Corrected a bug in CigiOutgoingMsg that now correctly zeros out the
+Host database id request under specific conditions.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.3
+  Date: August 11, 2006
+ -------------------------------------------------------------------------------
+
+Corrects a bug with IG Control and SOF that may have put the wrong
+Minor Version number in the CIGI messages.  Corrected the CigiIGCtrlV3_2
+and the CigiSOFV3_2 packing routines so that the Minor Version number is
+is packed from the packing object (a CigiIGCtrlV3_2 or CigiSOFV3_2 object
+when the current outgoing Cigi Version is 3.2) not the object with the 
+user filled data.  This will put the correct Minor Version number in the 
+Cigi message.
+
+
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.2
+  Date: July 18, 2006
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.7.2 Corrects several problems with the way the CCL
+has been recently released for Unix/Linux.  The CCL will now be released in
+the .zip format for windows and the .tar.gz format for Unix/Linux.  Several
+problems in CigiIncomingMsg involving setting the current CIGI version
+were corrected.  The problem with the way the IterationVersion is initialized
+and used in the iteration method of incoming message processing was corrected.
+In the examples, several errors in the networking code involving a stray
+pointer due to a #define were corrected.  Also in the examples,
+a few errors involving the STL differences between MS6 and MS7 and
+detecting the compiler version were corrected.
+
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.1
+  Date: June 23, 2006
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.7.1 replaces use of native char and unsigned char types 
+with new CIGI types Cigi_int8 and Cigi_uint8.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.7.0
+  Date: April 14, 2006
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.7.0 adds support for CIGI version 3.2.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.6.0
+  Date: March 02, 2006
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.6.0 adds improved support for autoamtic frame counter 
+synchronization.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.7
+  Date: November 08, 2005
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.5.7 introduces two new I/O examples, and adds delayed 
+processing capability when receiving incoming messages using the CigiIO class.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.6
+  Date: October 06, 2005
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.5.6 introduces two new examples, and fixes problems 
+with frame counter synchronization.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.5
+  Date: August 12, 2005
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.5.5 fixes bugs associated with iterating through the 
+incoming CIGI message buffer.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.4
+  Date: July 05, 2005
+ -------------------------------------------------------------------------------
+
+The CCL is a C++ language library for implementing CIGI in both host and IG 
+applications. Version 1.5.4 modified to detect a buffer overrun when processing 
+incoming CIGI messages.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.3
+  Date: April 26, 2005
+ -------------------------------------------------------------------------------
+
+Version 1.5.3 split the download files up into binaries, source, and 
+documentation. It also added license information to each of these downloads.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.2
+  Date: April 06, 2005
+ -------------------------------------------------------------------------------
+
+Version 1.5.2 includes various bug fixes detailed in the changelog.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5.1
+  Date: February 09, 2005
+ -------------------------------------------------------------------------------
+
+Version 1.5.1 fixes an error with the Windows DLL and LIB files and the 
+corresponding Visual Studio project files.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.5
+  Date: January 25, 2005
+ -------------------------------------------------------------------------------
+
+The first significant release since removing the beta status for the CCL. The 
+final directory structure is used, as will be reflectd in the CVS repository. 
+This version is more platform-capable, including Linux and 64-bit platforms. 
+Please refer to the changelog for a full list of updates.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 1.4a
+  Date: November 15, 2004
+ -------------------------------------------------------------------------------
+
+Changed the versioning scheme for the CCL, the file structure of the package, 
+and made other small changes; refer to the changelog for more details.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 3 Beta 1.4
+  Date: July 16, 2004
+ -------------------------------------------------------------------------------
+
+Added examples of separate CIGI Host and IG applications using the CCL. Made 
+bug fixes to the CCL; refer to the changelog for specific changes.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 3 Beta 1.3
+  Date: June 01, 2004
+ -------------------------------------------------------------------------------
+
+Added code to the CigiMessage class destructor to delete memory that has been 
+allocated by the class for buffers, counters, and data.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 3 Beta 1.2
+  Date: May 10, 2004
+ -------------------------------------------------------------------------------
+
+Fixed a bug in the CigiOutgoingMessage class where the frame counter was not 
+being updated for CIGI 1 and 2 messages on little endian machines.
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 3 Beta 1.1
+  Date: March 30, 2004
+ -------------------------------------------------------------------------------
+
+Made bug fixes to the CCL involving explicit type-casting and explicit type 
+indicators to variable assignment values. Added multithreaded and multithreaded 
+DLL configurations to the Cigi.dsp library project for both debug and release 
+builds (Win32).
+
+
+ -------------------------------------------------------------------------------
+  Release: CCL Version 3 Beta 1
+  Date: March 14, 2004
+ -------------------------------------------------------------------------------
+
+1)========================
+Directories:
+/cigi/version3/source/ccl
+    - The Cigi Class Library (CCL)
+
+/cigi/version3/examples/ccl
+    - Example project using the Cigi Class Library.
+      ( This is Visual C++ specific )
+      ( We have (with a little work) been able to get this to work on Linux.)
+
+/cigi/version3/docs/ccl
+    - the class information document created using Doxygen.
+
+/cigi/version3/docs/userman
+    - The user's manual.
+
+
+2)========================
+Visual C++ specific files:
+-Cigi.dsp
+-Cigi.dsw
+
+3)========================
+Unix/Linux specific files:
+-aclocal.m4
+-AUTHORS
+-autoeverything.sh
+-Changelog
+-cigicl.pc.in
+-config.guess
+-config.sub
+-configure
+-configure.ac
+-depcomp
+-install
+-install-sh
+-ltmain.sh
+-Makefile.am
+-Makefile.in
+-missing
+-mkinstalldirs
+-NEWS
+-README
+
+Note: These files are case sensitive.
+ However, due to the packaging method,
+ the case may have been inadvertantly changed.
+
+
+4)========================
+dox_cigi_cfg is a doxygen configuration file.
+

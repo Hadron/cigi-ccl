@@ -41,6 +41,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -51,6 +56,14 @@
 #define _CIGI_BASE_MOTION_TRACK_CTRL_INCLUDED_
 
 #include "CigiBasePacket.h"
+
+// ====================================================================
+// preprocessor definitions
+// ====================================================================
+
+#define CIGI_MOTION_TRACK_CTRL_PACKET_ID_V3 18
+#define CIGI_MOTION_TRACK_CTRL_PACKET_SIZE_V3 8
+
 
 class CigiMotionTrackCtrlV1;
 class CigiMotionTrackCtrlV2;
@@ -117,6 +130,21 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec) =0;
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo);
 
 
 

@@ -5,6 +5,7 @@
 # headers to be installed when 'make install' is run:
 pkginclude_HEADERS = \
 	CigiAerosolRespV3.h\
+	CigiAllPackets.h\
 	CigiAnimationStopV3.h\
 	CigiAnimationTable.h\
 	CigiArtPartCtrlV1.h\
@@ -14,6 +15,7 @@ pkginclude_HEADERS = \
 	CigiBaseAerosolResp.h\
 	CigiBaseAnimationStop.h\
 	CigiBaseArtPartCtrl.h\
+	CigiBaseCircleSymbolData.h\
 	CigiBaseCollDetSegDef.h\
 	CigiBaseCollDetSegResp.h\
 	CigiBaseCollDetVolDef.h\
@@ -45,17 +47,27 @@ pkginclude_HEADERS = \
 	CigiBaseSensorCtrl.h\
 	CigiBaseSensorResp.h\
 	CigiBaseShortArtPartCtrl.h\
+	CigiBaseShortSymbolCtrl.h\
 	CigiBaseSignalProcessing.h\
 	CigiBaseSpecEffDef.h\
+	CigiBaseSymbolCircleDef.h\
+	CigiBaseSymbolCtrl.h\
+	CigiBaseSymbolLineDef.h\
+	CigiBaseSymbolSurfaceDef.h\
+	CigiBaseSymbolTextDef.h\
 	CigiBaseTerrestrialSurfaceCtrl.h\
 	CigiBaseTerrestrialSurfaceResp.h\
 	CigiBaseTrajectoryDef.h\
+	CigiBaseVariableSizePckt.h\
+	CigiBaseVertexSymbolData.h\
 	CigiBaseViewCtrl.h\
 	CigiBaseViewDef.h\
 	CigiBaseWaveCtrl.h\
 	CigiBaseWeatherCondResp.h\
 	CigiBaseWeatherCtrl.h\
 	CigiCelestialCtrl.h\
+	CigiCircleSymbolDataV3_3.h\
+	CigiCnvtInfoType.h\
 	CigiCollDetSegDefV1.h\
 	CigiCollDetSegDefV2.h\
 	CigiCollDetSegDefV3.h\
@@ -69,6 +81,7 @@ pkginclude_HEADERS = \
 	CigiCompCtrlV1.h\
 	CigiCompCtrlV2.h\
 	CigiCompCtrlV3.h\
+	CigiCompCtrlV3_3.h\
 	CigiConfClampEntityCtrlV3.h\
 	CigiDefaultPacket.h\
 	CigiEarthModelDefV3.h\
@@ -80,7 +93,6 @@ pkginclude_HEADERS = \
 	CigiEnvCtrlV2.h\
 	CigiEnvRgnCtrlV3.h\
 	CigiErrorCodes.h\
-	CigiEventList.h\
 	CigiEventNotificationV3.h\
 	CigiException.h\
 	CigiExceptions.h\
@@ -124,10 +136,12 @@ pkginclude_HEADERS = \
 	CigiMaritimeSurfaceCtrlV3.h\
 	CigiMaritimeSurfaceRespV3.h\
 	CigiMessage.h\
+	CigiMessageBuffer.h\
 	CigiMotionTrackCtrlV3.h\
 	CigiOutgoingMsg.h\
 	CigiPositionReqV3.h\
 	CigiPositionRespV3.h\
+	CigiProcessType.h\
 	CigiRateCtrlV1.h\
 	CigiRateCtrlV2.h\
 	CigiRateCtrlV3.h\
@@ -146,16 +160,25 @@ pkginclude_HEADERS = \
 	CigiSession.h\
 	CigiShortArtPartCtrlV3.h\
 	CigiShortCompCtrlV3.h\
+	CigiShortCompCtrlV3_3.h\
+	CigiShortSymbolCtrlV3_3.h\
+	CigiSignalType.h\
 	CigiSpecEffDefV1.h\
 	CigiSpecEffDefV2.h\
 	CigiSwapping.h\
+	CigiSymbolCircleDefV3_3.h\
+	CigiSymbolCtrlV3_3.h\
+	CigiSymbolLineDefV3_3.h\
+	CigiSymbolSurfaceDefV3_3.h\
+	CigiSymbolTextDefV3_3.h\
 	CigiTerrestrialSurfaceCtrlV3.h\
 	CigiTerrestrialSurfaceRespV3.h\
 	CigiTrajectoryDefV1.h\
 	CigiTrajectoryDefV2.h\
 	CigiTrajectoryDefV3.h\
 	CigiTypes.h\
-	CigiVersionJumpTable.h\
+	CigiVersionID.h\
+	CigiVertexSymbolDataV3_3.h\
 	CigiViewCtrlV1.h\
 	CigiViewCtrlV2.h\
 	CigiViewCtrlV3.h\

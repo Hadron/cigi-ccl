@@ -60,21 +60,13 @@
 // CigiMessage
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiMessage::CigiMessage()
+: BufferSize(0)
+, CrntMsgBuf(NULL)
+, CrntFillBuf(NULL)
+, PackagedMsg(NULL)
+, ATbl(NULL)
+, Session(NULL)
 {
-
-   BufferCreated = false;
-   BufferBlock = NULL;
-   BufferCount = 0;
-   BufferSize  = 0;
-   BasePtr = NULL;
-   FillBufferPos = NULL;
-   CrntMsgBuf = 0;
-   CrntFillBuf = 0;
-   BuffFillCnt = NULL;
-   Active = false;
-   Data = NULL;
-   Locked = false;
-   ValidIGCtrlSOF = false;
 
 }
 
@@ -84,20 +76,25 @@ CigiMessage::CigiMessage()
 CigiMessage::~CigiMessage()
 {
 
-   if( BufferBlock != NULL)
+   if(Buffers.size() > 0)
    {
-      double *OrigBuf = (double *)BufferBlock;
-      delete [] OrigBuf;
+      list<CigiMessageBuffer *>::iterator iBuf;
+      for(iBuf=Buffers.begin();iBuf!=Buffers.end();iBuf++)
+      {
+         delete (*iBuf);
+      }
+      Buffers.clear();
    }
 
-   if( BasePtr != NULL)
-      delete [] BasePtr;
-
-   if( BuffFillCnt != NULL)
-      delete [] BuffFillCnt;
-
-   if( Data != NULL)
-      delete [] Data;
+   if(AvailBuff.size() > 0)
+   {
+      list<CigiMessageBuffer *>::iterator iBuf;
+      for(iBuf=AvailBuff.begin();iBuf!=AvailBuff.end();iBuf++)
+      {
+         delete (*iBuf);
+      }
+      AvailBuff.clear();
+   }
 
 }
 
@@ -111,33 +108,21 @@ CigiMessage::~CigiMessage()
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiMessage::CreateBuffer(const int NumBuf, const int BufLen)
 {
+   if(BufferSize <= 0)
+      BufferSize = BufLen;
 
-   if(!BufferCreated)
+   int BuffCnt = AvailBuff.size();
+   int AddBuff = 0;
+   if(BuffCnt < NumBuf)
+      AddBuff = NumBuf - BuffCnt;
+
+   if(AddBuff > 0)
    {
-      BufferCount = NumBuf;
-
-      // The 64 is to add space at the end of each buffer to allow
-      //   overruns due to problems due to version change
-      BufferSize  = BufLen + 64;
-
-      double *OrigBuf = new double[NumBuf * ((BufLen/8) + 1)];
-      BufferBlock = (Cigi_uint8 *)OrigBuf;
-      BasePtr = new Cigi_uint8 *[NumBuf];
-      BuffFillCnt = new int[NumBuf];
-      Data = new bool[NumBuf];
-      for(int ndx=0;ndx<NumBuf;ndx++)
+      for(int ndx=0;ndx<AddBuff;ndx++)
       {
-         BasePtr[ndx] = BufferBlock + (ndx * BufLen);
-         BuffFillCnt[ndx] = 0;
-         Data[ndx] = false;
+         CigiMessageBuffer *NewBuff = new CigiMessageBuffer(BufferSize);
+         AvailBuff.push_back(NewBuff);
       }
-      FillBufferPos = BufferBlock;
-
-	   CrntMsgBuf = 0;
-      CrntFillBuf = 0;
-      Active = false;
-      Locked = false;
-
    }
 
    return(CIGI_SUCCESS);

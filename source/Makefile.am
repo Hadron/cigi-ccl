@@ -11,6 +11,7 @@ libcigicl_la_SOURCES = \
 	CigiAtmosCtrl.cpp\
 	CigiBaseAerosolResp.cpp\
 	CigiBaseArtPartCtrl.cpp\
+	CigiBaseCircleSymbolData.cpp\
 	CigiBaseCollDetSegResp.cpp\
 	CigiBaseCollDetVolDef.cpp\
 	CigiBaseCollDetVolResp.cpp\
@@ -34,7 +35,13 @@ libcigicl_la_SOURCES = \
 	CigiBaseSensorCtrl.cpp\
 	CigiBaseSensorResp.cpp\
 	CigiBaseShortArtPartCtrl.cpp\
+	CigiBaseShortSymbolCtrl.cpp\
 	CigiBaseSpecEffDef.cpp\
+	CigiBaseSymbolCircleDef.cpp\
+	CigiBaseSymbolCtrl.cpp\
+	CigiBaseSymbolLineDef.cpp\
+	CigiBaseSymbolSurfaceDef.cpp\
+	CigiBaseSymbolTextDef.cpp\
 	CigiBaseTerrestrialSurfaceCtrl.cpp\
 	CigiBaseTrajectoryDef.cpp\
 	CigiBaseViewCtrl.cpp\
@@ -43,6 +50,7 @@ libcigicl_la_SOURCES = \
 	CigiBaseWeatherCondResp.cpp\
 	CigiBaseWeatherCtrl.cpp\
 	CigiCelestialCtrl.cpp\
+	CigiCircleSymbolDataV3_3.cpp\
 	CigiCollDetSegDefV1.cpp\
 	CigiCollDetSegDefV2.cpp\
 	CigiCollDetSegDefV3.cpp\
@@ -56,6 +64,7 @@ libcigicl_la_SOURCES = \
 	CigiCompCtrlV1.cpp\
 	CigiCompCtrlV2.cpp\
 	CigiCompCtrlV3.cpp\
+	CigiCompCtrlV3_3.cpp\
 	CigiConfClampEntityCtrlV3.cpp\
 	CigiDefaultPacket.cpp\
 	CigiEarthModelDefV3.cpp\
@@ -66,7 +75,6 @@ libcigicl_la_SOURCES = \
 	CigiEnvCtrlV1.cpp\
 	CigiEnvCtrlV2.cpp\
 	CigiEnvRgnCtrlV3.cpp\
-	CigiEventList.cpp\
 	CigiEventNotificationV3.cpp\
 	CigiHatHotReqV3.cpp\
 	CigiHatHotReqV3_2.cpp\
@@ -129,15 +137,22 @@ libcigicl_la_SOURCES = \
 	CigiSession.cpp\
 	CigiShortArtPartCtrlV3.cpp\
 	CigiShortCompCtrlV3.cpp\
+	CigiShortCompCtrlV3_3.cpp\
+	CigiShortSymbolCtrlV3_3.cpp\
 	CigiSpecEffDefV1.cpp\
 	CigiSpecEffDefV2.cpp\
 	CigiSwapping.cpp\
+	CigiSymbolCircleDefV3_3.cpp\
+	CigiSymbolCtrlV3_3.cpp\
+	CigiSymbolLineDefV3_3.cpp\
+	CigiSymbolSurfaceDefV3_3.cpp\
+	CigiSymbolTextDefV3_3.cpp\
 	CigiTerrestrialSurfaceCtrlV3.cpp\
 	CigiTerrestrialSurfaceRespV3.cpp\
 	CigiTrajectoryDefV1.cpp\
 	CigiTrajectoryDefV2.cpp\
 	CigiTrajectoryDefV3.cpp\
-	CigiVersionJumpTable.cpp\
+	CigiVertexSymbolDataV3_3.cpp\
 	CigiViewCtrlV1.cpp\
 	CigiViewCtrlV2.cpp\
 	CigiViewCtrlV3.cpp\

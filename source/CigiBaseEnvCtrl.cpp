@@ -89,6 +89,25 @@ CigiBaseEnvCtrl::~CigiBaseEnvCtrl()
 
 }
 
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseEnvCtrl::GetCnvt(CigiVersionID &CnvtVersion,
+                             CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcEnvCtrl;
+   CnvtInfo.CnvtPacketID = 0;
+
+   return(CIGI_SUCCESS);
+}
+
+
 // ====================================================================
 // Accessors
 // ====================================================================

@@ -41,6 +41,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -52,12 +56,7 @@
 
 #include "CigiBaseSensorResp.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
 
-#define CIGI_SENSOR_RESP_PACKET_ID_V2 105
-#define CIGI_SENSOR_RESP_PACKET_SIZE_V2 12
 
 class CIGI_SPEC CigiSensorRespV2 : public CigiBaseSensorResp
 {
@@ -91,6 +90,7 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const;
+
    //=========================================================
    //! The virtual Unpack function for CIGI 2
    //! \param Buff - A pointer to the current pack point.

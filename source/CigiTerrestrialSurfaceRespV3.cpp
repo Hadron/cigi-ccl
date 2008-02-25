@@ -44,6 +44,7 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -84,6 +85,7 @@ CigiTerrestrialSurfaceRespV3::~CigiTerrestrialSurfaceRespV3()
 {
 
 }
+
 
 // ====================================================================
 // Pack and Unpack

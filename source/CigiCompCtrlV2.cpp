@@ -47,6 +47,13 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
+ *  02/11/2008 Greg Basler                       Version 1.7.6
+ *  Changed the conversion process.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -73,7 +80,17 @@
 
 
 
-// Component Class conversion Table
+// Component Class conversion Tables
+const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV2::CompClassV2xV1[6] =
+{
+   Entity,
+   Environment,
+   View,
+   NoCnvtV1,
+   NoCnvtV1,
+   NoCnvtV1
+};
+
 const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV2::CompClassV2xV3[6] =
 {
    EntityV3,
@@ -81,7 +98,7 @@ const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV2::CompClassV2xV3[6] =
    ViewV3,
    ViewGrpV3,
    SensorV3,
-   SystemV3,
+   SystemV3
 };
 
 
@@ -205,6 +222,42 @@ int CigiCompCtrlV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 }
 
 
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiCompCtrlV2::GetCnvt(CigiVersionID &CnvtVersion,
+                            CigiCnvtInfoType::Type &CnvtInfo)
+{
+
+   if(CnvtVersion.CigiMajorVersion == 2)
+   {
+      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V2;
+   }
+   else if(CnvtVersion.CigiMajorVersion == 1)
+   {
+      if((CompAssoc >= Entity)&&(CompAssoc <= View))
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V1;
+      }
+      else
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcNone;
+         CnvtInfo.CnvtPacketID = 0;
+      }
+   }
+   else
+   {
+      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
+   }
+
+   return(CIGI_SUCCESS);
+
+}
+
+
 
 // ====================================================================
 // Accessors
@@ -230,8 +283,7 @@ int CigiCompCtrlV2::SetCompClassV2(const CompClassV2Grp CompClassV2In, bool bndc
    CompClassV2 = CompClassV2In;
 
 
-   CompAssoc = (CompAssocGrp)((CompClassV2 < 3) ?
-                  CompClassV2 : Entity);
+   CompAssoc = CompClassV2xV1[CompClassV2];
    CompClassV3 = CompClassV2xV3[CompClassV2];
 
 

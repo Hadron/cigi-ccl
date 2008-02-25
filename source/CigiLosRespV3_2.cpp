@@ -38,6 +38,10 @@
  *  
  *  04/24/2007 Greg Basler                       Version 1.7.5
  *  Corrected an error with ValidV1or2.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -184,6 +188,38 @@ int CigiLosRespV3_2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    return(PacketSize);
 
+}
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiLosRespV3_2::GetCnvt(CigiVersionID &CnvtVersion,
+                           CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   // Note: CIGI_LOS_RESP_PACKET_ID_V1 &
+   // CIGI_LOS_RESP_PACKET_ID_V2 are the same
+   if(CnvtVersion.CigiMajorVersion < 3)
+      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V2;
+   else
+      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V3;
+
+
+   // Note:
+   // CIGI_LOS_RESP_PACKET_ID_V1 &
+   // CIGI_LOS_RESP_PACKET_ID_V2 are the same
+   // CIGI_LOS_RESP_PACKET_ID_V3 &
+   // CIGI_LOS_RESP_PACKET_ID_V3_2 are the same
+   if(CnvtVersion.CigiMajorVersion < 3)
+      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V2;
+   else
+      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V3;
+
+
+
+   return(CIGI_SUCCESS);
 }
 
 

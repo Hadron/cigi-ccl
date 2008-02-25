@@ -59,7 +59,6 @@
 
 #include "CigiOutgoingMsg.h"
 #include "CigiIncomingMsg.h"
-#include "CigiVersionJumpTable.h"
 #include "CigiAnimationTable.h"
 
 
@@ -70,6 +69,15 @@
 class CIGI_SPEC CigiSession  
 {
 public:
+
+   //=========================================================
+   //! The enumeration for the Session Type
+   //!
+   enum SessionTypeEnum
+   {
+      Host,
+      IG
+   };
 
    //==> Management
 
@@ -96,7 +104,7 @@ public:
    //!
 	int SetCigiVersion(const int CigiVersionIn, bool bndchk=true)
    {
-      return( VJmp.SetCigiVersion(CigiVersionIn, 0, bndchk));
+      return( SetCigiVersion(CigiVersionIn, 0, bndchk));
    }
 
    //=========================================================
@@ -114,22 +122,72 @@ public:
                       const int CigiMinorVersionIn,
                       bool bndchk=true)
    {
-      return( VJmp.SetCigiVersion(CigiVersionIn,
-                                  CigiMinorVersionIn,
-                                  bndchk));
+      CigiVersionID tCigiVer;
+      tCigiVer.CigiMajorVersion = CigiVersionIn;
+      tCigiVer.CigiMinorVersion = CigiMinorVersionIn;
+      return(OutMsg.SetOutgoingCigiVersion(tCigiVer,bndchk));
    }
+
+   //=========================================================
+   //! Sets the Cigi version of the external interface
+   //!   with bound checking control
+   //! \param CigiVersionIn - The Cigi Version being used.
+   //! \param CigiMinorVersionIn - Sets the Cigi Minor Version of
+   //!   the external interface
+   //! \param bndchk - Enables (true) or disables (false) bounds checking
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	int SetCigiVersion(CigiVersionID CigiVersionIn,
+                      bool bndchk=true)
+   {
+      return(OutMsg.SetOutgoingCigiVersion(CigiVersionIn,bndchk));
+   }
+
+   //=========================================================
+   //! Sets the complete Cigi Version value of the most mature
+   //    Cigi Version of an incoming message received.
+   //! \param CigiVersionIn - The most mature Cigi Version of
+   //!   the incoming message interface
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	void SetMostMatureReceivedCigiVersion(CigiVersionID &Version)
+   {
+      OutMsg.SetMostMatureReceivedCigiVersion(Version);
+   }
+
+
+   //=========================================================
+   //! Gets the Cigi version of the external interface.
+   //! \return the complete Cigi version of the external interface.
+   //!
+   CigiVersionID GetCompleteCigiVersion(void)
+   {
+      return(OutMsg.GetOutgoingCigiVersion());
+   }
+
 
    //=========================================================
    //! Gets the Cigi version of the external interface.
    //! \return the Cigi version of the external interface.
    //!
-   int GetCigiVersion(void) { return( VJmp.GetCigiVersion() ); }
+   int GetCigiVersion(void)
+   {
+      return(OutMsg.GetOutgoingCigiVersion().CigiMajorVersion);
+   }
+
 
    //=========================================================
    //! Gets the Cigi Minor Version of the external interface.
    //! \return the Cigi Minor Version of the external interface.
    //!
-   int GetCigiMinorVersion(void) const { return(VJmp.GetCigiMinorVersion()); }
+   int GetCigiMinorVersion(void)
+   {
+      return(OutMsg.GetOutgoingCigiVersion().CigiMinorVersion);
+   }
 
 
    //+> Managers
@@ -147,12 +205,6 @@ public:
    CigiIncomingMsg & GetIncomingMsgMgr(void) { return(InMsg); }
 
    //=========================================================
-   //! Gets a reference to the Version/Jump Table Manager object
-   //! \return a reference to the Version/Jump Table Manager object.
-   //!
-   CigiVersionJumpTable & GetVersionJumpTableMgr(void) { return(VJmp); }
-
-   //=========================================================
    //! Gets a reference to the Animation Table Manager object
    //! \return a reference to the Animation Table Manager object.
    //!
@@ -167,7 +219,7 @@ public:
    //!  true - interface is synchronous.<br>
    //!  false - interface is asynchronous.<br>
    //!
-   void SetSynchronous(bool Sync) { VJmp.SetSynchronous(Sync); }
+   void SetSynchronous(bool Sync) { Synchronous = Sync; }
 
    //=========================================================
    //! Gets whether the interface is synchronous or asynchronous.
@@ -175,7 +227,7 @@ public:
    //!  true - interface is synchronous.<br>
    //!  false - interface is asynchronous.<br>
    //!
-   bool IsSynchronous(void) { return(VJmp.IsSynchronous()); }
+   bool IsSynchronous(void) { return(Synchronous); }
 
 
    //+> User Packet Management
@@ -198,7 +250,37 @@ public:
                           Cigi_uint8 PacketID,
                           bool HostSend, bool IGSend)
    {
-      return(VJmp.RegisterUserPacket(Packet, PacketID, HostSend, IGSend));
+      int outMsgStatus = OutMsg.RegisterUserPacket(Packet,PacketID,HostSend,IGSend);
+      int inMsgStatus  =  InMsg.RegisterUserPacket(Packet,PacketID,HostSend,IGSend);
+      if( outMsgStatus == CIGI_SUCCESS && inMsgStatus == CIGI_SUCCESS )
+         return CIGI_SUCCESS;
+      else if( outMsgStatus == CIGI_SUCCESS )
+         return inMsgStatus;
+      else
+         return outMsgStatus;
+   }
+
+
+   //+> Session Type
+
+   //=========================================================
+   //! Notification as to whether the session is a Host session
+   //!
+   //! \return This returns true if this is a host session
+   //!
+	bool IsHost(void)
+   {
+      return((SessionType == Host) ? true : false);
+   }
+
+   //=========================================================
+   //! Notification as to whether the session is a IG session
+   //!
+   //! \return This returns true if this is a IG session
+   //!
+	bool IsIG(void)
+   {
+      return((SessionType == IG) ? true : false);
    }
 
 
@@ -218,14 +300,26 @@ protected:
    CigiIncomingMsg InMsg;
 
    //=========================================================
-   //! Version/Jump Table Object<br>
-   //!
-   CigiVersionJumpTable VJmp;
-
-   //=========================================================
    //! Animation Table Object<br>
    //!
    CigiAnimationTable ATbl;
+
+   //=========================================================
+   //! Session Type IG or Host<br>
+   //!
+   SessionTypeEnum SessionType;
+
+   //=========================================================
+   //! A flag specifying whether this session is synchronous
+   //!  or asynchronous.
+   //!
+   bool Synchronous;
+
+   //=========================================================
+   //! 
+   //! 
+   //!
+   const CigiVersionID MostMatureKnownCigi;
 
 
    //==> Member Functions
@@ -242,7 +336,7 @@ protected:
    //!
    CigiSession(const int NumInBuf, const int InBufLen,
                const int NumOutBuf, const int OutBufLen,
-               CigiVersionJumpTable::JumpTableType JTblType);
+               SessionTypeEnum SessionTypeIn);
 
 
 };

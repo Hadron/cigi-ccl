@@ -37,6 +37,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -71,6 +75,30 @@ CigiBaseWeatherCtrl::~CigiBaseWeatherCtrl()
 {
 
 }
+
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseWeatherCtrl::GetCnvt(CigiVersionID &CnvtVersion,
+                                 CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   // V1 & V2 have the same packet id number
+   if(CnvtVersion.CigiMajorVersion < 3)
+      CnvtInfo.CnvtPacketID = CIGI_WEATHER_CTRL_PACKET_ID_V2;
+   else
+      CnvtInfo.CnvtPacketID = CIGI_WEATHER_CTRL_PACKET_ID_V3;
+
+   return(CIGI_SUCCESS);
+}
+
 
 // ====================================================================
 // Accessors

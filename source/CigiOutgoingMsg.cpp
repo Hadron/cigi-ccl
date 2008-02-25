@@ -91,12 +91,13 @@
 #define _EXPORT_CCL_
 
 #include "CigiOutgoingMsg.h"
-#include "CigiBasePacket.h"
+
+#include "CigiVersionID.h"
+#include "CigiAllPackets.h"
 #include "CigiExceptions.h"
 #include "CigiSwapping.h"
+#include "CigiSession.h"
 
-#include "CigiIGCtrlV3.h"
-#include "CigiSOFV3.h"
 
 #ifdef CIGI_LITTLE_ENDIAN
    #define CIGI_SCOPY2 CigiSwap2
@@ -108,6 +109,8 @@
    #define CIGI_SCOPY8 CigiCopy8
 #endif
 
+using namespace std;
+
 
 // ====================================================================
 // Construction/Destruction
@@ -118,10 +121,31 @@
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg::CigiOutgoingMsg()
 {
-   PackagedMsg = -1;
 
-   CurrentIGCtrl = new CigiIGCtrlV3;
-   CurrentSOF = new CigiSOFV3;
+   pIGCtrlPck[0] = NULL;
+   pIGCtrlPck[1] = new CigiIGCtrlV1;
+   pIGCtrlPck[2] = new CigiIGCtrlV2;
+   pIGCtrlPck[3] = new CigiIGCtrlV3;
+   pIGCtrlPck[4] = new CigiIGCtrlV3_2;
+
+   pSOFPck[0] = NULL;
+   pSOFPck[1] = new CigiSOFV1;
+   pSOFPck[2] = new CigiSOFV2;
+   pSOFPck[3] = new CigiSOFV3;
+   pSOFPck[4] = new CigiSOFV3_2;
+
+   for(int ndx=0;ndx<256;ndx++)
+   {
+      OutgoingHandlerTbl[ndx] = (CigiBasePacket *)&DefaultPacket;
+      VldSnd[ndx] = false;
+   }
+
+   CmdVersionChng = false;
+   CmdVersion.SetCigiVersion(3,3);
+   MostMatureVersionReceived.SetCigiVersion(0,0);
+
+   FrameCnt = 0;
+   LastRcvdFrame = 0;
 
 }
 
@@ -131,8 +155,17 @@ CigiOutgoingMsg::CigiOutgoingMsg()
 CigiOutgoingMsg::~CigiOutgoingMsg()
 {
 
-   delete CurrentIGCtrl;
-   delete CurrentSOF;
+   for(int ndx=1;ndx<5;ndx++)
+   {
+      delete pIGCtrlPck[ndx];
+      delete pSOFPck[ndx];
+   }
+
+   for(int ndx=0;ndx<200;ndx++)
+   {
+      if(OutgoingHandlerTbl[ndx] != (CigiBasePacket *)&DefaultPacket)
+         delete OutgoingHandlerTbl[ndx];
+   }
 
 }
 
@@ -142,45 +175,200 @@ CigiOutgoingMsg::~CigiOutgoingMsg()
 // Processing
 // ====================================================================
 
+
 // ================================================
-// BeginMsg
+// IsSynchronous
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiOutgoingMsg::BeginMsg()
+bool CigiOutgoingMsg::IsSynchronous(void) const
 {
+   if(Session != NULL)
+      return(Session->IsSynchronous());
+   else
+      return(true);  // default response
+}
 
-   if(Active || Locked)
+
+// ================================================
+// AdvanceBuffer
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::AdvanceBuffer(void)
+{
+   if(AvailBuff.empty())
    {
-
-#ifndef CIGI_NO_EXCEPT
-      throw CigiCalledOutOfSequenceException();
-#endif
-      return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
+      // Create a new buffer
+      CrntFillBuf = new CigiMessageBuffer(BufferSize);
+   }
+   else
+   {
+      // Get the first buffer in the Available Buffers list
+      CrntFillBuf = (*AvailBuff.begin());
+      AvailBuff.pop_front();
    }
 
-   Active = true;
-   ValidIGCtrlSOF = false;
+   // Add the buffer to the Active Buffers list
+   Buffers.push_back(CrntFillBuf);
 
-   if(!Data[CrntMsgBuf])
+   // Initialize the buffer
+   CrntFillBuf->Active = true;
+   CrntFillBuf->BufferFillCnt = 0;
+   CrntFillBuf->DataPresent = false;
+   CrntFillBuf->FillBufferPos = CrntFillBuf->Buffer;
+   CrntFillBuf->Locked = false;
+   CrntFillBuf->ValidIGCtrlSOF = false;
+
+   if(CmdVersionChng)
    {
-      Data[CrntMsgBuf] = true;
+      MostMatureVersionReceived.SetCigiVersion(0,0);
+      ChangeOutgoingCigiVersion(CmdVersion);
+      CmdVersionChng = false;
+   }
+   else if((OutgoingVersion != MostMatureVersionReceived) &&
+           (MostMatureVersionReceived.CigiMajorVersion > 0))
+      ChangeOutgoingCigiVersion(MostMatureVersionReceived);
 
-      if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
+   // Set the buffer's Cigi Version
+   ChangeBufferCigiVersion(OutgoingVersion);
+
+}
+
+
+// ================================================
+// ChangeOutgoingCigiVersion
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::ChangeOutgoingCigiVersion(CigiVersionID &Version)
+{
+   // Determine the buffer's Cigi Version
+   if((Session != NULL) &&
+      (Version.CigiMajorVersion > 0))
+   {
+      OutgoingVersion = Version;
+
+      for(int ndx=0;ndx<200;ndx++)
       {
-         // adjust the following for IG Control Packet
-         BuffFillCnt[CrntMsgBuf] = VJmp->GetIGCtrlSize();
-         FillBufferPos = BasePtr[CrntMsgBuf] + VJmp->GetIGCtrlSize();
+         if(OutgoingHandlerTbl[ndx] != (CigiBasePacket *)&DefaultPacket)
+         {
+            delete OutgoingHandlerTbl[ndx];
+            OutgoingHandlerTbl[ndx] = &DefaultPacket;
+         }
+         VldSnd[ndx] = false;
+      }
+
+      if(Session->IsHost())
+      {
+         if(OutgoingVersion.CigiMajorVersion >= 3)
+            SetOutgoingHostV3Tbls();
+         else if(OutgoingVersion.CigiMajorVersion == 2)
+            SetOutgoingHostV2Tbls();
+         else if(OutgoingVersion.CigiMajorVersion == 1)
+            SetOutgoingHostV1Tbls();
       }
       else
       {
-         // adjust the following for SOF Packet
-         BuffFillCnt[CrntMsgBuf] = VJmp->GetSOFSize();
-         FillBufferPos = BasePtr[CrntMsgBuf] + VJmp->GetSOFSize();
+         if(OutgoingVersion.CigiMajorVersion >= 3)
+            SetOutgoingIGV3Tbls();
+         else if(OutgoingVersion.CigiMajorVersion == 2)
+            SetOutgoingIGV2Tbls();
+         else if(OutgoingVersion.CigiMajorVersion == 1)
+            SetOutgoingIGV1Tbls();
+      }
+   }
+}
+
+
+// ================================================
+// SetMostMatureReceivedCigiVersion
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetMostMatureReceivedCigiVersion(CigiVersionID &Version)
+{
+   bool valid = false;
+
+   if(Version.IsKnownCigiVersion())
+   {
+      if(Version.GetCombinedCigiVersion() >
+         MostMatureVersionReceived.GetCombinedCigiVersion())
+      {
+         MostMatureVersionReceived = Version;
+
+         if(CrntFillBuf != NULL)
+         {
+            if((CrntFillBuf->Active) &&
+               (!CrntFillBuf->DataPresent))
+            {
+               // Set the buffer's Cigi Version
+               ChangeBufferCigiVersion(OutgoingVersion);
+            }
+         }
+      }
+   }
+}
+
+
+// ================================================
+// SetMostMatureReceivedCigiVersion
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiOutgoingMsg::SetOutgoingCigiVersion(CigiVersionID &Version,
+                                            bool bndchk)
+{
+   int stat = CIGI_ERROR_WRONG_VERSION;
+
+   if(Version.IsKnownCigiVersion())
+   {
+      MostMatureVersionReceived.SetCigiVersion(0,0);
+      CmdVersionChng = true;
+      CmdVersion = Version;
+      stat = CIGI_SUCCESS;
+
+      if(CrntFillBuf != NULL)
+      {
+         if((CrntFillBuf->Active) &&
+            (!CrntFillBuf->DataPresent))
+         {
+            ChangeOutgoingCigiVersion(Version);
+
+            // Set the buffer's Cigi Version
+            ChangeBufferCigiVersion(OutgoingVersion);
+
+            CmdVersionChng = false;  // Already changed
+         }
       }
    }
 
-   return(CIGI_SUCCESS);
+   return(stat);
+}
 
+
+// ================================================
+// SetMostMatureReceivedCigiVersion
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::ChangeBufferCigiVersion(CigiVersionID &Version)
+{
+   // Set the buffer's Cigi Version
+   CrntFillBuf->CigiVersion = OutgoingVersion;
+
+   if(Session->IsHost())
+   {
+      CrntFillBuf->PackIGCtrl =
+         pIGCtrlPck[OutgoingVersion.CigiMajorVersion];
+      if((OutgoingVersion.GetCombinedCigiVersion() >= 0x302))
+         CrntFillBuf->PackIGCtrl = pIGCtrlPck[4];
+
+      int pSize = CrntFillBuf->PackIGCtrl->GetPacketSize();
+      CrntFillBuf->BufferFillCnt = pSize;
+      CrntFillBuf->FillBufferPos = CrntFillBuf->Buffer + pSize;
+
+   }
+   else
+   {
+      CrntFillBuf->PackSOF =
+         pSOFPck[OutgoingVersion.CigiMajorVersion];
+      if((OutgoingVersion.GetCombinedCigiVersion() >= 0x302))
+         CrntFillBuf->PackSOF = pSOFPck[4];
+
+      int pSize = CrntFillBuf->PackSOF->GetPacketSize();
+      CrntFillBuf->BufferFillCnt = pSize;
+      CrntFillBuf->FillBufferPos = CrntFillBuf->Buffer + pSize;
+
+   }
 }
 
 
@@ -189,25 +377,44 @@ int CigiOutgoingMsg::BeginMsg()
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseIGCtrl &refPacket)
 {
-   *CurrentIGCtrl = refPacket;
+   CigiMessageBuffer *HostMsgBuf = NULL;
 
-   Cigi_uint8 JTblNdx =
-      VJmp->GetCnvtID(refPacket.GetPacketID(),refPacket.GetVersion());
-
-   bool Valid = VJmp->GetSndVld(JTblNdx);
-
-   if(Valid)
+   if(Buffers.empty())
    {
-      CigiBasePacket * PackHndlr = VJmp->GetPcktHndlr(JTblNdx);
-
-      PackHndlr->Pack(&refPacket, BasePtr[CrntFillBuf], NULL);
-
-      ValidIGCtrlSOF = true;
-   }
 #ifndef CIGI_NO_EXCEPT
-   else
-      throw CigiImproperPacketException();
+      throw CigiCalledOutOfSequenceException();
 #endif
+      return(*this);
+   }
+
+   HostMsgBuf = *(Buffers.begin());
+   if(HostMsgBuf == NULL)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+   if(!HostMsgBuf->Active || HostMsgBuf->Locked)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+   if(Session->IsHost())
+   {
+      if(HostMsgBuf->PackIGCtrl != NULL)
+      {
+         HostMsgBuf->PackIGCtrl->Pack(&refPacket,
+                                    CrntFillBuf->Buffer,
+                                    (void *)&OutgoingVersion);
+         HostMsgBuf->ValidIGCtrlSOF = true;
+         HostMsgBuf->DataPresent = true;
+      }
+   }
 
    return(*this);
 
@@ -219,25 +426,46 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseIGCtrl &refPacket)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseSOF &refPacket)
 {
-   *CurrentSOF = refPacket;
+   CigiMessageBuffer *IgMsgBuf = NULL;
 
-   Cigi_uint8 JTblNdx =
-      VJmp->GetCnvtID(refPacket.GetPacketID(),refPacket.GetVersion());
-
-   bool Valid = VJmp->GetSndVld(JTblNdx);
-
-   if(Valid)
+   if(Buffers.empty())
    {
-      CigiBasePacket * PackHndlr = VJmp->GetPcktHndlr(JTblNdx);
-
-      PackHndlr->Pack(&refPacket, BasePtr[CrntFillBuf], NULL);
-
-      ValidIGCtrlSOF = true;
-   }
 #ifndef CIGI_NO_EXCEPT
-   else
-      throw CigiImproperPacketException();
+      throw CigiCalledOutOfSequenceException();
 #endif
+      return(*this);
+   }
+
+   IgMsgBuf = *(Buffers.begin());
+
+   if(IgMsgBuf == NULL)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+
+   if(!IgMsgBuf->Active || IgMsgBuf->Locked)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+   if(Session->IsIG())
+   {
+      if(IgMsgBuf->PackSOF != NULL)
+      {
+         IgMsgBuf->PackSOF->Pack(&refPacket,
+                                 CrntFillBuf->Buffer,
+                                 (void *)&OutgoingVersion);
+         IgMsgBuf->ValidIGCtrlSOF = true;
+         IgMsgBuf->DataPresent = true;
+      }
+   }
 
    return(*this);
 
@@ -249,71 +477,74 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseSOF &refPacket)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEntityCtrl &refPacket)
 {
+   CigiCnvtInfoType::Type Cnvt;
+   refPacket.GetCnvt(OutgoingVersion,Cnvt);
 
-   if(!Active || Locked)
-      return(*this);  // add exception coding here!
+   if(VldSnd[Cnvt.CnvtPacketID])
+      PackObj(refPacket,*OutgoingHandlerTbl[Cnvt.CnvtPacketID],ATbl);
 
-   Cigi_uint8 JTblNdx =
-      VJmp->GetCnvtID(refPacket.GetPacketID(),refPacket.GetVersion());
+   return(*this);
 
-   bool Valid = VJmp->GetSndVld(JTblNdx);
+}
 
-   if(Valid)
+
+
+// ================================================
+// operator << - Environmental Control
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEnvCtrl &refPacket)
+{
+   // Store data
+   refPacket.FillHold(&EnvHoldObj);
+
+   Cigi_uint8 FillVer = refPacket.GetVersion();
+
+   if(OutgoingVersion.CigiMajorVersion == FillVer)
    {
-
-      CigiBasePacket * PackHndlr = VJmp->GetPcktHndlr(JTblNdx);
-    
-      int Size = PackHndlr->GetPacketSize();
-
-      if( Size > 0 )
+      // This is one version being packed
+      if(VldSnd[refPacket.GetPacketID()])
       {
-
-         // Check room left in current buffer
-         if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
-         {
-            PackHndlr->Pack(&refPacket, FillBufferPos, ATbl);
-            BuffFillCnt[CrntFillBuf] += Size;
-            FillBufferPos += Size;
-         }
-         else
-         {
-
-            // next message buffer
-            int NMsgBuf = CrntFillBuf + 1;
-            if(NMsgBuf >= BufferCount)
-               NMsgBuf = 0;
-
-            if(!Data[NMsgBuf])
-            {
-               CrntFillBuf = NMsgBuf;
-               Data[NMsgBuf] = true;
-               if(VJmp->GetJmpTbltype() ==
-                         CigiVersionJumpTable::Host)
-               {
-                  // adjust the following for IG Control Packet
-                  BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                  FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-               }
-               else
-               {
-                  // adjust the following for SOF Packet
-                  BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                  FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-               }
-
-
-               PackHndlr->Pack(&refPacket, FillBufferPos, ATbl);
-               BuffFillCnt[NMsgBuf] += Size;
-               FillBufferPos += Size;
-
-            }
-#ifndef CIGI_NO_EXCEPT
-            else
-               throw CigiBufferOverrunException();
-#endif
-
-         }
-
+         PackObj(refPacket,
+                 *OutgoingHandlerTbl[refPacket.GetPacketID()],
+                 NULL);
+      }
+   }
+   else if((OutgoingVersion.CigiMajorVersion < 3) && (FillVer < 3))
+   {
+      // This is V1 being converted to V2
+      //  or V2 being converted to V1.
+      // Note: V1 & V2 use the same packet id number
+      if(VldSnd[refPacket.GetPacketID()])
+      {
+         PackObj(refPacket,
+                 *OutgoingHandlerTbl[refPacket.GetPacketID()],
+                 NULL);
+      }
+   }
+   else if(OutgoingVersion.CigiMajorVersion < 3)
+   {
+      // This is V3 being converted to V1 or V2
+      // Note: V1 & V2 use the same packet id number
+      if(VldSnd[CIGI_ENV_CTRL_PACKET_ID_V2])
+      {
+         PackObj(EnvHoldObj,
+                 *OutgoingHandlerTbl[CIGI_ENV_CTRL_PACKET_ID_V2],
+                 NULL);
+      }
+   }
+   else
+   {
+      // This is V1 or V2 converting to V3
+      // If CIGI_ATMOS_CTRL_PACKET_ID_V3 is valid to send
+      //   CIGI_CELESTIAL_CTRL_PACKET_ID_V3 is also valid to send.
+      if(VldSnd[CIGI_ATMOS_CTRL_PACKET_ID_V3])
+      {
+         PackObj(EnvHoldObj,
+                 *OutgoingHandlerTbl[CIGI_ATMOS_CTRL_PACKET_ID_V3],
+                 NULL);
+         PackObj(EnvHoldObj,
+                 *OutgoingHandlerTbl[CIGI_CELESTIAL_CTRL_PACKET_ID_V3],
+                 NULL);
       }
 
    }
@@ -323,275 +554,50 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEntityCtrl &refPacket)
 }
 
 
-
 // ================================================
-// operator << - Entity Control
+// operator << - Variable Sized Packets
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEnvCtrl &refPacket)
+CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseVariableSizePckt &refPacket)
 {
-
-   int Size;
-
-   if(!Active || Locked)
-      return(*this);  // add exception coding here!
-
-   Cigi_uint8 JTblNdx =
-      VJmp->GetCnvtID(refPacket.GetPacketID(),refPacket.GetVersion());
-
-   bool Valid = VJmp->GetSndVld(JTblNdx);
-
-   if(Valid)
+   if(CrntFillBuf == NULL)
    {
-
-      CigiBasePacket * PackHndlr = VJmp->GetPcktHndlr(JTblNdx);
-
-      Cigi_uint8 FillVer = refPacket.GetVersion();
-      Cigi_uint8 SendVer = PackHndlr->GetVersion();
-
-      // If the fill and send versions are the same or
-      //   they are both below version 3
-      if((FillVer == SendVer) ||
-         ((FillVer < 3) && (SendVer < 3)))
-      {
-
-         Size = PackHndlr->GetPacketSize();
-
-         if( Size > 0 )
-         {
-
-            // Check room left in current buffer
-            if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
-            {
-               PackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-               BuffFillCnt[CrntFillBuf] += Size;
-               FillBufferPos += Size;
-            }
-            else
-            {
-
-               // next message buffer
-               int NMsgBuf = CrntFillBuf + 1;
-               if(NMsgBuf >= BufferCount)
-                  NMsgBuf = 0;
-
-               if(!Data[NMsgBuf])
-               {
-                  CrntFillBuf = NMsgBuf;
-                  Data[NMsgBuf] = true;
-                  if(VJmp->GetJmpTbltype() ==
-                     CigiVersionJumpTable::Host)
-                  {
-                     // adjust the following for IG Control Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-                  }
-                  else
-                  {
-                     // adjust the following for SOF Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-                  }
-
-
-                  PackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-                  BuffFillCnt[NMsgBuf] += Size;
-                  FillBufferPos += Size;
-
-               }
 #ifndef CIGI_NO_EXCEPT
-               else
-                  throw CigiBufferOverrunException();
+      throw CigiCalledOutOfSequenceException();
 #endif
+      return(*this);
+   }
 
-            }
 
-         }
+   if(!CrntFillBuf->Active || CrntFillBuf->Locked)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+   CigiCnvtInfoType::Type Cnvt;
+   refPacket.GetCnvt(OutgoingVersion,Cnvt);
+   CigiBaseVariableSizePckt *PackingPacket =
+      (CigiBaseVariableSizePckt *)OutgoingHandlerTbl[Cnvt.CnvtPacketID];
+
+   if(VldSnd[Cnvt.CnvtPacketID])
+   {
+      // This gets the size of this variable sized packet
+      int Size = PackingPacket->GetTruePacketSize(refPacket);
+
+      if( Size > 0 )
+      {
+         // Check room left in current buffer
+         if((BufferSize - CrntFillBuf->BufferFillCnt) < Size)
+            AdvanceBuffer();
+
+         int pSize = PackingPacket->Pack(&refPacket, CrntFillBuf->FillBufferPos, NULL);
+         CrntFillBuf->BufferFillCnt += pSize;
+         CrntFillBuf->FillBufferPos += pSize;
+         CrntFillBuf->DataPresent = true;
 
       }
-      // if fill version is 1 or 2 sending to version 3
-      else if((FillVer < 3) && (SendVer == 3))
-      {
-
-         // Get special Packet handlers
-         CigiBasePacket * CPackHndlr = NULL;  // Celestial
-         CigiBasePacket * APackHndlr = NULL;  // Atmosphere
-         VJmp->GetDEnvPcktHndlr(&CPackHndlr,&APackHndlr);
-
-         // Fill in Celestial
-
-         Size = CPackHndlr->GetPacketSize();
-
-         if( Size > 0 )
-         {
-
-            // Check room left in current buffer
-            if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
-            {
-               CPackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-               BuffFillCnt[CrntFillBuf] += Size;
-               FillBufferPos += Size;
-            }
-            else
-            {
-
-               // next message buffer
-               int NMsgBuf = CrntFillBuf + 1;
-               if(NMsgBuf >= BufferCount)
-                  NMsgBuf = 0;
-
-               if(!Data[NMsgBuf])
-               {
-                  CrntFillBuf = NMsgBuf;
-                  Data[NMsgBuf] = true;
-                  if(VJmp->GetJmpTbltype() ==
-                     CigiVersionJumpTable::Host)
-                  {
-                     // adjust the following for IG Control Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-                  }
-                  else
-                  {
-                     // adjust the following for SOF Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-                  }
-
-
-                  CPackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-                  BuffFillCnt[NMsgBuf] += Size;
-                  FillBufferPos += Size;
-
-               }
-#ifndef CIGI_NO_EXCEPT
-               else
-                  throw CigiBufferOverrunException();
-#endif
-
-            }
-
-         }
-
-
-         // Fill in Atmosphere
-
-         Size = APackHndlr->GetPacketSize();
-
-         if( Size > 0 )
-         {
-
-            // Check room left in current buffer
-            if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
-            {
-               APackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-               BuffFillCnt[CrntFillBuf] += Size;
-               FillBufferPos += Size;
-            }
-            else
-            {
-
-               // next message buffer
-               int NMsgBuf = CrntFillBuf + 1;
-               if(NMsgBuf >= BufferCount)
-                  NMsgBuf = 0;
-
-               if(!Data[NMsgBuf])
-               {
-                  CrntFillBuf = NMsgBuf;
-                  Data[NMsgBuf] = true;
-                  if(VJmp->GetJmpTbltype() ==
-                     CigiVersionJumpTable::Host)
-                  {
-                     // adjust the following for IG Control Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-                  }
-                  else
-                  {
-                     // adjust the following for SOF Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-                  }
-
-
-                  APackHndlr->Pack(&refPacket, FillBufferPos, NULL);
-                  BuffFillCnt[NMsgBuf] += Size;
-                  FillBufferPos += Size;
-
-               }
-#ifndef CIGI_NO_EXCEPT
-               else
-                  throw CigiBufferOverrunException();
-#endif
-
-            }
-
-         }
-
-      }
-      // otherwise fill version 3 to send version 1 or 2
-      else
-      {
-
-         refPacket.FillHold(&EnvHoldObj);
-
-         Size = PackHndlr->GetPacketSize();
-
-         if( Size > 0 )
-         {
-
-            // Check room left in current buffer
-            if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
-            {
-//               PackHndlr->Pack(&refPacket, FillBufferPos, (void *)&EnvHoldObj);
-               PackHndlr->Pack(&EnvHoldObj, FillBufferPos,NULL);
-               BuffFillCnt[CrntFillBuf] += Size;
-               FillBufferPos += Size;
-            }
-            else
-            {
-
-               // next message buffer
-               int NMsgBuf = CrntFillBuf + 1;
-               if(NMsgBuf >= BufferCount)
-                  NMsgBuf = 0;
-
-               if(!Data[NMsgBuf])
-               {
-                  CrntFillBuf = NMsgBuf;
-                  Data[NMsgBuf] = true;
-                  if(VJmp->GetJmpTbltype() ==
-                     CigiVersionJumpTable::Host)
-                  {
-                     // adjust the following for IG Control Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-                  }
-                  else
-                  {
-                     // adjust the following for SOF Packet
-                     BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                     FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-                  }
-
-
-//                  PackHndlr->Pack(&refPacket, FillBufferPos, (void *)&EnvHoldObj);
-                  PackHndlr->Pack(&EnvHoldObj, FillBufferPos,NULL);
-                  BuffFillCnt[NMsgBuf] += Size;
-                  FillBufferPos += Size;
-
-               }
-#ifndef CIGI_NO_EXCEPT
-               else
-                  throw CigiBufferOverrunException();
-#endif
-
-            }
-
-         }
-
-      }
-
    }
 
    return(*this);
@@ -605,74 +611,106 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEnvCtrl &refPacket)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBasePacket &refBasePacket)
 {
+   CigiCnvtInfoType::Type Cnvt;
+   refBasePacket.GetCnvt(OutgoingVersion,Cnvt);
 
-   int pSize;
-
-   if(!Active || Locked)
-      return(*this);  // add exception coding here!
-
-   Cigi_uint8 JTblNdx =
-      VJmp->GetCnvtID(refBasePacket.GetPacketID(),refBasePacket.GetVersion());
-
-   bool Valid = VJmp->GetSndVld(JTblNdx);
-
-   if(Valid)
+   if(Cnvt.ProcID == CigiProcessType::ProcStd)
    {
+      if(VldSnd[Cnvt.CnvtPacketID])
+         PackObj(refBasePacket,*OutgoingHandlerTbl[Cnvt.CnvtPacketID],NULL);
+   }
+   else
+   {
+      CigiBaseEntityCtrl *pEnt;
+      CigiBaseEnvCtrl *pEnv;
+      CigiBaseIGCtrl *pIG;
+      CigiBaseSOF *pSof;
+      CigiBaseVariableSizePckt *pVSz;
 
-      CigiBasePacket * PackHndlr = VJmp->GetPcktHndlr(JTblNdx);
-    
-      int Size = PackHndlr->GetPacketSize();
-
-      if( Size > 0 )
+      switch(Cnvt.ProcID)
       {
-
-         // Check room left in current buffer
-         if((BufferSize - BuffFillCnt[CrntFillBuf]) >= Size)
+      case CigiProcessType::ProcShortArtPartToArtPart:
+         if(VldSnd[Cnvt.CnvtPacketID])
          {
-            pSize = PackHndlr->Pack(&refBasePacket, FillBufferPos, NULL);
-            BuffFillCnt[CrntFillBuf] += pSize;
-            FillBufferPos += pSize;
-         }
-         else
-         {
-
-            // next message buffer
-            int NMsgBuf = CrntFillBuf + 1;
-            if(NMsgBuf >= BufferCount)
-               NMsgBuf = 0;
-
-            if(!Data[NMsgBuf])
+            CigiBaseShortArtPartCtrl *pSArtPart =
+               (CigiBaseShortArtPartCtrl *)&refBasePacket;
+            Cigi_uint8 ArtPartID1 = pSArtPart->GetArtPart1();
+            Cigi_uint8 ArtPartID2 = pSArtPart->GetArtPart2();
+            CigiArtPartCtrlV3 tArtPart;
+            pSArtPart->SpecialConversion(OutgoingVersion,ArtPartID1,&tArtPart);
+            PackObj(tArtPart,*OutgoingHandlerTbl[Cnvt.CnvtPacketID],NULL);
+            if(ArtPartID2 != ArtPartID1)
             {
-               CrntFillBuf = NMsgBuf;
-               Data[NMsgBuf] = true;
-               if(VJmp->GetJmpTbltype() ==
-                         CigiVersionJumpTable::Host)
-               {
-                  // adjust the following for IG Control Packet
-                  BuffFillCnt[NMsgBuf] = VJmp->GetIGCtrlSize();
-                  FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetIGCtrlSize();
-               }
-               else
-               {
-                  // adjust the following for SOF Packet
-                  BuffFillCnt[NMsgBuf] = VJmp->GetSOFSize();
-                  FillBufferPos = BasePtr[NMsgBuf] + VJmp->GetSOFSize();
-               }
-
-
-               pSize = PackHndlr->Pack(&refBasePacket, FillBufferPos, NULL);
-               BuffFillCnt[NMsgBuf] += pSize;
-               FillBufferPos += pSize;
-
+               CigiArtPartCtrlV3 tArtPart2;
+               pSArtPart->SpecialConversion(OutgoingVersion,ArtPartID2,&tArtPart2);
+               PackObj(tArtPart2,*OutgoingHandlerTbl[Cnvt.CnvtPacketID],NULL);
             }
-#ifndef CIGI_NO_EXCEPT
-            else
-               throw CigiBufferOverrunException();
-#endif
-
          }
-
+         break;
+      case CigiProcessType::ProcEntity:
+         pEnt = (CigiBaseEntityCtrl *)&refBasePacket;
+         operator<<(*pEnt);
+         break;
+      case CigiProcessType::ProcEnvCtrl:
+         pEnv = (CigiBaseEnvCtrl *)&refBasePacket;
+         operator<<(*pEnv);
+         break;
+      case CigiProcessType::ProcIGCtrl:
+         pIG = (CigiBaseIGCtrl *)&refBasePacket;
+         operator<<(*pIG);
+         break;
+      case CigiProcessType::ProcSOF:
+         pSof = (CigiBaseSOF *)&refBasePacket;
+         operator<<(*pSof);
+         break;
+      case CigiProcessType::ProcVarSize:
+         pVSz = (CigiBaseVariableSizePckt *)&refBasePacket;
+         operator<<(*pVSz);
+         break;
       }
+   }
+
+   return(*this);
+
+}
+
+
+
+// ================================================
+// PackObj
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+CigiOutgoingMsg &  CigiOutgoingMsg::PackObj(CigiBasePacket &DataPacket,
+   CigiBasePacket &PackingPacket, void *Spec)
+{
+   if(CrntFillBuf == NULL)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+
+   if(!CrntFillBuf->Active || CrntFillBuf->Locked)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(*this);
+   }
+
+   int Size = PackingPacket.GetPacketSize();
+
+   if( Size > 0 )
+   {
+      // Check room left in current buffer
+      if((BufferSize - CrntFillBuf->BufferFillCnt) < Size)
+         AdvanceBuffer();
+
+      int pSize = PackingPacket.Pack(&DataPacket, CrntFillBuf->FillBufferPos, Spec);
+      CrntFillBuf->BufferFillCnt += pSize;
+      CrntFillBuf->FillBufferPos += pSize;
+      CrntFillBuf->DataPresent = true;
 
    }
 
@@ -680,15 +718,46 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBasePacket &refBasePacket)
 
 }
 
+
 // ================================================
 // UpdateFrameCntr
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiOutgoingMsg::UpdateFrameCntr()
+int CigiOutgoingMsg::UpdateFrameCntr(void)
 {
-   if(!ValidIGCtrlSOF)
+   int stat = CIGI_ERROR_UNEXPECTED_NULL;
+
+   if(CrntMsgBuf == NULL)
    {
-      if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
+      if(!Buffers.empty())
+      {
+         CigiMessageBuffer *tBuf = *(Buffers.begin());
+         if(tBuf->IsValidIGCtrlSOF())
+         {
+            Cigi_uint32 *tFrm = (Cigi_uint32 *)(tBuf->Buffer + 8);
+            *tFrm = FrameCnt++;
+            stat = CIGI_SUCCESS;
+         }
+      }
+   }
+   else
+      stat = UpdateFrameCntr(CrntMsgBuf->Buffer);
+
+   return(stat);
+}
+
+// ================================================
+// UpdateFrameCntr
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiOutgoingMsg::UpdateFrameCntr(Cigi_uint8 *OutgoingMsg, Cigi_uint8 *IncomingMsg)
+{
+   if((OutgoingMsg == NULL) ||
+      (CrntMsgBuf == NULL) ||
+      (Session == NULL))
+      return(CIGI_ERROR_UNEXPECTED_NULL);
+
+   if(!CrntMsgBuf->ValidIGCtrlSOF)
+   {
+      if(Session->IsHost())
       {
 #ifndef CIGI_NO_EXCEPT
          throw CigiMissingIgControlException();
@@ -704,97 +773,95 @@ int CigiOutgoingMsg::UpdateFrameCntr()
       }
    }
 
-   int MajorVer = VJmp->GetCigiVersion();
+   // Note: For all current CIGI Versions in the
+   //  IG Control and Start-Of-Frame packets:
+   //  The Packet ID is in the same location in the packets.
+   //  The version ID is in the same location in the packets.
+   //  The database ID is in the same location in the packets.
+   //  The outgoing frame counter is in the same location in the packets.
+   //  Unfortunately The minor version ID is in different locations
 
-   Cigi_uint32 *buf = (Cigi_uint32 *)BasePtr[CrntMsgBuf];
+   // How the frame counter fields are filled is dependant
+   //  on the cigi version of the outgoing message and the
+   //  whether the outgoing message is a host or ig message
+   //  and whether the system is running synchronized
 
-   Cigi_uint32 Frame = 0;
+   Cigi_uint32 *OutgoingMsgWord = (Cigi_uint32 *)OutgoingMsg;
+   Cigi_uint32 *IncomingMsgWord = (Cigi_uint32 *)IncomingMsg;
 
-   bool FrmCtrl = ((MajorVer > 3) ||
-         ((MajorVer == 3) && (VJmp->GetCigiMinorVersion() > 1)));
-
-   if((!VJmp->IsSynchronous())||
-      (VJmp->GetJmpTbltype() == CigiVersionJumpTable::IG) || FrmCtrl)
-      Frame = VJmp->NextFrame();
-   else
-      Frame = VJmp->GetFrameCnt();
-
-
-   Cigi_uint32 *pBufr = &buf[VJmp->GetOutFrameBufPos()];
-
-   if(MajorVer >= 3)
+   // Determine Outgoing CigiVersion
+   //  and frame adjustment method
+   bool FrameIncr = false;
+   bool FrameRcvd = false;
+   CigiVersionID OutVer;
+   OutVer.CigiMajorVersion = (int) *(OutgoingMsg + 2);
+   if(OutVer.CigiMajorVersion < 3)
    {
-      *pBufr = Frame;
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         *pBufr = VJmp->GetReceivedFrameID();
-      }
+      if((Session->IsHost()) && (Session->IsSynchronous()))
+         FrameRcvd = true;
+      else
+         FrameIncr = true;
    }
    else
    {
-      CIGI_SCOPY4(pBufr,&Frame);
-      if(FrmCtrl)
+      int tVer = 0;
+      if(Session->IsHost())
       {
-         pBufr += 2;
-         Frame = VJmp->GetReceivedFrameID();
-         CIGI_SCOPY4(pBufr,&Frame);
+         tVer = (int) *(OutgoingMsg + 4);
+         if(Session->IsSynchronous())
+            FrameRcvd = true;
+         else
+            FrameIncr = true;
+      }
+      else
+      {
+         tVer = (int) *(OutgoingMsg + 5);
+         FrameIncr = true;
+      }
+
+      OutVer.CigiMinorVersion = (tVer >> 4) & 0x0f;
+
+      if(OutVer.GetCombinedCigiVersion() >= 0x0302)
+      {
+         FrameIncr = true;
+         FrameRcvd = true;
       }
    }
 
-
-
-   return(CIGI_SUCCESS);
-
-}
-
-
-// ================================================
-// UpdateFrameCntr
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiOutgoingMsg::UpdateFrameCntr(Cigi_uint8 *OutgoingMsg)
-{
-
-   Cigi_uint32 Frame = 0;
-   Cigi_uint32 *pBufr = NULL;
-
-   if((VJmp == NULL)||(OutgoingMsg == NULL))
-      return(CIGI_ERROR_UNEXPECTED_NULL);
-
-   int MajorVer = VJmp->GetCigiVersion();
-
-   bool FrmCtrl = ((MajorVer > 3) ||
-         ((MajorVer == 3) && (VJmp->GetCigiMinorVersion() > 1)));
-
-   if((!VJmp->IsSynchronous())||
-      (VJmp->GetJmpTbltype() == CigiVersionJumpTable::IG) || FrmCtrl)
-      Frame = VJmp->NextFrame();
-   else
-      Frame = VJmp->GetFrameCnt();
-
-   pBufr = ((Cigi_uint32 *)OutgoingMsg) + VJmp->GetOutFrameBufPos();
-
-   if(MajorVer >= 3)
+   int NewFrame = FrameCnt;
+   int RcvdFrame = -1;
+   if(FrameRcvd)
    {
-      *pBufr = Frame;
-      if(FrmCtrl)
+      if(IncomingMsg == NULL)
+         RcvdFrame = LastRcvdFrame;
+      else
       {
-         pBufr += 2;
-         *pBufr = VJmp->GetReceivedFrameID();
+         int InVer = (int) *(IncomingMsg + 2);
+         if(InVer >= 3)
+         {
+            // Get Byte Swap
+            Cigi_uint16 *IncomingMsgShort = (Cigi_uint16 *)IncomingMsg;
+            if(*(IncomingMsgShort + 3) == 0x8000)
+               RcvdFrame = *(IncomingMsgWord + 2);
+            else
+               CigiSwap4(&RcvdFrame,(IncomingMsgWord + 2));  // Swap RcvFrame
+         }
       }
+
+      if(!FrameIncr)
+         NewFrame = RcvdFrame;
    }
+
+   if(OutVer.CigiMajorVersion < 3)
+      CIGI_SCOPY4((OutgoingMsgWord + 2),&NewFrame);
    else
    {
-      CIGI_SCOPY4(pBufr,&Frame);
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         Frame = VJmp->GetReceivedFrameID();
-         CIGI_SCOPY4(pBufr,&Frame);
-      }
+      *(OutgoingMsgWord + 2) = NewFrame;
+      if(FrameIncr && FrameRcvd)
+         *(OutgoingMsgWord + 4) = RcvdFrame;
    }
 
-
+   FrameCnt++;  // increment frame count
 
    return(CIGI_SUCCESS);
 
@@ -807,14 +874,10 @@ int CigiOutgoingMsg::UpdateFrameCntr(Cigi_uint8 *OutgoingMsg)
 int CigiOutgoingMsg::UpdateIGCtrl(Cigi_uint8 *OutgoingMsg, Cigi_uint8 *IncomingMsg)
 {
 
-   Cigi_uint32 Frame = 0;
-   Cigi_uint32 InFrame = 0;
-   Cigi_uint32 *pBufr = NULL;
    Cigi_int8 *OBufr = NULL;
    Cigi_int8 *IBufr = NULL;
-   int MajorVer = VJmp->GetCigiVersion();
 
-   if((VJmp == NULL)||(OutgoingMsg == NULL))
+   if(OutgoingMsg == NULL)
       return(CIGI_ERROR_UNEXPECTED_NULL);
 
 
@@ -825,159 +888,37 @@ int CigiOutgoingMsg::UpdateIGCtrl(Cigi_uint8 *OutgoingMsg, Cigi_uint8 *IncomingM
    //  The database ID is in the same location in the packets.
    //  The outgoing frame counter is in the same location in the packets.
 
-   bool FrmCtrl = ((MajorVer > 3) ||
-         ((MajorVer == 3) && (VJmp->GetCigiMinorVersion() > 1)));
+
+   // Update the Frame Counter and possibly the Recieved Frame Counter
+   UpdateFrameCntr(OutgoingMsg,IncomingMsg);
 
 
-
-   if((!VJmp->IsSynchronous())||(IncomingMsg == NULL))
+   // check and adjust the Database IDs for
+   OBufr = (Cigi_int8 *)(OutgoingMsg + 3);
+   if(*OBufr != 0)
    {
-      Frame = VJmp->NextFrame();
-      if(FrmCtrl)
+      if(*OBufr < 0)
       {
-         InFrame = VJmp->GetReceivedFrameID();
+         *OBufr = 0;  // Host sent Database IDs should never be negative
       }
-   }
-   else
-   {
-      // For synchronous host operation,
-      //  get the frame number from the just received SOF packet
-      //  and use that as the current frame number.
-      if(*IncomingMsg == 101)
-      {
-         pBufr = ((Cigi_uint32 *)IncomingMsg) + 2;  // Frame counter location
-         if(*(IncomingMsg + 2) >= 3)  // Cigi Version number
-         {
-            // Cigi Version 3 byte swap magic number
-            if(*(((Cigi_uint16 *)IncomingMsg) + 3) == 0x8000)
-               Frame = *pBufr;
-            else
-               CigiSwap4(&Frame,pBufr);
-         }
-         else
-         {
-            CIGI_SCOPY4(&Frame,pBufr);
-         }
-
-         if(FrmCtrl)
-         {
-            InFrame = Frame;
-            Frame = VJmp->NextFrame();
-         }
-
-         // check and adjust the Database IDs
-         OBufr = (Cigi_int8 *)(OutgoingMsg + 3);
-         if(*OBufr != 0)
-         {
-            if(*OBufr < 0)
-            {
-               *OBufr = 0;  // Host sent Database IDs should never be negative
-            }
 #if !defined(_NO_DATABASE_ADJUSTMENT_)
-            else
-            {
-               // If *IBufr is -128, the IG did not find that database
-               //   so the host should send a corrected database id
-               // However, if the *OBufr is the same as the *IBufr or
-               //  the *IBufr is the negative of *OBufr,
-               //  (specifically excluding -128) the outgoing
-               //  database id should be 0
-               IBufr = (Cigi_int8 *)(IncomingMsg + 3);
-               if((*IBufr != -128) &&
-                  ((*OBufr == *IBufr) || (*OBufr == (*IBufr * (-1)))))
-               {
-                  *OBufr = 0;
-               }
-            }
-#endif
-         }
-      }
-      else
+      else if(IncomingMsg != NULL)
       {
-         Frame = VJmp->NextFrame();
-         if(FrmCtrl)
+         // If *IBufr is -128, the IG did not find that database
+         //   so the host should send a corrected database id
+         // However, if the *OBufr is the same as the *IBufr or
+         //  the *IBufr is the negative of *OBufr,
+         //  (specifically excluding -128) the outgoing
+         //  database id should be 0
+         IBufr = (Cigi_int8 *)(IncomingMsg + 3);
+         if((*IBufr != -128) &&
+            ((*OBufr == *IBufr) || (*OBufr == (*IBufr * (-1)))))
          {
-            InFrame = VJmp->GetReceivedFrameID();
+            *OBufr = 0;
          }
       }
+#endif
    }
-
-
-
-   pBufr = ((Cigi_uint32 *)OutgoingMsg) + VJmp->GetOutFrameBufPos();
-
-   if(VJmp->GetCigiVersion() >= 3)
-   {
-      *pBufr = Frame;
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         *pBufr = InFrame;
-      }
-   }
-   else
-   {
-      CIGI_SCOPY4(pBufr,&Frame);
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         CIGI_SCOPY4(pBufr,&InFrame);
-      }
-   }
-
-
-   return(CIGI_SUCCESS);
-
-}
-
-
-// ================================================
-// UpdateSOF
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiOutgoingMsg::UpdateSOF(Cigi_uint8 *OutgoingMsg)
-{
-   // Note: For all current CIGI Versions in the
-   //  IG Control and Start-Of-Frame packets:
-   //  The Packet ID is in the same location in the packets.
-   //  The version ID is in the same location in the packets.
-   //  The frame counter is in the same location in the packets.
-
-   // For Async operation or for IG operation,
-   //   simply increment the frame counter
-
-   if((VJmp == NULL)||(OutgoingMsg == NULL))
-      return(CIGI_ERROR_UNEXPECTED_NULL);
-
-   int MajorVer = VJmp->GetCigiVersion();
-
-   Cigi_uint32 Frame = VJmp->NextFrame();
-
-   bool FrmCtrl = ((MajorVer > 3) ||
-         ((MajorVer == 3) && (VJmp->GetCigiMinorVersion() > 1)));
-
-
-   Cigi_uint32 *pBufr = ((Cigi_uint32 *)OutgoingMsg) + VJmp->GetOutFrameBufPos();
-
-   if(VJmp->GetCigiVersion() >= 3)
-   {
-      *pBufr = Frame;
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         *pBufr = VJmp->GetReceivedFrameID();
-      }
-   }
-   else
-   {
-      CIGI_SCOPY4(pBufr,&Frame);
-      if(FrmCtrl)
-      {
-         pBufr += 2;
-         Frame = VJmp->GetReceivedFrameID();
-         CIGI_SCOPY4(pBufr,&Frame);
-      }
-   }
-
 
    return(CIGI_SUCCESS);
 
@@ -989,11 +930,38 @@ int CigiOutgoingMsg::UpdateSOF(Cigi_uint8 *OutgoingMsg)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::LockMsg()
 {
-
-   if(!ValidIGCtrlSOF)
+   // Check for a buffer in the Active Buffers list
+   if(Buffers.empty())
    {
-      if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
+   }
+
+   // Verify there are no buffers locked for transmission
+   if(CrntMsgBuf != NULL)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
+   }
+
+   // Get the next buffer for transmission
+   //  And verify the Session is valid
+   CrntMsgBuf = *(Buffers.begin());
+   if((CrntMsgBuf == NULL) || (Session == NULL))
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiNullPointerException();
+#endif
+      return(CIGI_ERROR_UNEXPECTED_NULL);
+   }
+
+   if(!CrntMsgBuf->ValidIGCtrlSOF)
+   {
+      if(Session->IsHost())
       {
 #ifndef CIGI_NO_EXCEPT
          throw CigiMissingIgControlException();
@@ -1009,7 +977,7 @@ int CigiOutgoingMsg::LockMsg()
       }
    }
 
-   if( !Active || Locked )
+   if( !CrntMsgBuf->Active || CrntMsgBuf->Locked )
    {
 #ifndef CIGI_NO_EXCEPT
       throw CigiCalledOutOfSequenceException();
@@ -1017,118 +985,146 @@ int CigiOutgoingMsg::LockMsg()
       return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
    }
 
-   Locked = true;
-   ValidIGCtrlSOF = false;
+   CrntMsgBuf->Locked = true;
+
+   // Set up next fill buffer the CrntFillBuf and the
+   //  CrntMsgBuf are the same.
+   if(CrntFillBuf == CrntMsgBuf)
+      AdvanceBuffer();
 
    return(CIGI_SUCCESS);
 
 }
+
 
 // ================================================
 // GetMsg
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 Cigi_uint8 * CigiOutgoingMsg::GetMsg(int &length)
 {
+   Cigi_uint8 * Buff = NULL;
+   length = 0;
 
-   if(!Active)
-      return(NULL);
+   // Verify that a buffer is ready for transmission
+   if(CrntMsgBuf != NULL)
+   {
+      if((CrntMsgBuf->Active) && (CrntMsgBuf->Locked))
+      {
+         Buff = CrntMsgBuf->Buffer;
+         length = CrntMsgBuf->BufferFillCnt;
+      }
+   }
 
-   length = BuffFillCnt[CrntMsgBuf];
-
-   return(BasePtr[CrntMsgBuf]);
-
+   return(Buff);
 }
+
 
 // ================================================
 // GetBuffer
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 Cigi_uint8 * CigiOutgoingMsg::GetBuffer()
 {
+   Cigi_uint8 * Buff = NULL;
 
-   if(!Active)
-      return(NULL);
+   // Verify that a buffer is ready for transmission
+   if(CrntMsgBuf != NULL)
+   {
+      if((CrntMsgBuf->Active) && (CrntMsgBuf->Locked))
+         Buff = CrntMsgBuf->Buffer;
+   }
 
-   return(BasePtr[CrntMsgBuf]);
-
+   return(Buff);
 }
+
 
 // ================================================
 // GetMsgLength
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::GetMsgLength()
 {
+   int length = 0;
 
-   if(!Active)
-      return(0);
+   // Verify that a buffer is ready for transmission
+   if(CrntMsgBuf != NULL)
+   {
+      if((CrntMsgBuf->Active) && (CrntMsgBuf->Locked))
+         length = CrntMsgBuf->BufferFillCnt;
+   }
 
-   return(BuffFillCnt[CrntMsgBuf]);
-
+   return(length);
 }
+
 
 // ================================================
 // UnlockMsg
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::UnlockMsg()
 {
-
-   if(!Active || !Locked)
+   // Verify there is a current message buffer
+   if(CrntMsgBuf == NULL)
    {
-
 #ifndef CIGI_NO_EXCEPT
       throw CigiCalledOutOfSequenceException();
 #endif
       return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
    }
 
-   Active = false;
+   // Verify that the buffer is active and locked
+   if(!CrntMsgBuf->Active || !CrntMsgBuf->Locked)
+   {
+#ifndef CIGI_NO_EXCEPT
+      throw CigiCalledOutOfSequenceException();
+#endif
+      return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
+   }
 
-   BuffFillCnt[CrntMsgBuf] = 0;
-   Data[CrntMsgBuf] = false;
+   // Reset and clear the current buffer
+   CrntMsgBuf->Active = false;
+   CrntMsgBuf->BufferFillCnt = 0;
+   CrntMsgBuf->DataPresent = false;
+   CrntMsgBuf->FillBufferPos = CrntMsgBuf->Buffer;
+   CrntMsgBuf->Locked = false;
+   CrntMsgBuf->ValidIGCtrlSOF = false;
 
-   int NextBuf = CrntMsgBuf + 1;
-   if(NextBuf == BufferCount)
-      NextBuf = 0;
+   // Clear this buffer from the Active Buffers list
+   if(!Buffers.empty())
+   {
+      if(CrntMsgBuf == *(Buffers.begin()))
+         Buffers.pop_front();
+      else
+      {
+         list<CigiMessageBuffer *>::iterator iBuf;
+         for(iBuf=Buffers.begin();iBuf!=Buffers.end();iBuf++)
+         {
+            if(*iBuf == CrntMsgBuf)
+            {
+               iBuf = Buffers.erase(iBuf);
+               break;
+            }
+         }
+      }
+   }
 
-   if(CrntFillBuf == CrntMsgBuf)
-      CrntFillBuf = NextBuf;
+   // Add this buffer to the Availible Buffers list
+   AvailBuff.push_back(CrntMsgBuf);
 
-   CrntMsgBuf = NextBuf;
-
-   Locked = false;
+   // Clear the Current Message Buffer
+   CrntMsgBuf = NULL;
 
    return(CIGI_SUCCESS);
 
 }
+
 
 // ================================================
 // PackageMsg
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::PackageMsg(Cigi_uint8 **Msg, int &length)
 {
-
    *Msg = NULL;
    length = 0;
 
-   if(!ValidIGCtrlSOF)
-   {
-      if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
-      {
-#ifndef CIGI_NO_EXCEPT
-         throw CigiMissingIgControlException();
-#endif
-         return(CIGI_ERROR_MISSING_IG_CONTROL_PACKET);
-      }
-      else
-      {
-#ifndef CIGI_NO_EXCEPT
-         throw CigiMissingStartOfFrameException();
-#endif
-         return(CIGI_ERROR_MISSING_SOF_PACKET);
-      }
-   }
-
-   if( !Active || Locked )
+   if(PackagedMsg != NULL)
    {
 #ifndef CIGI_NO_EXCEPT
       throw CigiCalledOutOfSequenceException();
@@ -1136,63 +1132,18 @@ int CigiOutgoingMsg::PackageMsg(Cigi_uint8 **Msg, int &length)
       return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
    }
 
-   Locked = true;
-   ValidIGCtrlSOF = false;
+   int stat = LockMsg();
 
-   if(PackagedMsg >= 0)
+   if(stat == CIGI_SUCCESS)
    {
-      Data[PackagedMsg] = false;
-      BuffFillCnt[PackagedMsg] = 0;
-      PackagedMsg = -1;
-   }
-
-   length = BuffFillCnt[CrntMsgBuf];
-   *Msg = BasePtr[CrntMsgBuf];
-   PackagedMsg = CrntMsgBuf;
-
-
-   int NextBuf = CrntMsgBuf + 1;
-   if(NextBuf == BufferCount)
-      NextBuf = 0;
-
-   if(CrntFillBuf == CrntMsgBuf)
-   {
-
-      if(!Data[NextBuf])
-      {
-         CrntFillBuf = NextBuf;
-
-         Data[NextBuf] = true;
-         if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
-         {
-            // adjust the following for IG Control Packet
-            BuffFillCnt[NextBuf] = VJmp->GetIGCtrlSize();
-            FillBufferPos = BasePtr[NextBuf] + VJmp->GetIGCtrlSize();
-         }
-         else
-         {
-            // adjust the following for SOF Packet
-            BuffFillCnt[NextBuf] = VJmp->GetSOFSize();
-            FillBufferPos = BasePtr[NextBuf] + VJmp->GetSOFSize();
-         }
-
-      }
+      *Msg = GetMsg(length);
+      if(*Msg != NULL)
+         PackagedMsg = CrntMsgBuf;
       else
-      {
-#ifndef CIGI_NO_EXCEPT
-         throw CigiBufferOverrunException();
-#endif
-         return(CIGI_ERROR_BUFFER_OVERRUN);
-      }
-
+         stat = CIGI_ERROR_CALLED_OUT_OF_SEQUENCE;
    }
 
-   CrntMsgBuf = NextBuf;
-
-   Locked = false;
-
-   return(CIGI_SUCCESS);
+   return(stat);
 
 }
 
@@ -1201,22 +1152,19 @@ int CigiOutgoingMsg::PackageMsg(Cigi_uint8 **Msg, int &length)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::FreeMsg(void)
 {
-   if(PackagedMsg < 0)
+   if(PackagedMsg == NULL)
    {
-
 #ifndef CIGI_NO_EXCEPT
       throw CigiCalledOutOfSequenceException();
 #endif
       return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
    }
 
-   Data[PackagedMsg] = false;
-   BuffFillCnt[PackagedMsg] = 0;
+   int stat = UnlockMsg();
 
-   PackagedMsg = -1;
+   PackagedMsg = NULL;
 
-   return(CIGI_SUCCESS);
-
+   return(stat);
 }
 
 
@@ -1226,44 +1174,353 @@ int CigiOutgoingMsg::FreeMsg(void)
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::Reset(void)
 {
-   int ndx;
+   CrntMsgBuf = NULL;
+   PackagedMsg = NULL;
+   CrntFillBuf = NULL;
 
-   for(ndx=0;ndx<BufferCount;ndx++)
+   list<CigiMessageBuffer *>::iterator iBuf;
+   for(iBuf=Buffers.begin();iBuf!=Buffers.end();iBuf++)
    {
-      BuffFillCnt[ndx] = 0;
-      Data[ndx] = false;
+      (*iBuf)->Active = false;
+      (*iBuf)->BufferFillCnt = 0;
+      (*iBuf)->DataPresent = false;
+      (*iBuf)->FillBufferPos = (*iBuf)->Buffer;
+      (*iBuf)->Locked = false;
+      (*iBuf)->ValidIGCtrlSOF = false;
+
+      AvailBuff.push_back(*iBuf);
    }
 
-   CrntMsgBuf = 0;
-   FillBufferPos = BasePtr[CrntMsgBuf] + VJmp->GetIGCtrlSize();
-   PackagedMsg = -1;
-   ValidIGCtrlSOF = false;
-   Locked = false;
-   CrntMsgBuf = 0;
-   FillBufferPos = BasePtr[CrntMsgBuf];
+   Buffers.clear();
 
-   if(Active)
+   return(CIGI_SUCCESS);
+
+}
+
+
+// ================================================
+// RegisterUserPacket
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiOutgoingMsg::RegisterUserPacket(CigiBasePacket *Packet,
+                                        Cigi_uint8 PacketID,
+                                        bool HostSend,
+                                        bool IGSend)
+{
+   int stat = CIGI_ERROR_INVALID_USER_PACKET;
+   if(((PacketID > 199) && (PacketID <= 255)) &&
+      (Packet != NULL) &&
+      ((HostSend && Session->IsHost()) ||
+       (IGSend && Session->IsIG())))
    {
-      if(VJmp->GetJmpTbltype() ==
-            CigiVersionJumpTable::Host)
+      OutgoingHandlerTbl[PacketID] = Packet;
+      VldSnd[PacketID] = true;
+      stat = CIGI_SUCCESS;
+   }
+
+   return(stat);
+}
+
+
+// ================================================
+// SetOutgoingV1Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingHostV1Tbls(void)
+{
+
+   OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiIGCtrlV1;
+   VldSnd[CIGI_IG_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiEntityCtrlV1;
+   VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_DEF_PACKET_ID_V1] = (CigiBasePacket *) new CigiViewDefV1;
+   VldSnd[CIGI_VIEW_DEF_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiViewCtrlV1;
+   VldSnd[CIGI_VIEW_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiRateCtrlV1;
+   VldSnd[CIGI_RATE_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiSensorCtrlV1;
+   VldSnd[CIGI_SENSOR_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_TRAJECTORY_DEF_PACKET_ID_V1] = (CigiBasePacket *) new CigiTrajectoryDefV1;
+   VldSnd[CIGI_TRAJECTORY_DEF_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_WEATHER_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiWeatherCtrlV1;
+   VldSnd[CIGI_WEATHER_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V1] = (CigiBasePacket *) new CigiCollDetSegDefV1;
+   VldSnd[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V1] = (CigiBasePacket *) new CigiLosSegReqV1;
+   VldSnd[CIGI_LOS_SEG_REQ_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_LOS_VECT_REQ_PACKET_ID_V1] = (CigiBasePacket *) new CigiLosVectReqV1;
+   VldSnd[CIGI_LOS_VECT_REQ_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_HAT_REQ_PACKET_ID_V1] = (CigiBasePacket *) new CigiHatReqV1;
+   VldSnd[CIGI_HAT_REQ_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_ENV_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiEnvCtrlV1;
+   VldSnd[CIGI_ENV_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_SPEC_EFF_DEF_PACKET_ID_V1] = (CigiBasePacket *) new CigiSpecEffDefV1;
+   VldSnd[CIGI_SPEC_EFF_DEF_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_ART_PART_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiArtPartCtrlV1;
+   VldSnd[CIGI_ART_PART_CTRL_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V1] = (CigiBasePacket *) new CigiCompCtrlV1;
+   VldSnd[CIGI_COMP_CTRL_PACKET_ID_V1] = true;
+
+}
+
+
+// ================================================
+// SetOutgoingV1Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingIGV1Tbls(void)
+{
+
+   OutgoingHandlerTbl[CIGI_SOF_PACKET_ID_V1] = (CigiBasePacket *) new CigiSOFV1;
+   VldSnd[CIGI_SOF_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V1] = (CigiBasePacket *) new CigiCollDetSegRespV1;
+   VldSnd[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_RESP_PACKET_ID_V1] = (CigiBasePacket *) new CigiSensorRespV1;
+   VldSnd[CIGI_SENSOR_RESP_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_LOS_RESP_PACKET_ID_V1] = (CigiBasePacket *) new CigiLosRespV1;
+   VldSnd[CIGI_LOS_RESP_PACKET_ID_V1] = true;
+   OutgoingHandlerTbl[CIGI_HAT_RESP_PACKET_ID_V1] = (CigiBasePacket *) new CigiHatRespV1;
+   VldSnd[CIGI_HAT_RESP_PACKET_ID_V1] = true;
+
+}
+
+
+// ================================================
+// SetOutgoingV2Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingHostV2Tbls(void)
+{
+
+   OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiIGCtrlV2;
+   VldSnd[CIGI_IG_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiEntityCtrlV2;
+   VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_DEF_PACKET_ID_V2] = (CigiBasePacket *) new CigiViewDefV2;
+   VldSnd[CIGI_VIEW_DEF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiViewCtrlV2;
+   VldSnd[CIGI_VIEW_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiRateCtrlV2;
+   VldSnd[CIGI_RATE_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiSensorCtrlV2;
+   VldSnd[CIGI_SENSOR_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_TRAJECTORY_DEF_PACKET_ID_V2] = (CigiBasePacket *) new CigiTrajectoryDefV2;
+   VldSnd[CIGI_TRAJECTORY_DEF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_WEATHER_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiWeatherCtrlV2;
+   VldSnd[CIGI_WEATHER_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V2] = (CigiBasePacket *) new CigiCollDetSegDefV2;
+   VldSnd[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V2] = (CigiBasePacket *) new CigiLosSegReqV2;
+   VldSnd[CIGI_LOS_SEG_REQ_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_LOS_VECT_REQ_PACKET_ID_V2] = (CigiBasePacket *) new CigiLosVectReqV2;
+   VldSnd[CIGI_LOS_VECT_REQ_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_HAT_REQ_PACKET_ID_V2] = (CigiBasePacket *) new CigiHatReqV2;
+   VldSnd[CIGI_HAT_REQ_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_HOT_REQ_PACKET_ID_V2] = (CigiBasePacket *) new CigiHotReqV2;
+   VldSnd[CIGI_HOT_REQ_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_ENV_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiEnvCtrlV2;
+   VldSnd[CIGI_ENV_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_SPEC_EFF_DEF_PACKET_ID_V2] = (CigiBasePacket *) new CigiSpecEffDefV2;
+   VldSnd[CIGI_SPEC_EFF_DEF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_ART_PART_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiArtPartCtrlV2;
+   VldSnd[CIGI_ART_PART_CTRL_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_VOL_DEF_PACKET_ID_V2] = (CigiBasePacket *) new CigiCollDetVolDefV2;
+   VldSnd[CIGI_COLL_DET_VOL_DEF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V2] = (CigiBasePacket *) new CigiCompCtrlV2;
+   VldSnd[CIGI_COMP_CTRL_PACKET_ID_V2] = true;
+
+}
+
+
+// ================================================
+// SetOutgoingV2Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingIGV2Tbls(void)
+{
+
+   OutgoingHandlerTbl[CIGI_SOF_PACKET_ID_V2] = (CigiBasePacket *) new CigiSOFV2;
+   VldSnd[CIGI_SOF_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiCollDetSegRespV2;
+   VldSnd[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiSensorRespV2;
+   VldSnd[CIGI_SENSOR_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_LOS_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiLosRespV2;
+   VldSnd[CIGI_LOS_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_HAT_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiHatRespV2;
+   VldSnd[CIGI_HAT_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_HOT_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiHotRespV2;
+   VldSnd[CIGI_HOT_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_VOL_RESP_PACKET_ID_V2] = (CigiBasePacket *) new CigiCollDetVolRespV2;
+   VldSnd[CIGI_COLL_DET_VOL_RESP_PACKET_ID_V2] = true;
+   OutgoingHandlerTbl[CIGI_IG_MSG_PACKET_ID_V2] = (CigiBasePacket *) new CigiIGMsgV2;
+   VldSnd[CIGI_IG_MSG_PACKET_ID_V2] = true;
+
+}
+
+
+// ================================================
+// SetOutgoingV3Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
+{
+
+   if(OutgoingVersion.CigiMinorVersion >= 2)
+   {
+      if(OutgoingVersion.CigiMinorVersion >= 3)
       {
-         // adjust the following for IG Control Packet
-         BuffFillCnt[CrntMsgBuf] = VJmp->GetIGCtrlSize();
-         FillBufferPos = BasePtr[CrntMsgBuf] + VJmp->GetIGCtrlSize();
-         *this << *CurrentIGCtrl;
-         ValidIGCtrlSOF = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolSurfaceDefV3_3;
+         VldSnd[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCtrlV3_3;
+         VldSnd[CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiShortSymbolCtrlV3_3;
+         VldSnd[CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolTextDefV3_3;
+         VldSnd[CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCircleDefV3_3;
+         VldSnd[CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolLineDefV3_3;
+         VldSnd[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiCompCtrlV3_3;
+         VldSnd[CIGI_COMP_CTRL_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiShortCompCtrlV3_3;
+         VldSnd[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3] = true;
       }
       else
       {
-         // adjust the following for SOF Packet
-         BuffFillCnt[CrntMsgBuf] = VJmp->GetSOFSize();
-         FillBufferPos = BasePtr[CrntMsgBuf] + VJmp->GetSOFSize();
-         *this << *CurrentSOF;
-         ValidIGCtrlSOF = true;
+         OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiCompCtrlV3;
+         VldSnd[CIGI_COMP_CTRL_PACKET_ID_V3] = true;
+         OutgoingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortCompCtrlV3;
+         VldSnd[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = true;
       }
+      OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3_2;
+      VldSnd[CIGI_IG_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3_2;
+      VldSnd[CIGI_RATE_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3_2;
+      VldSnd[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosSegReqV3_2;
+      VldSnd[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_VECT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosVectReqV3_2;
+      VldSnd[CIGI_LOS_VECT_REQ_PACKET_ID_V3] = true;
+   }
+   else
+   {
+      OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3;
+      VldSnd[CIGI_IG_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3;
+      VldSnd[CIGI_RATE_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3;
+      VldSnd[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosSegReqV3;
+      VldSnd[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_VECT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosVectReqV3;
+      VldSnd[CIGI_LOS_VECT_REQ_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiCompCtrlV3;
+      VldSnd[CIGI_COMP_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortCompCtrlV3;
+      VldSnd[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = true;
    }
 
-   return(CIGI_SUCCESS);
+   OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
+   VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewDefV3;
+   VldSnd[CIGI_VIEW_DEF_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_VIEW_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewCtrlV3;
+   VldSnd[CIGI_VIEW_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiSensorCtrlV3;
+   VldSnd[CIGI_SENSOR_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_TRAJECTORY_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiTrajectoryDefV3;
+   VldSnd[CIGI_TRAJECTORY_DEF_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_WEATHER_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiWeatherCtrlV3;
+   VldSnd[CIGI_WEATHER_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiCollDetSegDefV3;
+   VldSnd[CIGI_COLL_DET_SEG_DEF_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_ATMOS_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiAtmosCtrlV3;
+   VldSnd[CIGI_ATMOS_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_CELESTIAL_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiCelestialCtrlV3;
+   VldSnd[CIGI_CELESTIAL_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_ART_PART_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiArtPartCtrlV3;
+   VldSnd[CIGI_ART_PART_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_VOL_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiCollDetVolDefV3;
+   VldSnd[CIGI_COLL_DET_VOL_DEF_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_SHORT_ART_PART_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortArtPartCtrlV3;
+   VldSnd[CIGI_SHORT_ART_PART_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_CONF_CLAMP_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiConfClampEntityCtrlV3;
+   VldSnd[CIGI_CONF_CLAMP_ENTITY_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_MARITIME_SURFACE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiMaritimeSurfaceCtrlV3;
+   VldSnd[CIGI_MARITIME_SURFACE_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_ENV_RGN_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEnvRgnCtrlV3;
+   VldSnd[CIGI_ENV_RGN_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_TERRESTRIAL_SURFACE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiTerrestrialSurfaceCtrlV3;
+   VldSnd[CIGI_TERRESTRIAL_SURFACE_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_MOTION_TRACK_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiMotionTrackCtrlV3;
+   VldSnd[CIGI_MOTION_TRACK_CTRL_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_EARTH_MODEL_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiEarthModelDefV3;
+   VldSnd[CIGI_EARTH_MODEL_DEF_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_POSITION_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiPositionReqV3;
+   VldSnd[CIGI_POSITION_REQ_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_ENV_COND_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiEnvCondReqV3;
+   VldSnd[CIGI_ENV_COND_REQ_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_WAVE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiWaveCtrlV3;
+   VldSnd[CIGI_WAVE_CTRL_PACKET_ID_V3] = true;
+
+}
+
+
+// ================================================
+// SetOutgoingV3Tbls
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::SetOutgoingIGV3Tbls(void)
+{
+
+   if(OutgoingVersion.CigiMinorVersion >= 2)
+   {
+      OutgoingHandlerTbl[CIGI_SOF_PACKET_ID_V3] = (CigiBasePacket *) new CigiSOFV3_2;
+      VldSnd[CIGI_SOF_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosRespV3_2;
+      VldSnd[CIGI_LOS_RESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_XRESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosXRespV3_2;
+      VldSnd[CIGI_LOS_XRESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotRespV3_2;
+      VldSnd[CIGI_HAT_HOT_RESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_XRESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotXRespV3_2;
+      VldSnd[CIGI_HAT_HOT_XRESP_PACKET_ID_V3] = true;
+   }
+   else
+   {
+      OutgoingHandlerTbl[CIGI_SOF_PACKET_ID_V3] = (CigiBasePacket *) new CigiSOFV3;
+      VldSnd[CIGI_SOF_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosRespV3;
+      VldSnd[CIGI_LOS_RESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_LOS_XRESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosXRespV3;
+      VldSnd[CIGI_LOS_XRESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotRespV3;
+      VldSnd[CIGI_HAT_HOT_RESP_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_HAT_HOT_XRESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotXRespV3;
+      VldSnd[CIGI_HAT_HOT_XRESP_PACKET_ID_V3] = true;
+   }
+
+   OutgoingHandlerTbl[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiCollDetSegRespV3;
+   VldSnd[CIGI_COLL_DET_SEG_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiSensorRespV3;
+   VldSnd[CIGI_SENSOR_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_SENSOR_XRESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiSensorXRespV3;
+   VldSnd[CIGI_SENSOR_XRESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_COLL_DET_VOL_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiCollDetVolRespV3;
+   VldSnd[CIGI_COLL_DET_VOL_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_POSITION_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiPositionRespV3;
+   VldSnd[CIGI_POSITION_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_WEATHER_COND_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiWeatherCondRespV3;
+   VldSnd[CIGI_WEATHER_COND_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_AEROSOL_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiAerosolRespV3;
+   VldSnd[CIGI_AEROSOL_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_MARITIME_SURFACE_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiMaritimeSurfaceRespV3;
+   VldSnd[CIGI_MARITIME_SURFACE_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_TERRESTRIAL_SURFACE_RESP_PACKET_ID_V3] = (CigiBasePacket *) new CigiTerrestrialSurfaceRespV3;
+   VldSnd[CIGI_TERRESTRIAL_SURFACE_RESP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_ANIMATION_STOP_PACKET_ID_V3] = (CigiBasePacket *) new CigiAnimationStopV3;
+   VldSnd[CIGI_ANIMATION_STOP_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_EVENT_NOTIFICATION_PACKET_ID_V3] = (CigiBasePacket *) new CigiEventNotificationV3;
+   VldSnd[CIGI_EVENT_NOTIFICATION_PACKET_ID_V3] = true;
+   OutgoingHandlerTbl[CIGI_IG_MSG_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGMsgV3;
+   VldSnd[CIGI_IG_MSG_PACKET_ID_V3] = true;
 
 }
 

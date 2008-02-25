@@ -41,6 +41,14 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  
+ *  02/11/2008 Greg Basler                       Version 1.7.6
+ *  Changed the conversion process.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -52,12 +60,7 @@
 
 #include "CigiBaseCompCtrl.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
 
-#define CIGI_COMP_CTRL_PACKET_ID_V2 3
-#define CIGI_COMP_CTRL_PACKET_SIZE_V2 20
 
 class CIGI_SPEC CigiCompCtrlV2 : public CigiBaseCompCtrl
 {
@@ -91,6 +94,7 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const;
+
    //=========================================================
    //! The virtual Unpack function for CIGI 2
    //! \param Buff - A pointer to the current pack point.
@@ -102,6 +106,21 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec);
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo);
 
 
 
@@ -367,7 +386,8 @@ public:
 protected:
 
    //==> Conversion Tables
-   
+
+   const static CompAssocGrp CompClassV2xV1[6];
    const static CompClassV3Grp CompClassV2xV3[6];
 
 

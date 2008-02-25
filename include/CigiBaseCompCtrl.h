@@ -44,6 +44,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -55,10 +59,36 @@
 
 #include "CigiBasePacket.h"
 
+// ====================================================================
+// preprocessor definitions
+// ====================================================================
+
+#define CIGI_COMP_CTRL_PACKET_ID_V1 3
+#define CIGI_COMP_CTRL_PACKET_SIZE_V1 20
+
+#define CIGI_COMP_CTRL_PACKET_ID_V2 3
+#define CIGI_COMP_CTRL_PACKET_SIZE_V2 20
+
+#define CIGI_COMP_CTRL_PACKET_ID_V3 4
+#define CIGI_COMP_CTRL_PACKET_SIZE_V3 32
+
+#define CIGI_SHORT_COMP_CTRL_PACKET_ID_V3 5
+#define CIGI_SHORT_COMP_CTRL_PACKET_SIZE_V3 16
+
+#define CIGI_COMP_CTRL_PACKET_ID_V3_3 4
+#define CIGI_COMP_CTRL_PACKET_SIZE_V3_3 32
+
+#define CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3 5
+#define CIGI_SHORT_COMP_CTRL_PACKET_SIZE_V3_3 16
+
+
+
 class CigiCompCtrlV1;
 class CigiCompCtrlV2;
 class CigiCompCtrlV3;
 class CigiShortCompCtrlV3;
+class CigiCompCtrlV3_3;
+class CigiShortCompCtrlV3_3;
 
 
 class CIGI_SPEC CigiBaseCompCtrl : public CigiBasePacket
@@ -68,6 +98,8 @@ friend class CigiCompCtrlV1;
 friend class CigiCompCtrlV2;
 friend class CigiCompCtrlV3;
 friend class CigiShortCompCtrlV3;
+friend class CigiCompCtrlV3_3;
+friend class CigiShortCompCtrlV3_3;
 
 public:
 
@@ -76,6 +108,7 @@ public:
    //!
    enum CompAssocGrp
    {
+      NoCnvtV1=-1,
       Entity=0,
       Environment=1,
       View=2
@@ -86,6 +119,7 @@ public:
    //!
    enum CompClassV2Grp
    {
+      NoCnvtV2=-1,
       EntityV2=0,
       EnvironmentV2=1,
       ViewV2=2,
@@ -99,6 +133,7 @@ public:
    //!
    enum CompClassV3Grp
    {
+      NoCnvtV3=-1,
       EntityV3=0,
       ViewV3=1,
       ViewGrpV3=2,
@@ -112,7 +147,9 @@ public:
       AtmosphereV3=10,
       CelestialSphereV3=11,
       EventV3=12,
-      SystemV3=13
+      SystemV3=13,
+      SymbolSurfaceV3_3=14,
+      SymbolV3_3=15
    };
 
    //=========================================================
@@ -177,6 +214,21 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec) =0;
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo) =0;
 
 
 
@@ -278,7 +330,8 @@ protected:
    //!  11-CelestialSphereV3<br>
    //!  12-EventV3<br>
    //!  13-SystemV3
-   //!
+   //!  14-SymbolSurfaceV3_3<br>
+   //!  15-SymbolV3_3
    //!
    CompClassV3Grp CompClassV3;
 

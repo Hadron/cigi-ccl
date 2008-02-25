@@ -33,6 +33,10 @@
  *  
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -67,6 +71,29 @@ CigiBaseSensorCtrl::~CigiBaseSensorCtrl()
 {
 
 }
+
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseSensorCtrl::GetCnvt(CigiVersionID &CnvtVersion,
+                                CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   if(CnvtVersion.CigiMajorVersion < 3)
+      CnvtInfo.CnvtPacketID = CIGI_SENSOR_CTRL_PACKET_ID_V2;
+   else
+      CnvtInfo.CnvtPacketID = CIGI_SENSOR_CTRL_PACKET_ID_V3;
+
+   return(CIGI_SUCCESS);
+}
+
 
 // ====================================================================
 // Accessors

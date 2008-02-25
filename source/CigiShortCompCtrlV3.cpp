@@ -47,6 +47,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -66,18 +70,18 @@ const CigiBaseCompCtrl::CompAssocGrp CigiShortCompCtrlV3::CompClassV3xV1[14] =
 {
    Entity,  // EntityV3
    View,    // ViewV3
-   Entity, // ViewGrpV3
-   Entity,  // SensorV3
-   Entity,  // RegionalSeaSurfaceV3
-   Entity,  // RegionalTerrainSurfaceV3
-   Entity,  // RegionalLayeredWeatherV3
-   Entity,  // GlobalSeaSurfaceV3
-   Entity,  // GlobalTerrainSurfaceV3
-   Entity,  // GlobalLayeredWeatherV3
+   NoCnvtV1, // ViewGrpV3
+   NoCnvtV1,  // SensorV3
+   NoCnvtV1,  // RegionalSeaSurfaceV3
+   NoCnvtV1,  // RegionalTerrainSurfaceV3
+   NoCnvtV1,  // RegionalLayeredWeatherV3
+   NoCnvtV1,  // GlobalSeaSurfaceV3
+   NoCnvtV1,  // GlobalTerrainSurfaceV3
+   NoCnvtV1,  // GlobalLayeredWeatherV3
    Environment,  // AtmosphereV3
    Environment,  // CelestialSphereV3
-   Entity,  // EventV3
-   Entity   // SystemV3
+   NoCnvtV1,  // EventV3
+   NoCnvtV1   // SystemV3
 };
 
 const CigiBaseCompCtrl::CompClassV2Grp CigiShortCompCtrlV3::CompClassV3xV2[14] =
@@ -86,15 +90,15 @@ const CigiBaseCompCtrl::CompClassV2Grp CigiShortCompCtrlV3::CompClassV3xV2[14] =
    ViewV2,    // ViewV3
    ViewGrpV2, // ViewGrpV3
    SensorV2,  // SensorV3
-   EntityV2,  // RegionalSeaSurfaceV3
-   EntityV2,  // RegionalTerrainSurfaceV3
-   EntityV2,  // RegionalLayeredWeatherV3
-   EntityV2,  // GlobalSeaSurfaceV3
-   EntityV2,  // GlobalTerrainSurfaceV3
-   EntityV2,  // GlobalLayeredWeatherV3
+   NoCnvtV2,  // RegionalSeaSurfaceV3
+   NoCnvtV2,  // RegionalTerrainSurfaceV3
+   NoCnvtV2,  // RegionalLayeredWeatherV3
+   NoCnvtV2,  // GlobalSeaSurfaceV3
+   NoCnvtV2,  // GlobalTerrainSurfaceV3
+   NoCnvtV2,  // GlobalLayeredWeatherV3
    EnvironmentV2,  // AtmosphereV3
    EnvironmentV2,  // CelestialSphereV3
-   EntityV2,  // EventV3
+   NoCnvtV2,  // EventV3
    SystemV2   // SystemV3
 };
 
@@ -223,6 +227,64 @@ int CigiShortCompCtrlV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    }
 
    return(PacketSize);
+
+}
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiShortCompCtrlV3::GetCnvt(CigiVersionID &CnvtVersion,
+                                 CigiCnvtInfoType::Type &CnvtInfo)
+{
+   // Do not convert unless a conversion is found
+   CnvtInfo.ProcID = CigiProcessType::ProcNone;
+   CnvtInfo.CnvtPacketID = 0;
+
+   if(CnvtVersion.CigiMajorVersion == 3)
+   {
+      // All Component control packets from version 3 and above
+      //  use the same packet id number
+
+      if(CnvtVersion.CigiMinorVersion < 3)
+      {
+         if((CompClassV3 >= EntityV3)&&(CompClassV3 <= SystemV3))
+         {
+            CnvtInfo.ProcID = CigiProcessType::ProcStd;
+            CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
+         }
+      }
+      else
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
+      }
+   }
+   else if(CnvtVersion.CigiMajorVersion == 2)
+   {
+      if((CompClassV2 >= EntityV2)&&(CompClassV2 <= SystemV2))
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V2;
+      }
+   }
+   else if(CnvtVersion.CigiMajorVersion == 1)
+   {
+      if((CompAssoc >= Entity)&&(CompAssoc <= View))
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V1;
+      }
+   }
+   else
+   {
+      // All Component control packets from version 3 and above
+      //  use the same packet id number
+      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
+   }
+
+   return(CIGI_SUCCESS);
 
 }
 

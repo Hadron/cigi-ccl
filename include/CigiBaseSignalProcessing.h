@@ -307,13 +307,67 @@ public:
    virtual void OnShortCompCtrl(CigiBasePacket *Packet) { };
 
    //=========================================================
+   //! OnShortSymbolCtrl<br>
+   //! A base function to process incoming Short Symbol Control packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnShortSymbolCtrl(CigiBasePacket *Packet) { };
+
+   //=========================================================
    //! OnSpecEffDef<br>
-   //! A base function to process incoming Special Effect Definision packets.<br>
+   //! A base function to process incoming Special Effect Definition packets.<br>
    //! This function does nothing in this base class.<br>
    //! If processing is required, the inheriting class must
    //!   implement this call.
    //!
    virtual void OnSpecEffDef(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolCircleDef<br>
+   //! A base function to process incoming Symbol Circle Definition packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolCircleDef(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolCtrl<br>
+   //! A base function to process incoming Symbol Control packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolCtrl(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolLineDef<br>
+   //! A base function to process incoming Symbol Line Definition packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolLineDef(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolTextDef<br>
+   //! A base function to process incoming Symbol Text Definition packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolTextDef(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolSurfaceDef<br>
+   //! A base function to process incoming Symbol Surface Definition packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolSurfaceDef(CigiBasePacket *Packet) { };
 
    //=========================================================
    //! OnTerrestrialSurfaceCtrl<br>

@@ -44,6 +44,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Corrected a few initialization and message setting problems.
+ *  Added Variable length packet processing
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -68,13 +73,14 @@ CigiIGMsgV3::CigiIGMsgV3()
 {
 
    PacketID = CIGI_IG_MSG_PACKET_ID_V3;
-   PacketSize = 4;
    Version = 3;
    MinorVersion = 0;
 
    MsgID = 0;
-   Msg[0] = 0;
-   MsgLen = 0;
+
+   VariableDataSize = MsgLen = 4;
+   memset(Msg,0,4);
+   PacketSize = 8;
 
 }
 
@@ -160,6 +166,15 @@ int CigiIGMsgV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 }
 
 
+// ================================================
+// GetTruePacketSize
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiIGMsgV3::GetTruePacketSize(CigiBaseVariableSizePckt &refPacket)
+{
+   return(refPacket.GetVariableDataSize() + 4);
+}
+
+
 
 // ====================================================================
 // Accessors
@@ -196,10 +211,10 @@ int CigiIGMsgV3::SetMsg(const Cigi_Ascii *MsgIn, bool bndchk)
       memset(&Msg[MsgLen],0,tadj);
 
       MsgLen += tadj;
-
-      PacketSize = 4 + MsgLen;
-
    }
+
+   VariableDataSize = MsgLen;
+   PacketSize = VariableDataSize + 4;
 
    return(CIGI_SUCCESS);
 }

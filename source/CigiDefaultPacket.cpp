@@ -100,7 +100,12 @@ int CigiDefaultPacket::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 {
 
    DataPtr = Buff;
-   return(0);
+
+   // Get Size
+   DataPtr++;
+   Cigi_uint8 CurrentSize = *DataPtr;
+
+   return(CurrentSize);
 
 }
 

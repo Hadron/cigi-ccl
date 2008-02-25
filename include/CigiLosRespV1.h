@@ -41,6 +41,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -52,12 +57,6 @@
 
 #include "CigiBaseLosResp.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
-
-#define CIGI_LOS_RESP_PACKET_ID_V1 103
-#define CIGI_LOS_RESP_PACKET_SIZE_V1 40
 
 class CIGI_SPEC CigiLosRespV1 : public CigiBaseLosResp
 {
@@ -91,6 +90,7 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const;
+
    //=========================================================
    //! The virtual Unpack function for CIGI 1
    //! \param Buff - A pointer to the current pack point.
@@ -102,6 +102,21 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec);
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo);
 
 
 

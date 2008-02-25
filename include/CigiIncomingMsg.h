@@ -66,9 +66,21 @@
 
 #include <stdlib.h>
 #include "CigiMessage.h"
+#include "CigiMessageBuffer.h"
 #include "CigiBaseEventProcessor.h"
-#include "CigiEventList.h"
 #include "CigiBaseSignalProcessing.h"
+#include "CigiSignalType.h"
+
+
+//=========================================================
+//! The formatting definition for all static callback functions
+//!
+typedef void (* CigiCBProcessor)(CigiBasePacket *Packet);
+
+
+class CigiDefaultPacket;
+
+class CigiSession;
 
 
 //=========================================================
@@ -76,6 +88,9 @@
 //!
 class CIGI_SPEC CigiIncomingMsg : public CigiMessage  
 {
+
+   friend class CigiSession;
+
 public:
 
 
@@ -90,7 +105,6 @@ public:
    //! General Destructor
    //!
 	virtual ~CigiIncomingMsg();
-
 
 
 
@@ -125,13 +139,27 @@ public:
    //!
 	int ProcessIncomingMsg(void)
    {
+      int Rslt = CIGI_ERROR_UNEXPECTED_NULL;
+      if(CrntMsgBuf != NULL)
+         Rslt = ProcessIncomingMsg(CrntMsgBuf->Buffer,
+                                   CrntMsgBuf->BufferFillCnt);
 
-      return( ProcessIncomingMsg(BasePtr[CrntMsgBuf],
-                                 BuffFillCnt[CrntMsgBuf]));
+      return(Rslt);
    }
 
+   //=========================================================
+   //! This processes the current packet.<br>
+   //! This takes the given packet object and calls the correct
+   //!   Event Managers, CallBacks, and Signals.
+   //! \param PcktId - The packet id converted to the reader's
+   //!    version of CIGI.
+   //! \param Pckt - Pointer to the packet
+   //!    in a user supplied buffer.
+   //!
+	void ProcessPacket(int PcktId, CigiBasePacket *Pckt);
 
-   //+> Interative packet processing method calls
+
+   //+> Iterative packet processing method calls
 
    //=========================================================
    //! This gets the first packet of the message
@@ -233,7 +261,7 @@ public:
    //!
    int RegisterUnrecognizedPacketEvent(CigiBaseEventProcessor *EventMgr)
    {
-	return(RegisterEventProcessor(0,EventMgr));
+   	return(RegisterEventProcessor(0,EventMgr));
    }
 
    //=========================================================
@@ -286,7 +314,7 @@ public:
    //!
    int RegisterUnhandledPacketEvent(CigiBaseEventProcessor *EventMgr)
    {
-	return(RegisterEventProcessor(256,EventMgr));
+   	return(RegisterEventProcessor(256,EventMgr));
    }
 
    //=========================================================
@@ -353,7 +381,8 @@ public:
    //!
    void SetCrntMsgSize(int MsgSize)
    {
-      BuffFillCnt[CrntFillBuf] = (MsgSize <= BufferSize) ? MsgSize : BufferSize;
+      if(CrntMsgBuf != NULL)
+         CrntMsgBuf->BufferFillCnt = MsgSize;
    }
 
 
@@ -366,14 +395,17 @@ public:
    //!
    Cigi_uint8 * GetMsgBuffer()
    {
-      return(BasePtr[CrntMsgBuf]);
+      if(CrntMsgBuf == NULL)
+         AdvanceCrntBuffer();
+
+      return(CrntMsgBuf->Buffer);
    }
 
    //=========================================================
    //! Sets the size of the message in the Current fill buffer.
    //! \return This returns the message buffer size
    //!
-   int GetMsgBufSize(void) { return(BufferSize); }
+   int GetMsgBufSize(void) { return(CrntMsgBuf->BufferSize); }
 
 
    //+> Iteration Method Flag
@@ -400,6 +432,16 @@ public:
    //+> Reader's CIGI Version
 
    //=========================================================
+   //! This allows the user to specify the version of CIGI
+   //!   that the reader software uses.  This is needed to
+   //!   do version conversion processing.  It also adjusts the
+   //!   signal tables.
+   //! \param Version - the version of CIGI that the reader
+   //!   software uses.
+   //!
+	void SetReaderVersion(CigiVersionID &Version);
+
+   //=========================================================
    //! Sets the CIGI version that the reader is using.
    //! \param CigiVersionIn - The CIGI version to which the application
    //!   is coded.<br>
@@ -410,7 +452,9 @@ public:
    //!
    int SetReaderCigiVersion(const int CigiVersionIn, bool bndchk=true)
    {
-      return(VJmp->SetReaderCigiVersion(CigiVersionIn,0,bndchk));
+      CigiVersionID tVer(CigiVersionIn,0);
+      SetReaderVersion(tVer);
+      return(CIGI_SUCCESS);
    }
 
    //=========================================================
@@ -426,7 +470,9 @@ public:
    //!
    int SetReaderCigiVersion(const int CigiVersionIn, const int CigiMinorVersionIn, bool bndchk=true)
    {
-      return(VJmp->SetReaderCigiVersion(CigiVersionIn,CigiMinorVersionIn,bndchk));
+      CigiVersionID tVer(CigiVersionIn,CigiMinorVersionIn);
+      SetReaderVersion(tVer);
+      return(CIGI_SUCCESS);
    }
 
    //=========================================================
@@ -435,14 +481,34 @@ public:
    //!
    int GetReaderCigiVersion(void) const
    {
-      return(VJmp->GetReaderCigiVersion());
+      return(ReaderVersion.CigiMajorVersion);
    }
 
    //=========================================================
    //! Gets the Reader's Cigi Minor Version.
    //! \return the Cigi Minor Version of the reader and processing routines.
    //!
-   int GetReaderCigiMinorVersion(void) const { return(VJmp->GetReaderCigiMinorVersion()); }
+   int GetReaderCigiMinorVersion(void) const { return(ReaderVersion.CigiMinorVersion); }
+
+
+   //+> Registering
+
+   //=========================================================
+   //! Register a user packet for use.
+   //! \param Packet - A pointer to the packet manager object
+   //! \param PacketID - The packet id
+   //! \param HostSend - A flag specifying whether the host
+   //!   can send this packet.
+   //! \param IGSend - A flag specifying whether the IG
+   //!   can send this packet.
+   //!
+   //! \return the a flag specifying whether the specified
+   //!   packet is valid to send.
+   //!
+	int RegisterUserPacket(CigiBasePacket *Packet,
+                          Cigi_uint8 PacketID,
+                          bool HostSend,
+                          bool IGSend);
 
 
 
@@ -460,12 +526,6 @@ protected:
    bool Iteration;
 
    //=========================================================
-   //! MsgStart<br>
-   //! A pointer to the first byte of the message.
-   //!
-   Cigi_uint8 *MsgStart;
-
-   //=========================================================
    //! CrntPacket<br>
    //! A pointer to the first byte of the current packet.
    //!
@@ -479,28 +539,22 @@ protected:
    int ReadBufferPos;
 
    //=========================================================
-   //! MsgSize<br>
-   //! The current message size.
+   //! EventList<br>
+   //! The table of Event lists.
    //!
-   int MsgSize;
+   list<CigiBaseEventProcessor *>EventList[257];
 
    //=========================================================
    //! CallBackList<br>
    //! The table of Callback lists.
    //!
-   CigiEventList *CallBackList[257];
-
-   //=========================================================
-   //! EventList<br>
-   //! The table of Event lists.
-   //!
-   CigiEventList *EventList[257];
+   list<CigiCBProcessor>CallBackList[257];
 
    //=========================================================
    //! SignalList<br>
    //! The beginning of the Signal list.
    //!
-   CigiEventList *SignalList;
+   list<CigiBaseSignalProcessing *>SignalList;
 
    //=========================================================
    //! Swap<br>
@@ -512,13 +566,37 @@ protected:
    //! MostMatureCigiVersionReceived<br>
    //! Specifies the most mature (i.e. newest version) of CIGI received.
    //!
-   int MostMatureCigiVersionReceived;
+   CigiVersionID MostMatureCigiVersionReceived;
 
    //=========================================================
-   //! IterationVersion<br>
+   //! ProcessingVersion<br>
    //! Specifies the current version of CIGI being used for iteration.
    //!
-   int IterationVersion;
+   CigiVersionID ProcessingVersion;
+
+   //=========================================================
+   //! ReaderVersion<br>
+   //! Specifies the current version of CIGI being used by
+   //!   the reader.
+   //!
+   CigiVersionID ReaderVersion;
+
+   //=========================================================
+   //! The Conversion Table for managers of incoming packets
+   //!
+   CigiBasePacket *IncomingHandlerTbl[256];
+
+   //=========================================================
+   //! The Table containing the Signal Type of the packet
+   //!  for managers of incoming packets.
+   //!
+   CigiSignalType::Type SignalTbl[256];
+
+   //=========================================================
+   //! A pointer to the default packet used to unpack
+   //!  un recognized packets.
+   //!
+   CigiDefaultPacket *DefaultPckt;
 
 
    //==> Member protected functions
@@ -532,6 +610,57 @@ protected:
    //!    parsed the current message packet.
    //!
    bool SignalJump(const Cigi_uint8 PacketID, CigiBasePacket *Packet);
+
+   //=========================================================
+   //! Clear the Processing Table
+   //! \param Complete - If true - the entire table is cleared.
+   //!    if false - the table is cleared except for the user
+   //!    defined section.
+   //!
+	void ClearTbls(bool Complete);
+
+   //=========================================================
+   //! Sets the external interface tables to Host output with
+   //!   Cigi Version 1 packets
+   //!
+	void SetIncomingHostV1Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to IG output with
+   //!   Cigi Version 1 packets
+   //!
+	void SetIncomingIGV1Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to Host output with
+   //!   Cigi Version 2 packets
+   //!
+	void SetIncomingHostV2Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to IG output with
+   //!   Cigi Version 2 packets
+   //!
+	void SetIncomingIGV2Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to Host output with
+   //!   Cigi Version 3 packets
+   //!
+	void SetIncomingHostV3Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to IG output with
+   //!   Cigi Version 3 packets
+   //!
+	void SetIncomingIGV3Tbls(void);
+
+   //=========================================================
+   //! Sets the external interface tables to IG output with
+   //!   Cigi Version 3 packets
+   //!
+	int CheckFirstPacket(Cigi_uint8 *Buff);
+
 
 };
 

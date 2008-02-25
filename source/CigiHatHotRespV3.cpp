@@ -47,6 +47,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -55,6 +59,7 @@
 #define _EXPORT_CCL_
 
 #include "CigiHatHotRespV3.h"
+#include "CigiBaseHatHotReq.h"
 #include "CigiSwapping.h"
 #include "CigiExceptions.h"
 
@@ -248,6 +253,37 @@ int CigiHatHotRespV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    return(PacketSize);
 
+}
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiHatHotRespV3::GetCnvt(CigiVersionID &CnvtVersion,
+                              CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   switch(CnvtVersion.CigiMajorVersion)
+   {
+   case 1:
+      // Note: This will result in an incorrect value
+      // if the V3 response is a HOT value.
+      CnvtInfo.CnvtPacketID = CIGI_HAT_RESP_PACKET_ID_V1;
+      break;
+   case 2:
+      if(ReqType == CigiBaseHatHotReq::HAT)
+         CnvtInfo.CnvtPacketID = CIGI_HAT_RESP_PACKET_ID_V2;
+      else
+         CnvtInfo.CnvtPacketID = CIGI_HOT_RESP_PACKET_ID_V2;
+      break;
+   default:
+      // The Packet ID for all V3 HatHotResp are the same ID
+      CnvtInfo.CnvtPacketID = CIGI_HAT_HOT_RESP_PACKET_ID_V3;
+      break;
+   }
+
+   return(CIGI_SUCCESS);
 }
 
 

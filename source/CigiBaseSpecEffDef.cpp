@@ -33,6 +33,10 @@
  *  
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -67,6 +71,34 @@ CigiBaseSpecEffDef::~CigiBaseSpecEffDef()
 {
 
 }
+
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseSpecEffDef::GetCnvt(CigiVersionID &CnvtVersion,
+                                CigiCnvtInfoType::Type &CnvtInfo)
+{
+   // V1 & V2 use the same packet id number
+   if(CnvtVersion.CigiMajorVersion > 2)
+   {
+      CnvtInfo.ProcID = CigiProcessType::ProcNone;
+      CnvtInfo.CnvtPacketID = 0;
+   }
+   else
+   {
+      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.CnvtPacketID = CIGI_SPEC_EFF_DEF_PACKET_ID_V2;
+   }
+
+   return(CIGI_SUCCESS);
+}
+
 
 // ====================================================================
 // Accessors

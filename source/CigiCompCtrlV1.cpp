@@ -47,6 +47,13 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
+ *  02/11/2008 Greg Basler                       Version 1.7.6
+ *  Changed the conversion process.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -70,6 +77,15 @@
    #define CIGI_SCOPY4 CigiCopy4
    #define CIGI_SCOPY8 CigiCopy8
 #endif
+
+
+
+const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV1::CompClassV1xV3[3] =
+{
+   EntityV3,
+   AtmosphereV3,
+   ViewV3
+};
 
 
 // ====================================================================
@@ -203,6 +219,26 @@ int CigiCompCtrlV1::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 }
 
 
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiCompCtrlV1::GetCnvt(CigiVersionID &CnvtVersion,
+                            CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   // Note: CIGI_ART_PART_CTRL_PACKET_ID_V1 &
+   // CIGI_ART_PART_CTRL_PACKET_ID_V2 are the same
+   if(CnvtVersion.CigiMajorVersion < 3)
+      CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V2;
+   else
+      CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
+
+   return(CIGI_SUCCESS);
+
+}
+
+
 
 // ====================================================================
 // Accessors
@@ -258,7 +294,7 @@ int CigiCompCtrlV1::SetCompAssoc(const CompAssocGrp CompAssocIn, bool bndchk)
    CompAssoc = CompAssocIn;
 
    CompClassV2 = (CompClassV2Grp)CompAssoc;
-   CompClassV3 = Assoc2ClassV3[(int)CompAssoc];
+   CompClassV3 = CompClassV1xV3[CompAssocIn];
 
    return(CIGI_SUCCESS);
 

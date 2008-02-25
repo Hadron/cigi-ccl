@@ -42,6 +42,10 @@
  *  04/24/2007 Greg Basler                       Version 1.7.5
  *  Changed Input altitude to a double as required in the CIGI
  *  version 2.1 ICD.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -55,12 +59,7 @@
 
 #include "CigiBaseEntityCtrl.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
 
-#define CIGI_ENTITY_CTRL_PACKET_ID_V2 2
-#define CIGI_ENTITY_CTRL_PACKET_SIZE_V2 56
 
 
 

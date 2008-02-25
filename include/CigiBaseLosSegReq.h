@@ -57,6 +57,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  The Boeing Company
  *  Version: 1.7.5
@@ -67,6 +72,23 @@
 #define _CIGI_BASE_LOS_SEG_REQ_INCLUDED_
 
 #include "CigiBasePacket.h"
+
+// ====================================================================
+// preprocessor definitions
+// ====================================================================
+
+#define CIGI_LOS_SEG_REQ_PACKET_ID_V1 42
+#define CIGI_LOS_SEG_REQ_PACKET_SIZE_V1 48
+
+#define CIGI_LOS_SEG_REQ_PACKET_ID_V2 42
+#define CIGI_LOS_SEG_REQ_PACKET_SIZE_V2 56
+
+#define CIGI_LOS_SEG_REQ_PACKET_ID_V3 25
+#define CIGI_LOS_SEG_REQ_PACKET_SIZE_V3 64
+
+#define CIGI_LOS_SEG_REQ_PACKET_ID_V3_2 25
+#define CIGI_LOS_SEG_REQ_PACKET_SIZE_V3_2 64
+
 
 class CigiLosSegReqV1;
 class CigiLosSegReqV2;
@@ -144,6 +166,21 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec) =0;
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo);
 
 
 

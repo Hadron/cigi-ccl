@@ -38,6 +38,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -49,12 +53,6 @@
 
 #include "CigiBaseEarthModelDef.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
-
-#define CIGI_EARTH_MODEL_DEF_PACKET_ID_V3 19
-#define CIGI_EARTH_MODEL_DEF_PACKET_SIZE_V3 24
 
 class CIGI_SPEC CigiEarthModelDefV3 : public CigiBaseEarthModelDef
 {
@@ -88,6 +86,7 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const;
+
    //=========================================================
    //! The virtual Unpack function for CIGI 3
    //! \param Buff - A pointer to the current pack point.
@@ -99,7 +98,6 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec);
-
 
 
    //==> Accessing Member Variable Values functions

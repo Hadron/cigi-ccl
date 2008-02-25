@@ -116,8 +116,6 @@ CigiEnvCtrlV2::CigiEnvCtrlV2()
    WindDir = 0.0;
    BaroPress = 1013.25;
 
-   PEnv = NULL;
-
 }
 
 // ================================================
@@ -231,6 +229,37 @@ int CigiEnvCtrlV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    return(PacketSize);
 
+}
+
+
+
+// ====================================================================
+// Filling the Hold object
+// ====================================================================
+
+// ================================================
+// FillHold
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiEnvCtrlV2::FillHold(CigiBaseEnvCtrl * Hold) const
+{
+   Hold->Hour = Hour;
+   Hold->Minute = Minute;
+   Hold->EphemerisEn = EphemerisEn;
+   Hold->SunEn = SunEn;
+   Hold->MoonEn = MoonEn;
+   Hold->StarEn = StarEn;
+   Hold->DateVld = DateVld;
+   Hold->AtmosEn = AtmosEn;
+   Hold->Humidity = Humidity;
+   Hold->Month = Month;
+   Hold->Day = Day;
+   Hold->Year = Year;
+   Hold->AirTemp = AirTemp;
+   Hold->Visibility = Visibility;
+   Hold->HorizWindSp = HorizWindSp;
+   Hold->WindDir = WindDir;
+   Hold->BaroPress = BaroPress;
+   Hold->Aerosol = Aerosol;
 }
 
 

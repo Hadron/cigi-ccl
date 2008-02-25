@@ -48,6 +48,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Changed CigiCopy8 to make sure that it works for big endian and non-intel
+ *  machines.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -125,4 +130,5 @@ CIGI_SPEC void CigiSwap8( void *dest, const void *src)
     *( ( Cigi_uint32 *)dest) = d2.i;
     *( ( Cigi_uint32 *)dest + 1) = d1.i;
 }
+
 

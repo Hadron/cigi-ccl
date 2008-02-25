@@ -6,7 +6,7 @@ Version 1.7.5
 Changes/Additions:
 ------------------
 
-• Corrected a problem with Database request number adjustment.
+- Corrected a problem with Database request number adjustment.
   Changed V1 & V2 LOS requests to request extended responses if they are
   converted to V3.
   Changed the CigiHotReqV2 constructor to correctly set the request type to HOT
@@ -25,7 +25,7 @@ Version 1.7.4
 Changes/Additions:
 ------------------
 
-• Corrects a bug with the Version Jump Table that was causing a memory leak.
+- Corrects a bug with the Version Jump Table that was causing a memory leak.
   Corrected the way V3 Celestial Control and Atmosphere Control flags were
   being set by the V1 and V2 Environmental Control classes.
   Corrected a bug in CigiOutgoingMsg that now correctly zeros out the
@@ -40,7 +40,7 @@ Version 1.7.3
 Changes/Additions:
 ------------------
 
-• Corrects a bug with IG Control and SOF that may have put the wrong
+- Corrects a bug with IG Control and SOF that may have put the wrong
   Minor Version number in the CIGI messages.  Corrected the CigiIGCtrlV3_2
   and the CigiSOFV3_2 packing routines so that the Minor Version number is
   is packed from the packing object (a CigiIGCtrlV3_2 or CigiSOFV3_2 object
@@ -58,16 +58,16 @@ Version 1.7.2
 Changes/Additions:
 ------------------
 
-• Corrects several problems with the way the CCL has been recently released
+- Corrects several problems with the way the CCL has been recently released
   for Unix/Linux.  The CCL will now be released in the .zip format for
   windows and the .tar.gz format for Unix/Linux.
 
-• Corrects several problems in CigiIncomingMsg involving setting the current
+- Corrects several problems in CigiIncomingMsg involving setting the current
   CIGI version were corrected.  Also, corrects the problem with the way the
   IterationVersion is initialized and used in the iteration method of
   incoming message processing.
 
-• In the examples, several errors in the networking code involving a stray
+- In the examples, several errors in the networking code involving a stray
   pointer due to a #define were corrected.  Also in the examples,
   a few errors involving the STL differences between MS6 and MS7 and
   detecting the compiler version were corrected.
@@ -81,9 +81,9 @@ Version 1.7.1
 Changes/Additions:
 ------------------
 
-• Defined new CIGI types Cigi_int8 and Cigi_uint8.
+- Defined new CIGI types Cigi_int8 and Cigi_uint8.
 
-• Replaced use of native char and unsigned char types to use Cigi_int8 and
+- Replaced use of native char and unsigned char types to use Cigi_int8 and
   Cigi_uint8 instead, to account for systems where char and unsigned char types
   are not 1 byte in size.
 
@@ -95,9 +95,9 @@ Version 1.7.0
 Changes/Additions:
 ------------------
 
-• Added compatibility with CIGI version 3.2.
+- Added compatibility with CIGI version 3.2.
 
-• Introduced minor version numbers to the library to handle packet translations
+- Introduced minor version numbers to the library to handle packet translations
   for CIGI version 3.2.
 
 
@@ -108,24 +108,24 @@ Version 1.6.0
 Changes/Additions:
 ------------------
 
-• Added support in the CigiOutgoingMsg class for automatic frame counter
+- Added support in the CigiOutgoingMsg class for automatic frame counter
   synchronization with incoming messages. A new set of functions have been
   introduced to handle this: UpdateFrameCntr(), UpdateIGCtrl(), UpdateSOF(),
   PackageMsg(), FreeMsg(), and GetCurrentlyPackagedMsg().
 
-• Modified the CigiMessage class to include a PackagedMsg member variable in
+- Modified the CigiMessage class to include a PackagedMsg member variable in
   support of automatic frame counter synchronization.
 
-• Updated the CigiDummyIG example to use the new frame counter synchrnoization
+- Updated the CigiDummyIG example to use the new frame counter synchrnoization
   methods.
 
-• Added the NewCigiMiniHost example to show usage of the new message
+- Added the NewCigiMiniHost example to show usage of the new message
   synchronization calls.
 
 Bug Fixes:
 ------------------
 
-• Fixed the unpacking of the polarity flag in the CigiSensorCtrlV3 packet class.
+- Fixed the unpacking of the polarity flag in the CigiSensorCtrlV3 packet class.
 
 
 Version 1.5.7
@@ -135,10 +135,10 @@ Version 1.5.7
 Changes/Additions:
 ------------------
 
-• Added the CigiIODummyIG and CigiIOMiniHost examples, which illustrate use of
+- Added the CigiIODummyIG and CigiIOMiniHost examples, which illustrate use of
   the CigiIO class.
 
-• Added a Recv() function to the CigiIO class for receiving incoming messages
+- Added a Recv() function to the CigiIO class for receiving incoming messages
   without immediately processing them.
 
 
@@ -149,14 +149,14 @@ Version 1.5.6
 Changes/Additions:
 ------------------
 
-• Added the CigiDummyIG example.
+- Added the CigiDummyIG example.
 
-• Added the CigiMiniHost example.
+- Added the CigiMiniHost example.
 
 Bug Fixes:
 ------------------
 
-• Fixed the ProcessIncomingMsg and GetFirstPacket methods to correctly handle
+- Fixed the ProcessIncomingMsg and GetFirstPacket methods to correctly handle
   frame counter synchronization.
 
 
@@ -167,7 +167,7 @@ Version 1.5.5
 Bug Fixes:
 ------------------
 
-• Modified the GetFirstPacket method in the CigiIncomingMsg class to get the
+- Modified the GetFirstPacket method in the CigiIncomingMsg class to get the
   pointer to the correct SOF and IG Control handling objects.
 
 
@@ -178,7 +178,7 @@ Version 1.5.4
 Bug Fixes:
 ------------------
 
-• Detects a buffer overrun error condition when processing the incoming message
+- Detects a buffer overrun error condition when processing the incoming message
   buffer, and throws an exception when found.
 
 
@@ -189,9 +189,9 @@ Version 1.5.3
 Changes/Additions:
 ------------------
 
-• Added license information to the download.
+- Added license information to the download.
 
-• Split downloads up into binaries, source, and documentation.
+- Split downloads up into binaries, source, and documentation.
 
 
 Version 1.5.2
@@ -201,13 +201,13 @@ Version 1.5.2
 Bug Fixes:
 ------------------
 
-• Modified the CigiCopy2 and CigiCopy4 macros to use the cigi-defined data
+- Modified the CigiCopy2 and CigiCopy4 macros to use the cigi-defined data
   types instead of native types.
 
-• Fixed the GetFirstPacket function in the CigiIncomingMsg class to use the
+- Fixed the GetFirstPacket function in the CigiIncomingMsg class to use the
   correct start of frame and IG control opcode values.
 
-• Fixed an error in the RegisterUserPacket function in the CigiVersionJumpTable
+- Fixed an error in the RegisterUserPacket function in the CigiVersionJumpTable
   class to properly handle user-defined packets when translating between
   different versions of CIGI.
 
@@ -219,7 +219,7 @@ Version 1.5.1
 Bug Fixes:
 ------------------
 
-• Added the CIGI_LITTLE_ENDIAN preprocessor definition to the CIGI DLL and LIB
+- Added the CIGI_LITTLE_ENDIAN preprocessor definition to the CIGI DLL and LIB
   Visual Studio projects.
 
 
@@ -230,27 +230,27 @@ Version 1.5
 Changes/Additions:
 ------------------
 
-• Changed the CCL directory structure.
+- Changed the CCL directory structure.
 
-• Added CIGI-defined data types (CigiTypes.h) for easier portability to other
+- Added CIGI-defined data types (CigiTypes.h) for easier portability to other
   platforms, particularly 64-bit architectures.
 
-• Created and updated files for building the CCL on Linux platforms, and made
+- Created and updated files for building the CCL on Linux platforms, and made
   the CCL files Linux (and UNIX) compatible.
 
-• Created Win32 DLLs for the CCL and a Visual Studio 6.0 project for building
+- Created Win32 DLLs for the CCL and a Visual Studio 6.0 project for building
   DLLs.
 
-• Added a common PackPointer union data type to CigiTypes.h for use in the
+- Added a common PackPointer union data type to CigiTypes.h for use in the
   packet implementation classes.
 
 Bug Fixes:
 ------------------
 
-• Fixed a bug in the component and short component controls where data was
+- Fixed a bug in the component and short component controls where data was
   erroneously converted to an unsigned int when it was packed.
 
-• Changed the data type for the database ID to a signed char from unsigned in
+- Changed the data type for the database ID to a signed char from unsigned in
   the SOF and IG Control packets.
 
 

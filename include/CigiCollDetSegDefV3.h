@@ -38,6 +38,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -49,12 +53,7 @@
 
 #include "CigiBaseCollDetSegDef.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
 
-#define CIGI_COLL_DET_SEG_DEF_PACKET_ID_V3 22
-#define CIGI_COLL_DET_SEG_DEF_PACKET_SIZE_V3 40
 
 class CIGI_SPEC CigiCollDetSegDefV3 : public CigiBaseCollDetSegDef
 {

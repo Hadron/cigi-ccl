@@ -44,6 +44,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  12/14/2007 Greg Basler                       Version 1.7.6
+ *  Added the Request ID parameter.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -73,6 +77,7 @@ CigiEnvCondReqV3::CigiEnvCondReqV3()
    MinorVersion = 0;
 
    ReqType = Maritime;
+   ReqID = 0;
    Lat = 0.0;
    Lon = 0.0;
    Alt = 0.0;
@@ -107,7 +112,7 @@ int CigiEnvCondReqV3::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec)
 
    *CDta.c++ = Data->ReqType & 0x0f;
 
-   *CDta.c++ = 0;
+   *CDta.c++ = Data->ReqID;
    *CDta.l++ = 0;
 
    *CDta.d++ = Data->Lat;
@@ -131,7 +136,9 @@ int CigiEnvCondReqV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    ReqType = (ReqTypeGrp)(*CDta.c++ & 0x0f);
 
-   CDta.c += 5;
+   ReqID = *CDta.c++;
+
+   CDta.l++;
 
 
    if(!Swap)

@@ -50,6 +50,10 @@
  *  
  *  04/24/2007 Greg Basler                       Version 1.7.5
  *  Corrected an error with ReqType.  The request type should be HOT not HAT.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -183,6 +187,32 @@ int CigiHotReqV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    return(PacketSize);
 
+}
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiHotReqV2::GetCnvt(CigiVersionID &CnvtVersion,
+                          CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   switch(CnvtVersion.CigiMajorVersion)
+   {
+   case 1:
+      CnvtInfo.CnvtPacketID = CIGI_HAT_REQ_PACKET_ID_V1;
+      break;
+   case 2:
+      CnvtInfo.CnvtPacketID = CIGI_HOT_REQ_PACKET_ID_V2;
+      break;
+   default:
+      // The Packet ID for all V3 HatHotReq are the same ID
+      CnvtInfo.CnvtPacketID = CIGI_HAT_HOT_REQ_PACKET_ID_V3;
+      break;
+   }
+
+   return(CIGI_SUCCESS);
 }
 
 

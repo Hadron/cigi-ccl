@@ -41,6 +41,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -70,6 +74,26 @@ CigiBaseIGCtrl::CigiBaseIGCtrl()
 CigiBaseIGCtrl::~CigiBaseIGCtrl()
 {
 
+}
+
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseIGCtrl::GetCnvt(CigiVersionID &CnvtVersion,
+                            CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcIGCtrl;
+
+   // All versions of this packet have the same packet id number
+   CnvtInfo.CnvtPacketID = CIGI_IG_CTRL_PACKET_ID_V1;
+
+   return(CIGI_SUCCESS);
 }
 
 

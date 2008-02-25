@@ -41,6 +41,12 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  Added Variable length packet processing
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -50,13 +56,22 @@
 #if !defined(_CIGI_BASE_IG_MSG_INCLUDED_)
 #define _CIGI_BASE_IG_MSG_INCLUDED_
 
-#include "CigiBasePacket.h"
+#include "CigiBaseVariableSizePckt.h"
+
+// ====================================================================
+// preprocessor definitions
+// ====================================================================
+
+#define CIGI_IG_MSG_PACKET_ID_V2 108
+
+#define CIGI_IG_MSG_PACKET_ID_V3 117
+
 
 class CigiIGMsgV2;
 class CigiIGMsgV3;
 
 
-class CIGI_SPEC CigiBaseIGMsg : public CigiBasePacket
+class CIGI_SPEC CigiBaseIGMsg : public CigiBaseVariableSizePckt
 {
 
 friend class CigiIGMsgV2;
@@ -103,6 +118,50 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec) =0;
+
+   //=========================================================
+   //! A virtual Conversion Information function.
+   //! This function provides conversion information for this
+   //!  packet.
+   //! \param CnvtVersion - The CIGI version to which this packet
+   //!    is being converted.
+   //! \param CnvtInfo - The information needed for conversion
+   //!    
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
+	virtual int GetCnvt(CigiVersionID &CnvtVersion,
+                       CigiCnvtInfoType::Type &CnvtInfo)   {
+      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+      if(CnvtVersion.CigiMajorVersion < 2)
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcNone;
+         CnvtInfo.CnvtPacketID = 0;
+      }
+      else
+      {
+         CnvtInfo.ProcID = CigiProcessType::ProcVarSize;
+         if(CnvtVersion.CigiMajorVersion < 3)
+            CnvtInfo.CnvtPacketID = CIGI_IG_MSG_PACKET_ID_V2;
+         else
+            CnvtInfo.CnvtPacketID = CIGI_IG_MSG_PACKET_ID_V3;
+      }
+
+      return(CIGI_SUCCESS);
+   }
+
+   //=========================================================
+   //! A pure virtual function to determine the size that the
+   //!  packet will take up when packed.
+   //! This function is not implemented in this class.
+   //! \param refPacket - A pointer to the current pack point.
+   //!
+   //! \return The size that the packet will take up when packed
+   //!
+	virtual int GetTruePacketSize(CigiBaseVariableSizePckt &refPacket) =0;
+
 
 
 

@@ -1,5 +1,5 @@
-AC_INIT([CIGI Class Library], [1.7.5], 
-        [contactname@domain.com], 
+AC_INIT([CIGI Class Library], [1.8.0], 
+        [http://cigi.sourceforge.net], 
         [cigicl])
 AM_INIT_AUTOMAKE
 AC_PROG_CXX

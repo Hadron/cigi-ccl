@@ -139,7 +139,7 @@ public:
    //==> Hold Object Manipulation
 
    //=========================================================
-   //! A pure virtual FillHold function.  
+   //! A virtual FillHold function.  
    //! This function is not implemented in this class.
    //!
    virtual void FillHold(CigiBaseEnvCtrl * Hold) const  { };

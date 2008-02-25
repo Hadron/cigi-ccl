@@ -56,6 +56,7 @@
 #include "CigiSOFV3_2.h"
 #include "CigiExceptions.h"
 #include "CigiSwapping.h"
+#include "CigiVersionID.h"
 
 
 // ====================================================================
@@ -108,20 +109,23 @@ CigiSOFV3_2::~CigiSOFV3_2()
 int CigiSOFV3_2::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const
 {
    PackPointer CDta;
+   CigiVersionID PackingVer = *((CigiVersionID *)Spec);
 
    CigiBaseSOF *Data = ( CigiBaseSOF *) Base;
 
+   if(PackingVer.GetCombinedCigiVersion() < 0x0302)
+      PackingVer.SetCigiVersion(3,2);
 
    CDta.c = Buff;
 
    *CDta.c++ = PacketID;
    *CDta.c++ = PacketSize;
-   *CDta.c++ = Version;
+   *CDta.c++ = PackingVer.CigiMajorVersion;
 
    *CDta.b++ = Data->DatabaseID;
    *CDta.c++ = Data->IGStatus;
 
-   Cigi_uint8 HDta = (MinorVersion << 4) & 0xf0;
+   Cigi_uint8 HDta = (PackingVer.CigiMinorVersion << 4) & 0xf0;
    HDta |= (Data->TimestampValid) ? 0x04 : 0;
    HDta |= (Cigi_uint8)(Data->IGMode & 0x03);
    HDta |= (Cigi_uint8)((Data->EarthRefModel << 3) & 0x08);
@@ -132,7 +136,7 @@ int CigiSOFV3_2::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) cons
    *CDta.l++ = Data->FrameCntr;
    *CDta.l++ = Data->TimeStampV3;
    *CDta.l++ = Data->LastRcvdHostFrame;
-   *CDta.s++ = 0;
+   *CDta.l++ = 0;
 
 
    return(PacketSize);

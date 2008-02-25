@@ -48,6 +48,10 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  The Boeing Company
  *  Version: 1.7.5
@@ -58,6 +62,29 @@
 #define _CIGI_BASE_LOS_RESP_INCLUDED_
 
 #include "CigiBasePacket.h"
+
+// ====================================================================
+// preprocessor definitions
+// ====================================================================
+
+#define CIGI_LOS_RESP_PACKET_ID_V1 103
+#define CIGI_LOS_RESP_PACKET_SIZE_V1 40
+
+#define CIGI_LOS_RESP_PACKET_ID_V2 103
+#define CIGI_LOS_RESP_PACKET_SIZE_V2 40
+
+#define CIGI_LOS_RESP_PACKET_ID_V3 104
+#define CIGI_LOS_RESP_PACKET_SIZE_V3 16
+
+#define CIGI_LOS_XRESP_PACKET_ID_V3 105
+#define CIGI_LOS_XRESP_PACKET_SIZE_V3 56
+
+#define CIGI_LOS_RESP_PACKET_ID_V3_2 104
+#define CIGI_LOS_RESP_PACKET_SIZE_V3_2 16
+
+#define CIGI_LOS_XRESP_PACKET_ID_V3_2 105
+#define CIGI_LOS_XRESP_PACKET_SIZE_V3_2 56
+
 
 class CigiLosRespV1;
 class CigiLosRespV2;

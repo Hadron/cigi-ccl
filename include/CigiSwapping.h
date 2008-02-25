@@ -46,6 +46,11 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Changed CigiCopy8 to make sure that it works for big endian and non-intel
+ *  machines.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -84,6 +89,14 @@ void CIGI_SPEC CigiSwap4( void *dest, const void *src);
 //!
 void CIGI_SPEC CigiSwap8( void *dest, const void *src);
 
+//=========================================================
+//! Copies the double word pointed to by src into the <br>
+//!   double word pointed to by dest.
+//! \param _dest_ - Specifies where the double word should be placed
+//! \param _src_ - Specifies the source double word to copy.
+//!
+void CIGI_SPEC CigiCopy8( void *dest, const void *src);
+
 /** Macros for copying bytes of data from one address to another.
   */
 
@@ -113,15 +126,6 @@ void CIGI_SPEC CigiSwap8( void *dest, const void *src);
 //!
 #define CigiCopy4( _dest_, _src_)                           \
     ( *( ( Cigi_int32*)( _dest_)) = *( ( Cigi_int32*)( _src_)) )
-
-//=========================================================
-//! Copies the double word pointed to by src into the <br>
-//!   double word pointed to by dest.
-//! \param _dest_ - Specifies where the double word should be placed
-//! \param _src_ - Specifies the source double word to copy.
-//!
-#define CigiCopy8( _dest_, _src_)                           \
-    ( *( ( double*)( _dest_)) = *( ( double*)( _src_)) )
 
 //=========================================================
 //! Formats a double floating-point number (double) as a type B6 number.<br>

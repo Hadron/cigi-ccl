@@ -50,6 +50,7 @@
 
 #include "CigiIGCtrlV3_2.h"
 #include "CigiSwapping.h"
+#include "CigiVersionID.h"
 
 
 // ====================================================================
@@ -101,19 +102,22 @@ CigiIGCtrlV3_2::~CigiIGCtrlV3_2()
 int CigiIGCtrlV3_2::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const
 {
    PackPointer CDta;
+   CigiVersionID PackingVer = *((CigiVersionID *)Spec);
 
    CigiBaseIGCtrl *Data = ( CigiBaseIGCtrl *) Base;
 
+   if(PackingVer.GetCombinedCigiVersion() < 0x0302)
+      PackingVer.SetCigiVersion(3,2);
 
    CDta.c = Buff;
 
    *CDta.c++ = PacketID;
    *CDta.c++ = PacketSize;
-   *CDta.c++ = Version;
+   *CDta.c++ = PackingVer.CigiMajorVersion;
 
    *CDta.b++ = Data->DatabaseID;
 
-   Cigi_uint8 HDta = (MinorVersion << 4) & 0xf0;
+   Cigi_uint8 HDta = (PackingVer.CigiMinorVersion << 4) & 0xf0;
    HDta |= (Data->TimestampValid) ? 0x04 : 0;
    HDta |= (Cigi_uint8)(Data->IGMode & 0x03);
 

@@ -53,12 +53,15 @@
 #if !defined(_CIGI_MESSAGE_INCLUDED_)
 #define _CIGI_MESSAGE_INCLUDED_
 
-#include "CigiVersionJumpTable.h"
+#include <list>
+
 #include "CigiAnimationTable.h"
 #include "CigiHoldEnvCtrl.h"
+#include "CigiMessageBuffer.h"
 
 class CigiSession;
 
+using namespace std;
 
 //=========================================================
 //! The base class for Messages
@@ -92,7 +95,14 @@ friend class CigiSession;
    //! \return This returns a value indicating if a valid 
    //!   IGCtrl or SOF packet has been packed
    //!
-    bool GetValidIGCtrlSOF() { return ValidIGCtrlSOF; }
+    bool GetValidIGCtrlSOF()
+    {
+       bool Rslt = false;
+       if(CrntMsgBuf != NULL)
+          Rslt = CrntMsgBuf->IsValidIGCtrlSOF();
+
+       return(Rslt);
+    }
 
 
    //==> Processing Member functions
@@ -113,22 +123,31 @@ protected:
    //==> Member variables
 
    //=========================================================
-   //! Buffer Created<br>
-   //! Specifies whether the buffer has been created.
+   //! Active buffers
    //!
-	bool BufferCreated;
+   list<CigiMessageBuffer *> Buffers;
 
    //=========================================================
-   //! Buffer Block<br>
-   //! A pointer to the complete buffer set.
+   //! Available buffers
    //!
-	Cigi_uint8 * BufferBlock;
+   list<CigiMessageBuffer *> AvailBuff;
 
    //=========================================================
-   //! Buffer Count<br>
-   //! Specifies the number of buffers created.
+   //! Current buffer
    //!
-	int BufferCount;
+   CigiMessageBuffer *CrntMsgBuf;
+
+   //=========================================================
+   //! Current fill Buffer<br>
+   //! Points to the buffer being currently filled
+   //!
+   CigiMessageBuffer *CrntFillBuf;
+
+   //=========================================================
+   //! Packaged Message<br>
+   //! Points to the currently packaged message buffer
+   //!
+   CigiMessageBuffer *PackagedMsg;
 
    //=========================================================
    //! Buffer Size<br>
@@ -137,97 +156,24 @@ protected:
 	int BufferSize;
 
    //=========================================================
-   //! Base Pointer<br>
-   //! A pointer to an array of pointers to the beginning of
-   //!   each buffer
-   //!
-   Cigi_uint8 **BasePtr;
-
-   //=========================================================
-   //! Fill Buffer position<br>
-   //! An index into the current buffer to the current byte.
-   //!
-   Cigi_uint8 *FillBufferPos;
-
-   //=========================================================
-   //! Current Message Buffer<br>
-   //! Identifies the current buffer by index number
-   //!
-	int CrntMsgBuf;
-
-   //=========================================================
-   //! Current fill Buffer<br>
-   //! Identifies the buffer being currently filled
-   //!   by index number.
-   //!
-   int CrntFillBuf;
-
-   //=========================================================
-   //! Buffer Fill Count<br>
-   //! Specifies the number of valid bytes in the message that
-   //!   is contained within this buffer.
-   //!
-   int *BuffFillCnt;
-
-   //=========================================================
-   //! Buffer Active<br>
-   //! Specifies whether a buffer is available for packing.
-   //!
-   bool Active;
-
-   //=========================================================
-   //! Data<br>
-   //! A pointer to an array of bools that specify whether
-   //!   the indexed buffer has valid data in it.
-   //!
-   bool *Data;
-
-   //=========================================================
-   //! Buffer Locked<br>
-   //! Specifies whether the buffer has been locked for sending
-   //!
-   bool Locked;
-
-   //=========================================================
-   //! Valid IGCtrl or SOF packet packed<br>
-   //! Specifies whether an IGCtrl or SOF packet has been packed
-   //!
-   bool ValidIGCtrlSOF;
-
-
-   //=========================================================
-   //! Version Jump Table object<br>
-   //! A pointer to the Version/Jump Table object for this session
-   //!
-   CigiVersionJumpTable *VJmp;
-
-   //=========================================================
    //! Animation Table object<br>
    //! A pointer to the Animation Table object for this session
    //!
    CigiAnimationTable *ATbl;
 
    //=========================================================
-   //! Animation Table object<br>
-   //! A pointer to the Animation Table object for this session
+   //! 
+   //! 
    //!
    CigiHoldEnvCtrl EnvHoldObj;
 
    //=========================================================
-   //! Packaged Message<br>
-   //! Specifies the index of the currently packaged message buffer
+   //! The parent CIGI session for this outgoing message
    //!
-   int PackagedMsg;
+   CigiSession *Session;
 
 
    //==> Member Protected Functions
-
-
-   //=========================================================
-   //! Sets the Version/Jump Table object pointer
-   //! \param VJmpIn - Specifies a version/jump table object
-   //!
-   void SetVJmp(CigiVersionJumpTable *VJmpIn) { VJmp = VJmpIn; }
 
 
    //=========================================================
@@ -235,6 +181,13 @@ protected:
    //! \param AnimationTable - Specifies a Animation table object
    //!
    void SetAnimationTable(CigiAnimationTable *AnimationTable) { ATbl = AnimationTable; }
+
+
+   //=========================================================
+   //! Sets the Session object pointer
+   //! \param SessionIn - Specifies a session object
+   //!
+   void SetSession(CigiSession *SessionIn) { Session = SessionIn; }
 
 };
 

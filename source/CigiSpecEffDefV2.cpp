@@ -165,7 +165,7 @@ int CigiSpecEffDefV2::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec)
 
    *CDta.h++ = 0;
 
-   CIGI_SCOPY4(CDta.s++, &Data->EffectCnt);
+   CIGI_SCOPY2(CDta.s++, &Data->EffectCnt);
 
    CIGI_SCOPY4(CDta.f++, &Data->Separation);
    CIGI_SCOPY4(CDta.f++, &Data->BurstRate);

@@ -39,6 +39,10 @@
  *  01/22/2007 Greg Basler                       Version 1.7.5
  *  Set Request Type or Response Type (ReqType) to HAT in the Unpack()
  *  method for Cigi Version 1 and 2 compatibility.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -223,6 +227,32 @@ int CigiHatHotXRespV3_2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
    return(PacketSize);
 
+}
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiHatHotXRespV3_2::GetCnvt(CigiVersionID &CnvtVersion,
+                                 CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcStd;
+
+   switch(CnvtVersion.CigiMajorVersion)
+   {
+   case 1:
+      CnvtInfo.CnvtPacketID = CIGI_HAT_RESP_PACKET_ID_V1;
+      break;
+   case 2:
+      CnvtInfo.CnvtPacketID = CIGI_HOT_RESP_PACKET_ID_V2;
+      break;
+   default:
+      // The Packet ID for all V3 HatHotXResp are the same ID
+      CnvtInfo.CnvtPacketID = CIGI_HAT_HOT_XRESP_PACKET_ID_V3;
+      break;
+   }
+
+   return(CIGI_SUCCESS);
 }
 
 

@@ -16,53 +16,54 @@
  *  along with this library; if not, write to the Free Software Foundation, 
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *  
- *  FILENAME:   CigiEventList.cpp
+ *  FILENAME:   CigiCnvtInfoType.h
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
- *  PROJECT:    Common Image Generator Interface (CIGI) SDK
+ *  PROJECT:    Common Image Generator Interface (CIGI) Class Library
  *  
  *  PROGRAM DESCRIPTION: 
  *  ...
  *  
  *  MODIFICATION NOTES:
- *  DATE     NAME                                SCR NUMBER
+ *  DATE     NAME                                Project version
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  2006.10.10 Greg Basler                       0.1
  *  Initial Release.
  *  
- *  01/21/2005 Greg Basler                       Version 1.5
- *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
- * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 0.1
+ * </pre>
  */
 
-#define _EXPORT_CCL_
+#if !defined(_CIGI_CONVERTION_INFORMATION_TYPE_INCLUDED_)
+#define _CIGI_CONVERTION_INFORMATION_TYPE_INCLUDED_
 
-#include "CigiEventList.h"
-#include <string.h>
+#include "CigiProcessType.h"
 
-// ====================================================================
-// Construction/Destruction
-// ====================================================================
-
-// ================================================
-// CigiEventList
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-CigiEventList::CigiEventList()
+//=========================================================
+//! The information needed to convert between the versions
+//!  of CIGI.
+//!
+namespace CigiCnvtInfoType
 {
+   typedef struct CigiCnvtInfoStruct {
 
-   NextEvent = NULL;
-   Event = NULL;
-   CallBack = NULL;
+      //============================
+      //! The ID of the processing
+      //!  method that this packet uses
+      CigiProcessType::Type ProcID;
 
+      //============================
+      //! The packet ID of the packet
+      //!  to which this packet will
+      //!  be converted.
+      Cigi_uint8 CnvtPacketID;
+
+   } Type;
 }
 
-// ================================================
-// ~CigiEventList
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-CigiEventList::~CigiEventList()
-{
 
-}
+#endif   // _CIGI_CONVERTION_INFORMATION_TYPE_INCLUDED_
+
+

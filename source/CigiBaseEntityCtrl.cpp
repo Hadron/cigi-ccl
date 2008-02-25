@@ -33,6 +33,11 @@
  *  
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Added new version conversion method.
+ *  Moved Packet information to base packet.
+ *  
  * </pre>
  *  Author: The Boeing Company
  *  Version: 1.7.5
@@ -91,6 +96,26 @@ CigiBaseEntityCtrl::CigiBaseEntityCtrl()
 CigiBaseEntityCtrl::~CigiBaseEntityCtrl()
 {
 
+}
+
+
+// ====================================================================
+// Conversion Control
+// ====================================================================
+
+
+// ================================================
+// GetCnvt
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiBaseEntityCtrl::GetCnvt(CigiVersionID &CnvtVersion,
+                                CigiCnvtInfoType::Type &CnvtInfo)
+{
+   CnvtInfo.ProcID = CigiProcessType::ProcEntity;
+
+   // All versions of this packet have the same packet id number
+   CnvtInfo.CnvtPacketID = CIGI_ENTITY_CTRL_PACKET_ID_V3;
+
+   return(CIGI_SUCCESS);
 }
 
 

@@ -37,6 +37,11 @@
  *
  *  06/12/2006 Greg Basler                       Version 1.7.1
  *  Changed native char type to Cigi type Cigi_Ascii.
+ *  
+ *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  Moved Packet information to base packet.
+ *  Added Variable length packet processing
+ *  
  * </pre>
  *  The Boeing Company
  *  Version: 1.7.5
@@ -48,11 +53,7 @@
 
 #include "CigiBaseIGMsg.h"
 
-// ====================================================================
-// preprocessor definitions
-// ====================================================================
 
-#define CIGI_IG_MSG_PACKET_ID_V2 108
 
 class CIGI_SPEC CigiIGMsgV2 : public CigiBaseIGMsg
 {
@@ -86,6 +87,7 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Pack(CigiBasePacket * Base, unsigned char * Buff, void *Spec) const;
+
    //=========================================================
    //! The virtual Unpack function for CIGI 2
    //! \param Buff - A pointer to the current pack point.
@@ -97,6 +99,15 @@ public:
    //!   defined in CigiErrorCodes.h
    //!
    virtual int Unpack(unsigned char * Buff, bool Swap, void *Spec);
+
+   //=========================================================
+   //! A virtual function to determine the size that the
+   //!  packet will take up when packed.
+   //! \param refPacket - A pointer to the current pack point.
+   //!
+   //! \return The size that the packet will take up when packed
+   //!
+	virtual int GetTruePacketSize(CigiBaseVariableSizePckt &refPacket);
 
 
 

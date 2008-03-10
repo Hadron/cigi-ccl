@@ -266,100 +266,100 @@ int CigiBaseSymbolSurfaceDef::SetRoll(const float RollIn, bool bndchk)
 }
 
 // ================================================
-// SetLeftHalfAngle
+// SetLeftEdgePosition
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiBaseSymbolSurfaceDef::SetLeftHalfAngle(
-   const float LeftHalfAngle, bool bndchk)
+int CigiBaseSymbolSurfaceDef::SetLeftEdgePosition(
+   const float LeftEdgePosition, bool bndchk)
 {
 
 #ifndef CIGI_NO_BND_CHK
-   if(bndchk && ((LeftHalfAngle < -90.0) ||
-      (LeftHalfAngle > 90.0)))
+   if(bndchk && ((LeftEdgePosition < 0.0) ||
+      (LeftEdgePosition > 1.0)))
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Left Half Angle",
-                                         (float)LeftHalfAngle,-90.0,90.0);
+      throw CigiValueOutOfRangeException("Left Edge Position",
+                                         (float)LeftEdgePosition,0.0,1.0);
 #endif
       return(CIGI_ERROR_VALUE_OUT_OF_RANGE);
    }
 #endif
 
-   XLeft = LeftHalfAngle;
+   XLeft = LeftEdgePosition;
 
    return(CIGI_SUCCESS);
 
 }
 
 // ================================================
-// SetRightHalfAngle
+// SetRightEdgePosition
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiBaseSymbolSurfaceDef::SetRightHalfAngle(
-   const float RightHalfAngle, bool bndchk)
+int CigiBaseSymbolSurfaceDef::SetRightEdgePosition(
+   const float RightEdgePosition, bool bndchk)
 {
 
 #ifndef CIGI_NO_BND_CHK
-   if(bndchk && ((RightHalfAngle < -90.0) ||
-      (RightHalfAngle > 90.0)))
+   if(bndchk && ((RightEdgePosition < 0.0) ||
+      (RightEdgePosition > 1.0)))
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Right Half Angle",
-                                         (float)RightHalfAngle,-90.0,90.0);
+      throw CigiValueOutOfRangeException("Right Edge Position",
+                                         (float)RightEdgePosition,0.0,1.0);
 #endif
       return(CIGI_ERROR_VALUE_OUT_OF_RANGE);
    }
 #endif
 
-   YRight = RightHalfAngle;
+   YRight = RightEdgePosition;
 
    return(CIGI_SUCCESS);
 
 }
 
 // ================================================
-// SetTopHalfAngle
+// SetTopEdgePosition
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiBaseSymbolSurfaceDef::SetTopHalfAngle(
-   const float TopHalfAngle, bool bndchk)
+int CigiBaseSymbolSurfaceDef::SetTopEdgePosition(
+   const float TopEdgePosition, bool bndchk)
 {
 
 #ifndef CIGI_NO_BND_CHK
-   if(bndchk && ((TopHalfAngle < -90.0) ||
-      (TopHalfAngle > 90.0)))
+   if(bndchk && ((TopEdgePosition < 0.0) ||
+      (TopEdgePosition > 1.0)))
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Top Half Angle",
-                                         (float)TopHalfAngle,-90.0,90.0);
+      throw CigiValueOutOfRangeException("Top Edge Position",
+                                         (float)TopEdgePosition,0.0,1.0);
 #endif
       return(CIGI_ERROR_VALUE_OUT_OF_RANGE);
    }
 #endif
 
-   ZTop = TopHalfAngle;
+   ZTop = TopEdgePosition;
 
    return(CIGI_SUCCESS);
 
 }
 
 // ================================================
-// SetBottomHalfAngle
+// SetBottomEdgePosition
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-int CigiBaseSymbolSurfaceDef::SetBottomHalfAngle(
-   const float BottomHalfAngle, bool bndchk)
+int CigiBaseSymbolSurfaceDef::SetBottomEdgePosition(
+   const float BottomEdgePosition, bool bndchk)
 {
 
 #ifndef CIGI_NO_BND_CHK
-   if(bndchk && ((BottomHalfAngle < -90.0) ||
-      (BottomHalfAngle > 90.0)))
+   if(bndchk && ((BottomEdgePosition < 0.0) ||
+      (BottomEdgePosition > 1.0)))
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Bottom Half Angle",
-                                         (float)BottomHalfAngle,-90.0,90.0);
+      throw CigiValueOutOfRangeException("Bottom Edge Position",
+                                         (float)BottomEdgePosition,0.0,1.0);
 #endif
       return(CIGI_ERROR_VALUE_OUT_OF_RANGE);
    }
 #endif
 
-   YawBottom = BottomHalfAngle;
+   YawBottom = BottomEdgePosition;
 
    return(CIGI_SUCCESS);
 

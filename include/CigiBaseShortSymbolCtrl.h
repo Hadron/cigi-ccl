@@ -46,7 +46,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3 242  // FIXME
+#define CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3 34
 #define CIGI_SHORT_SYMBOL_CONTROL_PACKET_SIZE_V3_3 16
 
 
@@ -159,7 +159,7 @@ public:
 
    //=========================================================
    //! Sets the SymbolID with bound checking control
-   //! \param SymbolIDIn - FIXME
+   //! \param SymbolIDIn - Specifies the ID number of this symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -172,7 +172,7 @@ public:
 
    //=========================================================
    //! Gets the SymbolID with bound checking control
-   //! \return SymbolID
+   //! \return The ID number of this symbol.
    //!
    Cigi_uint16 GetSymbolID(void) const { return(SymbolID); }
    
@@ -181,7 +181,8 @@ public:
 
    //=========================================================
    //! Sets the SymbolState with bound checking control
-   //! \param SymbolStateIn - FIXME
+   //! \param SymbolStateIn - Specifies the commanded state of
+   //!   this symbol.  (Hidden, Visible, Destroyed)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -190,7 +191,7 @@ public:
 
    //=========================================================
    //! Gets the SymbolState with bound checking control
-   //! \return SymbolState
+   //! \return The State of this symbol.
    //!
    CigiBaseSymbolCtrl::SymbolStateGrp GetSymbolState(void) const { return(SymbolState); }
    
@@ -199,7 +200,8 @@ public:
 
    //=========================================================
    //! Sets the AttachState with bound checking control
-   //! \param AttachStateIn - FIXME
+   //! \param AttachStateIn - Specifies whether this symbol
+   //!   is attached to another symbol or is detached.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -208,7 +210,7 @@ public:
 
    //=========================================================
    //! Gets the AttachState with bound checking control
-   //! \return AttachState
+   //! \return The Attach State of this symbol.
    //!
    CigiBaseSymbolCtrl::AttachStateGrp GetAttachState(void) const { return(AttachState); }
    
@@ -217,7 +219,8 @@ public:
 
    //=========================================================
    //! Sets the FlashCtrl with bound checking control
-   //! \param FlashCtrlIn - FIXME
+   //! \param FlashCtrlIn - Specifies whether the flashing pattern
+   //!   of this symbol is continued or is reset.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -226,7 +229,7 @@ public:
 
    //=========================================================
    //! Gets the FlashCtrl with bound checking control
-   //! \return FlashCtrl
+   //! \return The Flash Ctrl of this symbol.
    //!
    CigiBaseSymbolCtrl::FlashCtrlGrp GetFlashCtrl(void) const { return(FlashCtrl); }
    
@@ -235,7 +238,8 @@ public:
 
    //=========================================================
    //! Sets the InheritColor with bound checking control
-   //! \param InheritColorIn - FIXME
+   //! \param InheritColorIn - Specifies whether this symbol
+   //!   inherits its color from its parent or uses its own color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -244,7 +248,8 @@ public:
 
    //=========================================================
    //! Gets the InheritColor with bound checking control
-   //! \return InheritColor
+   //! \return Whether this symbol inherits its color
+   //!   from its parent or uses its own color.
    //!
    CigiBaseSymbolCtrl::InheritColorGrp GetInheritColor(void) const { return(InheritColor); }
 
@@ -252,7 +257,7 @@ public:
    //+> Getting Datum Type
 
    //=========================================================
-   //! Gets the ParentSymbolID with bound checking control
+   //! Gets the ID specifying the datum contained in Datum 0
    //! \param DatumId - The ID of the Datum being checked (0 or 1)
    //!
    //! \return ParentSymbolID
@@ -262,14 +267,14 @@ public:
    //+> Getting Datum
 
    //=========================================================
-   //! Gets the ParentSymbolID with bound checking control
+   //! Gets the unsigned integer value of the specified datum.
    //! \param DatumId - The ID of the Datum to read (0 or 1)
    //!
    //! \return ParentSymbolID
    Cigi_uint32 GetUIntDatum(int DatumId) const;
 
    //=========================================================
-   //! Gets the ParentSymbolID with bound checking control
+   //! Gets the color value of the specified datum
    //! \param DatumId - The ID of the Datum to read (0 or 1)
    //! \param RedValue - The reference to the variable in which
    //!    the value of the red component will be placed
@@ -291,7 +296,7 @@ public:
                      bool bndchk=true);
 
    //=========================================================
-   //! Gets the ParentSymbolID with bound checking control
+   //! Gets thefloating point value of the specified datum.
    //! \param DatumId - The ID or the Datum to read (0 or 1)
    //!
    //! \return ParentSymbolID
@@ -303,6 +308,7 @@ public:
    //=========================================================
    //! Sets the Datum type to "NONE" and zeros the Datum
    //!   with bound checking control
+   //! \param DatumId - The ID number of the datum to be set.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -311,7 +317,9 @@ public:
 
    //=========================================================
    //! Sets the SurfaceID with bound checking control
-   //! \param SurfaceIDIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param SurfaceIDIn - The ID number of the surface to which
+   //!   this symbol should be attached.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -320,7 +328,9 @@ public:
 
    //=========================================================
    //! Sets the ParentSymbolID with bound checking control
-   //! \param ParentSymbolIDIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param ParentSymbolIDIn - Specifies the ID number of
+   //!   this symbol's parent symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -329,7 +339,9 @@ public:
 
    //=========================================================
    //! Sets the Layer with bound checking control
-   //! \param LayerIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param LayerIn - Specifies the ID number of the layer that
+   //!   this symbol occupies.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -338,7 +350,9 @@ public:
 
    //=========================================================
    //! Sets the FlashDutyCycle with bound checking control
-   //! \param FlashDutyCycleIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param FlashDutyCycleIn - Specifies the percentage of time
+   //!   that the symbol is visible.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -347,7 +361,9 @@ public:
 
    //=========================================================
    //! Sets the FlashPeriod with bound checking control
-   //! \param FlashPeriodIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param FlashPeriodIn - Specifies the amount of time in
+   //!   seconds of a full flash cycle.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -356,7 +372,9 @@ public:
 
    //=========================================================
    //! Sets the UPosition with bound checking control
-   //! \param UPositionIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param UPositionIn - Specifies the position of the symbol along
+   //!   the U axis of the surface's or symbol parent's coordinate system.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -365,7 +383,9 @@ public:
 
    //=========================================================
    //! Sets the VPosition with bound checking control
-   //! \param VPositionIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param VPositionIn - Specifies the position of the symbol along
+   //!   the V axis of the surface's or symbol parent's coordinate system.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -374,7 +394,9 @@ public:
 
    //=========================================================
    //! Sets the Rotation with bound checking control
-   //! \param RotationIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param RotationIn - Specifies how much in degrees that the
+   //!   symbol is rotated.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -383,7 +405,9 @@ public:
 
    //=========================================================
    //! Sets the ScaleU with bound checking control
-   //! \param ScaleUIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param ScaleUIn - Specifies the scale to apply to the symbol's
+   //!   local coordinate system's U axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -392,7 +416,9 @@ public:
 
    //=========================================================
    //! Sets the ScaleV with bound checking control
-   //! \param ScaleVIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param ScaleVIn - Specifies the scale to apply to the symbol's
+   //!   local coordinate system's V axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -405,10 +431,15 @@ public:
 
    //=========================================================
    //! Sets the color with bound checking control
-   //! \param RedIn - FIXME
-   //! \param GreenIn - FIXME
-   //! \param BlueIn - FIXME
-   //! \param AlphaIn - FIXME
+   //! \param DatumId - The ID number of the datum to be set.
+   //! \param RedValue - The reference to the variable in which
+   //!    the value of the red component will be placed
+   //! \param GreenValue - The reference to the variable in which
+   //!    the value of the Green component will be placed
+   //! \param BlueValue - The reference to the variable in which
+   //!    the value of the Blue component will be placed
+   //! \param AlphaValue - The reference to the variable in which
+   //!    the value of the Alpha component will be placed
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -428,43 +459,47 @@ protected:
 
    //=========================================================
    //! SymbolID<br>
-   //! FIXME
+   //! The ID number of this symbol
    //!
    Cigi_uint16 SymbolID;
 
    //=========================================================
    //! SymbolState<br>
-   //! FIXME
+   //! The commanded state of this symbol.<br>
+   //!   Hidden<br>
+   //!   Visible<br>
+   //!   Destroyed
    //!
    CigiBaseSymbolCtrl::SymbolStateGrp SymbolState;
 
    //=========================================================
    //! AttachState<br>
-   //! FIXME
+   //! Whether this symbol is attached to another symbol.
    //!
    CigiBaseSymbolCtrl::AttachStateGrp AttachState;
 
    //=========================================================
    //! FlashCtrl<br>
-   //! FIXME
+   //! Whether the current flash pattern is continued or restarted.
    //!
    CigiBaseSymbolCtrl::FlashCtrlGrp FlashCtrl;
 
    //=========================================================
    //! InheritColor<br>
-   //! FIXME
+   //! Whether this symbol inherits its color from its parent or
+   //!   uses its own color.
    //!
    CigiBaseSymbolCtrl::InheritColorGrp InheritColor;
 
    //=========================================================
    //! Datum1Type<br>
-   //! FIXME
+   //! The type of data in each of the Datum slots
    //!
    DatumTypeGrp DatumType[2];
 
    //=========================================================
    //! ParentSymbolID<br>
-   //! FIXME
+   //! The variables containing the specific data to be used.
    //!
    DatumUnionType Datum[2];
 

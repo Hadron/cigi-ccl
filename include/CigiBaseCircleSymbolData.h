@@ -109,7 +109,8 @@ public:
 
    //=========================================================
    //! Sets the CenterUPosition with bound checking control
-   //! \param CenterUPositionIn - FIXME
+   //! \param CenterUPositionIn - Specifies the position of
+   //!   the center of the circle along the current U Axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -131,7 +132,8 @@ public:
 
    //=========================================================
    //! Sets the CenterVPosition with bound checking control
-   //! \param CenterVPositionIn - FIXME
+   //! \param CenterVPositionIn - Specifies the position of
+   //!   the center of the circle along the current V Axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -153,7 +155,7 @@ public:
 
    //=========================================================
    //! Sets the Radius with bound checking control
-   //! \param RadiusIn - FIXME
+   //! \param RadiusIn - Specifies the radius of the circle
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -171,7 +173,8 @@ public:
 
    //=========================================================
    //! Sets the InnerRadius with bound checking control
-   //! \param InnerRadiusIn - FIXME
+   //! \param InnerRadiusIn - Specifies the inner radius of
+   //!   a filled or partially filled circle.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -189,7 +192,8 @@ public:
 
    //=========================================================
    //! Sets the StartAngle with bound checking control
-   //! \param StartAngleIn - FIXME
+   //! \param StartAngleIn - Specifies the angle from the
+   //!   current X Axis that the circle starts.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -207,7 +211,8 @@ public:
 
    //=========================================================
    //! Sets the EndAngle with bound checking control
-   //! \param EndAngleIn - FIXME
+   //! \param EndAngleIn - Specifies the angle from the
+   //!   current X Axis that the circle ends.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -228,37 +233,41 @@ protected:
 
    //=========================================================
    //! CenterUPosition<br>
-   //! FIXME
+   //! The position of the center of the circle along
+   //!   the current U Axis.
    //!
    float CenterUPosition;
 
    //=========================================================
    //! CenterVPosition<br>
-   //! FIXME
+   //! The position of the center of the circle along
+   //!   the current V Axis.
    //!
    float CenterVPosition;
 
    //=========================================================
    //! Radius<br>
-   //! FIXME
+   //! The radius of this circle
    //!
    float Radius;
 
    //=========================================================
    //! InnerRadius<br>
-   //! FIXME
+   //! The inner radius of a filled or partially filled circle
    //!
    float InnerRadius;
 
    //=========================================================
    //! StartAngle<br>
-   //! FIXME
+   //! The angle from the current X Axis where the circle
+   //!  or arc starts.
    //!
    float StartAngle;
 
    //=========================================================
    //! StartAngle<br>
-   //! FIXME
+   //! The angle from the current X Axis where the circle
+   //!  or arc ends.
    //!
    float EndAngle;
 

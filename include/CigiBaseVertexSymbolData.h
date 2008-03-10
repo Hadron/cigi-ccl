@@ -109,8 +109,8 @@ public:
 
    //=========================================================
    //! Sets both elements of the Vertex with bound checking control
-   //! \param VertexUIn - FIXME
-   //! \param VertexVIn - FIXME
+   //! \param VertexUIn - The Vertex's U position
+   //! \param VertexVIn - The Vertex's V position
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -124,8 +124,10 @@ public:
 
    //=========================================================
    //! Gets both elements of the Vertex
-   //! \param VertexUIn - FIXME
-   //! \param VertexVIn - FIXME
+   //! \param VertexUIn - A reference to receive the
+   //!   Vertex's U position
+   //! \param VertexVIn - A reference to receive the
+   //!   Vertex's V position
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
@@ -141,7 +143,7 @@ public:
 
    //=========================================================
    //! Sets the VertexU with bound checking control
-   //! \param VertexUIn - FIXME
+   //! \param VertexUIn - The Vertex's U position
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -163,7 +165,7 @@ public:
 
    //=========================================================
    //! Sets the VertexV with bound checking control
-   //! \param VertexVIn - FIXME
+   //! \param VertexVIn - The Vertex's V position
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -187,14 +189,14 @@ protected:
    //==> Member variables
 
    //=========================================================
-   //! CenterUPosition<br>
-   //! FIXME
+   //! VertexU<br>
+   //! The Vertex's U position
    //!
    float VertexU;
 
    //=========================================================
-   //! CenterUPosition<br>
-   //! FIXME
+   //! VertexV<br>
+   //! The Vertex's V position
    //!
    float VertexV;
 

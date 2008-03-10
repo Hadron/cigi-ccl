@@ -49,7 +49,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3 245  // FIXME
+#define CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3 32
 #define CIGI_SYMBOL_LINE_DEFINITION_PACKET_SIZE_V3_3 16
 
 
@@ -168,7 +168,7 @@ public:
 
    //=========================================================
    //! Sets the SymbolID with bound checking control
-   //! \param SymbolIDIn - FIXME
+   //! \param SymbolIDIn - The ID number of this symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -181,7 +181,7 @@ public:
 
    //=========================================================
    //! Gets the SymbolID with bound checking control
-   //! \return SymbolID
+   //! \return The ID number of this Symbol.
    //!
    Cigi_uint16 GetSymbolID(void) const { return(SymbolID); }
    
@@ -190,7 +190,9 @@ public:
 
    //=========================================================
    //! Sets the Primitive with bound checking control
-   //! \param PrimitiveIn - FIXME
+   //! \param PrimitiveIn - Specifies the primatives used in this symbol.
+   //!   (Points, Lines, LineStrip, LineLoop, Triangles,
+   //!   TriangleStrip, TriangleFan)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -199,7 +201,9 @@ public:
 
    //=========================================================
    //! Gets the Primitive with bound checking control
-   //! \return Primitive
+   //! \return The Primitive used in this symbol
+   //!   (Points, Lines, LineStrip, LineLoop, Triangles,
+   //!   TriangleStrip, TriangleFan)
    //!
    PrimitiveGrp GetPrimitive(void) const { return(Primitive); }
 
@@ -208,7 +212,8 @@ public:
 
    //=========================================================
    //! Sets the StipplePattern with bound checking control
-   //! \param StipplePatternIn - FIXME
+   //! \param StipplePatternIn - Specifies the binary stipple pattern
+   //!   to be applied to the lines.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -221,7 +226,7 @@ public:
 
    //=========================================================
    //! Gets the StipplePattern with bound checking control
-   //! \return StipplePattern
+   //! \return The binary Stipple Pattern to be applied to the lines.
    //!
    Cigi_uint16 GetStipplePattern(void) const { return(StipplePattern); }
 
@@ -230,7 +235,8 @@ public:
 
    //=========================================================
    //! Sets the LineWidth with bound checking control
-   //! \param LineWidthIn - FIXME
+   //! \param LineWidthIn - The width in symbol surface units of
+   //!   the lines.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -239,7 +245,8 @@ public:
 
    //=========================================================
    //! Gets the LineWidth with bound checking control
-   //! \return LineWidth
+   //! \return The width in symbol surface units of
+   //!   the lines.
    //!
    float GetLineWidth(void) const { return(LineWidth); }
 
@@ -248,7 +255,9 @@ public:
 
    //=========================================================
    //! Sets the StipplePatternLen with bound checking control
-   //! \param StipplePatternLenIn - FIXME
+   //! \param StipplePatternLenIn - Specifies the length in symbol
+   //!   surface units that a single copy of the stipple pattern occupies
+   //!   in a line.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -257,7 +266,8 @@ public:
 
    //=========================================================
    //! Gets the StipplePatternLen with bound checking control
-   //! \return StipplePatternLen
+   //! \return The length in symbol surface units that a single
+   //!   copy of the stipple pattern occupies in a line.
    //!
    float GetStipplePatternLen(void) const { return(StipplePatternLen); }
 
@@ -265,8 +275,9 @@ public:
    //+> Vertices
 
    //=========================================================
-   //! Gets the StipplePatternLen with bound checking control
-   //! \return StipplePatternLen
+   //! Gets the number of vertices contained in this symbol
+   //!   with bound checking control.
+   //! \return The vertex count.
    //!
    int GetVertexCount(void);
 
@@ -287,7 +298,7 @@ public:
    //! This function is not implemented in this class.
    //! The implemented function will remove a Vertex object
    //!   from the Vertex Vector.
-   //! \param VertexIndex - FIXME
+   //! \param VertexIndex - The index of the vertex to be removed.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -296,7 +307,7 @@ public:
 
    //=========================================================
    //! Gets a pointer to a Vertex object.
-   //! \param VertexIndex - FIXME
+   //! \param VertexIndex - The index of the desired vertex.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return The pointer to the desired Vertex object.
@@ -304,7 +315,7 @@ public:
    CigiBaseVertexSymbolData * GetVertex(int VertexIndex, bool bndchk=true);
 
    //=========================================================
-   //! Gets a pointer to a Vertex object.
+   //! Removes all vertices from the symbol.
    //!
    void ClearVertices(void);
 
@@ -316,37 +327,45 @@ protected:
 
    //=========================================================
    //! SymbolID<br>
-   //! FIXME
+   //! The ID number of the symbol.
    //!
    Cigi_uint16 SymbolID;
 
    //=========================================================
-   //! SymbolState<br>
-   //! FIXME
+   //! Primitive<br>
+   //! The drawing primitive used in this symbol.<br>
+   //!   Points<br>
+   //!   Lines<br>
+   //!   LineStrip<br>
+   //!   LineLoop<br>
+   //!   Triangles<br>
+   //!   TriangleStrip<br>
+   //!   TriangleFan
    //!
    PrimitiveGrp Primitive;
 
    //=========================================================
-   //! SymbolID<br>
-   //! FIXME
+   //! StipplePattern<br>
+   //! The binary stipple pattern to be applied to the lines
    //!
    Cigi_uint16 StipplePattern;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! LineWidth<br>
+   //! The width of the lines in symbol surface units
    //!
    float LineWidth;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! StipplePatternLen<br>
+   //! The length in symbol surface units that a single copy of the
+   //!   stipple pattern will occupy in the lines.
    //!
    float StipplePatternLen;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! Vertices<br>
+   //! A dynamic array of vertices.
    //!
    std::vector<CigiBaseVertexSymbolData *> Vertices;
 

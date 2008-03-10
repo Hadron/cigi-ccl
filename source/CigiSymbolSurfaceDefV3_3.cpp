@@ -73,10 +73,10 @@ CigiSymbolSurfaceDefV3_3::CigiSymbolSurfaceDefV3_3(void)
    Roll = 0.0;
    Width = 0.0;
    Height = 0.0;
-   LeftEdge = 0.0;
-   RightEdge = 0.0;
-   TopEdge = 0.0;
-   BottomEdge = 0.0;
+   MinU = 0.0;
+   MaxU = 0.0;
+   MinV = 0.0;
+   MaxV = 0.0;
 }
 
 // ================================================
@@ -138,10 +138,10 @@ int CigiSymbolSurfaceDefV3_3::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, voi
       *CDta.l++ = 0;
    }
 
-   *CDta.f++ = Data->LeftEdge;
-   *CDta.f++ = Data->RightEdge;
-   *CDta.f++ = Data->TopEdge;
-   *CDta.f++ = Data->BottomEdge;
+   *CDta.f++ = Data->MinU;
+   *CDta.f++ = Data->MaxU;
+   *CDta.f++ = Data->MinV;
+   *CDta.f++ = Data->MaxV;
 
    return(PacketSize);
 
@@ -190,10 +190,10 @@ int CigiSymbolSurfaceDefV3_3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
          Height = 0.0f;
       }
 
-      LeftEdge = *CDta.f++;
-      RightEdge = *CDta.f++;
-      TopEdge = *CDta.f++;
-      BottomEdge = *CDta.f++;
+      MinU = *CDta.f++;
+      MaxU = *CDta.f++;
+      MinV = *CDta.f++;
+      MaxV = *CDta.f++;
    }
    else
    {
@@ -226,10 +226,10 @@ int CigiSymbolSurfaceDefV3_3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
          Height = 0.0f;
       }
 
-      CigiSwap4(&LeftEdge, CDta.f++);
-      CigiSwap4(&RightEdge, CDta.f++);
-      CigiSwap4(&TopEdge, CDta.f++);
-      CigiSwap4(&BottomEdge, CDta.f++);
+      CigiSwap4(&MinU, CDta.f++);
+      CigiSwap4(&MaxU, CDta.f++);
+      CigiSwap4(&MinV, CDta.f++);
+      CigiSwap4(&MaxV, CDta.f++);
    }
 
    SurfaceState = (StateGrp)(HDta & 0x01);

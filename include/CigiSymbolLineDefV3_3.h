@@ -108,10 +108,9 @@ public:
    //+> Vertices
 
    //=========================================================
-   //! A pure virtual Create Vertex function.  
-   //! This function is not implemented in this class.
-   //! The implemented function will create a Vertex object and
-   //!   insert a pointer into the Vertex Vector.
+   //! A virtual Create Vertex function.  
+   //! This will create a Vertex object and insert a pointer to
+   //!   that created vertex into the Vertex Vector.
    //!
    //! \return The pointer to the new Vertex object.
    //!   If the Vertex exceeds the maximum number of Vertices
@@ -120,11 +119,9 @@ public:
    virtual CigiBaseVertexSymbolData * AddVertex(void);
 
    //=========================================================
-   //! A pure virtual Remove Vertex function.  
-   //! This function is not implemented in this class.
-   //! The implemented function will remove a Vertex object
-   //!   from the Vertex Vector.
-   //! \param VertexIndex - FIXME
+   //! A virtual Remove Vertex function.  
+   //! This will remove a Vertex object from the Vertex Vector.
+   //! \param VertexIndex - Specifies the index of the desired vertex
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code

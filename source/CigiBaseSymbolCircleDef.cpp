@@ -74,7 +74,7 @@ CigiBaseSymbolCircleDef::~CigiBaseSymbolCircleDef(void)
 
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiBaseSymbolCircleDef - Copy constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolCircleDef::CigiBaseSymbolCircleDef(const CigiBaseSymbolCircleDef &BaseIn)
 {
@@ -88,7 +88,7 @@ CigiBaseSymbolCircleDef::CigiBaseSymbolCircleDef(const CigiBaseSymbolCircleDef &
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// Copy operator
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolCircleDef & CigiBaseSymbolCircleDef::operator=(const CigiBaseSymbolCircleDef &BaseIn)
 {

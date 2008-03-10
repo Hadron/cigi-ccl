@@ -46,7 +46,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3 241  // FIXME
+#define CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3 33
 #define CIGI_SYMBOL_CONTROL_PACKET_SIZE_V3_3 40
 
 
@@ -75,7 +75,7 @@ public:
    };
 
    //=========================================================
-   //! The enumeration for the FIXME
+   //! The enumeration for the Attach State Group
    //!
    enum AttachStateGrp
    {
@@ -166,7 +166,7 @@ public:
 
    //=========================================================
    //! Sets the SymbolID with bound checking control
-   //! \param SymbolIDIn - FIXME
+   //! \param SymbolIDIn - The ID number of this symbol
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -179,7 +179,7 @@ public:
 
    //=========================================================
    //! Gets the SymbolID with bound checking control
-   //! \return SymbolID
+   //! \return The ID number of this symbol.
    //!
    Cigi_uint16 GetSymbolID(void) const { return(SymbolID); }
    
@@ -188,7 +188,8 @@ public:
 
    //=========================================================
    //! Sets the SymbolState with bound checking control
-   //! \param SymbolStateIn - FIXME
+   //! \param SymbolStateIn - Specifies the commanded state of this
+   //!   symbol.  (Hidden, Visible, Destroyed)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -197,7 +198,8 @@ public:
 
    //=========================================================
    //! Gets the SymbolState with bound checking control
-   //! \return SymbolState
+   //! \return The commanded state of this symbol.
+   //!   (Hidden, Visible, Destroyed)
    //!
    SymbolStateGrp GetSymbolState(void) const { return(SymbolState); }
    
@@ -206,7 +208,8 @@ public:
 
    //=========================================================
    //! Sets the AttachState with bound checking control
-   //! \param AttachStateIn - FIXME
+   //! \param AttachStateIn - Specifies whether the symbol is
+   //!   attached or detached.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -215,7 +218,7 @@ public:
 
    //=========================================================
    //! Gets the AttachState with bound checking control
-   //! \return AttachState
+   //! \return The attach state of this symbol
    //!
    AttachStateGrp GetAttachState(void) const { return(AttachState); }
    
@@ -224,7 +227,8 @@ public:
 
    //=========================================================
    //! Sets the FlashCtrl with bound checking control
-   //! \param FlashCtrlIn - FIXME
+   //! \param FlashCtrlIn - Specifies whether the flashing pattern
+   //!   of this symbol is continued or is reset.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -233,7 +237,7 @@ public:
 
    //=========================================================
    //! Gets the FlashCtrl with bound checking control
-   //! \return FlashCtrl
+   //! \return The commanded flash control of this symbol.
    //!
    FlashCtrlGrp GetFlashCtrl(void) const { return(FlashCtrl); }
    
@@ -242,7 +246,8 @@ public:
 
    //=========================================================
    //! Sets the InheritColor with bound checking control
-   //! \param InheritColorIn - FIXME
+   //! \param InheritColorIn - Specifies whether this symbol
+   //!   inherits its color from its parent or uses its own color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -251,7 +256,8 @@ public:
 
    //=========================================================
    //! Gets the InheritColor with bound checking control
-   //! \return InheritColor
+   //! \return Whether this symbol inherits its color
+   //!   from its parent or uses its own color.
    //!
    InheritColorGrp GetInheritColor(void) const { return(InheritColor); }
    
@@ -260,7 +266,8 @@ public:
 
    //=========================================================
    //! Sets the ParentSymbolID with bound checking control
-   //! \param ParentSymbolIDIn - FIXME
+   //! \param ParentSymbolIDIn - Specifies the ID number of
+   //!   this symbol's parent symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -273,7 +280,7 @@ public:
 
    //=========================================================
    //! Gets the ParentSymbolID with bound checking control
-   //! \return ParentSymbolID
+   //! \return The ParentSymbol ID
    //!
    Cigi_uint16 GetParentSymbolID(void) const { return(ParentSymbolID); }
    
@@ -282,7 +289,8 @@ public:
 
    //=========================================================
    //! Sets the SurfaceID with bound checking control
-   //! \param SurfaceIDIn - FIXME
+   //! \param SurfaceIDIn - Specifies the ID number of the
+   //!   surface to which this symbol is attached.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -295,7 +303,7 @@ public:
 
    //=========================================================
    //! Gets the SurfaceID with bound checking control
-   //! \return SurfaceID
+   //! \return The Surface ID to which this symbol is attached.
    //!
    Cigi_uint16 GetSurfaceID(void) const { return(SurfaceID); }
    
@@ -304,7 +312,8 @@ public:
 
    //=========================================================
    //! Sets the Layer with bound checking control
-   //! \param LayerIn - FIXME
+   //! \param LayerIn - Specifies the ID number of the layer that
+   //!   this symbol occupies.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -317,7 +326,8 @@ public:
 
    //=========================================================
    //! Gets the Layer with bound checking control
-   //! \return Layer
+   //! \return The ID number of the layer that
+   //!   this symbol occupies.
    //!
    Cigi_uint8 GetLayer(void) const { return(Layer); }
    
@@ -326,7 +336,8 @@ public:
 
    //=========================================================
    //! Sets the FlashDutyCycle with bound checking control
-   //! \param FlashDutyCycleIn - FIXME
+   //! \param FlashDutyCycleIn - Specifies the percentage of time
+   //!   that the symbol is visible.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -335,7 +346,8 @@ public:
 
    //=========================================================
    //! Gets the FlashDutyCycle with bound checking control
-   //! \return FlashDutyCycle
+   //! \return The percentage of time that the symbol
+   //!   is visible.
    //!
    Cigi_uint8 GetFlashDutyCycle(void) const { return(FlashDutyCycle); }
    
@@ -344,7 +356,8 @@ public:
 
    //=========================================================
    //! Sets the FlashPeriod with bound checking control
-   //! \param FlashPeriodIn - FIXME
+   //! \param FlashPeriodIn - Specifies the amount of time in
+   //!   seconds of a full flash cycle.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -357,7 +370,8 @@ public:
 
    //=========================================================
    //! Gets the FlashPeriod with bound checking control
-   //! \return FlashPeriod
+   //! \return The amount of time in seconds of a
+   //!   full flash cycle.
    //!
    float GetFlashPeriod(void) const { return(FlashPeriod); }
    
@@ -366,7 +380,8 @@ public:
 
    //=========================================================
    //! Sets the UPosition with bound checking control
-   //! \param UPositionIn - FIXME
+   //! \param UPositionIn - Specifies the position of the symbol along
+   //!   the U axis of the surface's or symbol parent's coordinate system.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -379,7 +394,8 @@ public:
 
    //=========================================================
    //! Gets the UPosition with bound checking control
-   //! \return UPosition
+   //! \return The position of the symbol along the U axis
+   //!   of the surface's or symbol parent's coordinate system.
    //!
    float GetUPosition(void) const { return(UPosition); }
    
@@ -388,7 +404,8 @@ public:
 
    //=========================================================
    //! Sets the VPosition with bound checking control
-   //! \param VPositionIn - FIXME
+   //! \param VPositionIn - Specifies the position of the symbol along
+   //!   theV axis of the surface's or symbol parent's coordinate system.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -401,7 +418,8 @@ public:
 
    //=========================================================
    //! Gets the VPosition with bound checking control
-   //! \return VPosition
+   //! \return The position of the symbol along theV axis
+   //!   of the surface's or symbol parent's coordinate system.
    //!
    float GetVPosition(void) const { return(VPosition); }
    
@@ -410,7 +428,8 @@ public:
 
    //=========================================================
    //! Sets the Rotation with bound checking control
-   //! \param RotationIn - FIXME
+   //! \param RotationIn - Specifies how much in degrees that the
+   //!   symbol is rotated.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -423,7 +442,7 @@ public:
 
    //=========================================================
    //! Gets the Rotation with bound checking control
-   //! \return Rotation
+   //! \return How much in degrees that the symbol is rotated.
    //!
    float GetRotation(void) const { return(Rotation); }
 
@@ -432,10 +451,10 @@ public:
 
    //=========================================================
    //! Sets the color with bound checking control
-   //! \param RedIn - FIXME
-   //! \param GreenIn - FIXME
-   //! \param BlueIn - FIXME
-   //! \param AlphaIn - FIXME
+   //! \param RedIn - The red component of the symbol's color.
+   //! \param GreenIn - The green component of the symbol's color.
+   //! \param BlueIn - The blue component of the symbol's color.
+   //! \param AlphaIn - The alpha component of the symbol's color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -487,7 +506,7 @@ public:
 
    //=========================================================
    //! Sets the Red with bound checking control
-   //! \param RedIn - FIXME
+   //! \param RedIn - The red component of the symbol's color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -500,7 +519,7 @@ public:
 
    //=========================================================
    //! Gets the Red with bound checking control
-   //! \return Red
+   //! \return The red component of the symbol's color.
    //!
    Cigi_uint8 GetRed(void) const { return(Red); }
    
@@ -509,7 +528,7 @@ public:
 
    //=========================================================
    //! Sets the Green with bound checking control
-   //! \param GreenIn - FIXME
+   //! \param GreenIn - The green component of the symbol's color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -522,7 +541,7 @@ public:
 
    //=========================================================
    //! Gets the Green with bound checking control
-   //! \return Green
+   //! \return The green component of the symbol's color.
    //!
    Cigi_uint8 GetGreen(void) const { return(Green); }
    
@@ -531,7 +550,7 @@ public:
 
    //=========================================================
    //! Sets the Blue with bound checking control
-   //! \param BlueIn - FIXME
+   //! \param BlueIn - The blue component of the symbol's color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -544,7 +563,7 @@ public:
 
    //=========================================================
    //! Gets the Blue with bound checking control
-   //! \return Blue
+   //! \return The blue component of the symbol's color.
    //!
    Cigi_uint8 GetBlue(void) const { return(Blue); }
    
@@ -553,7 +572,7 @@ public:
 
    //=========================================================
    //! Sets the Alpha with bound checking control
-   //! \param AlphaIn - FIXME
+   //! \param AlphaIn - The alpha component of the symbol's color.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -566,7 +585,7 @@ public:
 
    //=========================================================
    //! Gets the Alpha with bound checking control
-   //! \return Alpha
+   //! \return The alpha component of the symbol's color.
    //!
    Cigi_uint8 GetAlpha(void) const { return(Alpha); }
    
@@ -575,7 +594,8 @@ public:
 
    //=========================================================
    //! Sets the ScaleU with bound checking control
-   //! \param ScaleUIn - FIXME
+   //! \param ScaleUIn - Specifies the scale to apply to the symbol's
+   //!   local coordinate system's U axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -588,7 +608,8 @@ public:
 
    //=========================================================
    //! Gets the ScaleU with bound checking control
-   //! \return ScaleU
+   //! \return The scale to apply to the symbol's local
+   //!   coordinate system's U axis.
    //!
    float GetScaleU(void) const { return(ScaleU); }
    
@@ -597,7 +618,8 @@ public:
 
    //=========================================================
    //! Sets the ScaleV with bound checking control
-   //! \param ScaleVIn - FIXME
+   //! \param ScaleVIn - Specifies the scale to apply to the symbol's
+   //!   local coordinate system'sV axis.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -610,7 +632,8 @@ public:
 
    //=========================================================
    //! Gets the ScaleV with bound checking control
-   //! \return ScaleV
+   //! \return The scale to apply to the symbol's local
+   //!   coordinate system'sV axis.
    //!
    float GetScaleV(void) const { return(ScaleV); }
 
@@ -622,115 +645,123 @@ protected:
 
    //=========================================================
    //! SymbolID<br>
-   //! FIXME
+   //! The ID number of this symbol
    //!
    Cigi_uint16 SymbolID;
 
    //=========================================================
    //! SymbolState<br>
-   //! FIXME
+   //! The commanded state of this symbol.<br>
+   //!   Hidden<br>
+   //!   Visible<br>
+   //!   Destroyed
    //!
    SymbolStateGrp SymbolState;
 
    //=========================================================
    //! AttachState<br>
-   //! FIXME
+   //! Whether this symbol is attached to another symbol.
    //!
    AttachStateGrp AttachState;
 
    //=========================================================
    //! FlashCtrl<br>
-   //! FIXME
+   //! Whether the current flash pattern is continued or restarted.
    //!
    FlashCtrlGrp FlashCtrl;
 
    //=========================================================
    //! InheritColor<br>
-   //! FIXME
+   //! Whether this symbol inherits its color from its parent or
+   //!   uses its own color.
    //!
    InheritColorGrp InheritColor;
 
    //=========================================================
    //! ParentSymbolID<br>
-   //! FIXME
+   //! The ID number of this symbol's parent symbol.
    //!
    Cigi_uint16 ParentSymbolID;
 
    //=========================================================
    //! SurfaceID<br>
-   //! FIXME
+   //! The ID number of the surface to which this symbol is attached.
    //!
    Cigi_uint16 SurfaceID;
 
    //=========================================================
    //! Layer<br>
-   //! FIXME
+   //! The ID number of the layer that this symbol occupies.
    //!
    Cigi_uint8 Layer;
 
    //=========================================================
    //! FlashDutyCycle<br>
-   //! FIXME
+   //! The percentage of time that this symbol is visible.
    //!
    Cigi_uint8 FlashDutyCycle;
 
    //=========================================================
    //! FlashPeriod<br>
-   //! FIXME
+   //! The amount of time that a flash cycle takes.
    //!
    float FlashPeriod;
 
    //=========================================================
    //! UPosition<br>
-   //! FIXME
+   //! The position of the symbol along the U axis
+   //!   of the surface's or symbol parent's coordinate system. 
    //!
    float UPosition;
 
    //=========================================================
    //! VPosition<br>
-   //! FIXME
+   //! The position of the symbol along theV axis
+   //!   of the surface's or symbol parent's coordinate system.
    //!
    float VPosition;
 
    //=========================================================
    //! Rotation<br>
-   //! FIXME
+   //! How much in degrees that the symbol is rotated.
    //!
    float Rotation;
 
    //=========================================================
    //! Red<br>
-   //! FIXME
+   //! The red component of the symbol's color.
    //!
    Cigi_uint8 Red;
 
    //=========================================================
    //! Green<br>
-   //! FIXME
+   //! The green component of the symbol's color.
    //!
    Cigi_uint8 Green;
 
    //=========================================================
    //! Blue<br>
-   //! FIXME
+   //! The blue component of the symbol's color.
    //!
    Cigi_uint8 Blue;
 
    //=========================================================
    //! Alpha<br>
-   //! FIXME
+   //! The alpha component of the symbol's color.
    //!
    Cigi_uint8 Alpha;
 
    //=========================================================
    //! ScaleU<br>
-   //! FIXME
+   //! The scale to apply to the symbol's local
+   //!   coordinate system's U axis.
    //!
    float ScaleU;
 
    //=========================================================
    //! ScaleV<br>
-   //! FIXME
+   //! The scale to apply to the symbol's local
+   //!   coordinate system's U axis.
    //!
    float ScaleV;
 

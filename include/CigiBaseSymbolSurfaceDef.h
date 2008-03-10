@@ -46,7 +46,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3 240  // FIXME
+#define CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3 29
 #define CIGI_SYMBOL_SURFACE_DEF_PACKET_SIZE_V3_3 56
 
 
@@ -148,6 +148,7 @@ public:
    //! \param CnvtVersion - The CIGI version to which this packet
    //!    is being converted.
    //! \param CnvtInfo - The information needed for conversion
+   //!    including convertion type and packet id.
    //!
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -325,6 +326,7 @@ public:
    //! Gets the Offset along the Entity's body X axis from the
    //!   Entity to the attached surface.
    //!
+   //! \return This returns the X Offset.
    float GetXOffset(void) const { return(XLeft); }
 
    //=========================================================
@@ -345,6 +347,7 @@ public:
    //! Gets the Offset along the Entity's body Y axis from the
    //!   Entity to the attached surface.
    //!
+   //! \return This returns the Y Offset.
    float GetYOffset(void) const { return(YRight); }
 
    //=========================================================
@@ -365,6 +368,7 @@ public:
    //! Gets the Offset along the Entity's body Z axis from the
    //!   Entity to the attached surface.
    //!
+   //! \return This returns the Z Offset.
    float GetZOffset(void) const { return(ZTop); }
 
 
@@ -384,6 +388,7 @@ public:
    //! Gets the Yaw of the surface with respect to the Entity's
    //!   body coordinate system.
    //!
+   //! \return This returns the Yaw.
    float GetYaw(void) const { return(YawBottom); }
 
    //=========================================================
@@ -400,6 +405,7 @@ public:
    //! Gets the Pitch of the surface with respect to the Entity's
    //!   body coordinate system.
    //!
+   //! \return This returns the Pitch.
    float GetPitch(void) const { return(Pitch); }
 
    //=========================================================
@@ -416,6 +422,7 @@ public:
    //! Gets the Roll of the surface with respect to the Entity's
    //!   body coordinate system.
    //!
+   //! \return This returns the Roll.
    float GetRoll(void) const { return(Roll); }
 
 
@@ -423,7 +430,7 @@ public:
 
    //=========================================================
    //! Sets the Width of the entity attached surface.
-   //! \param RollIn - The width of the surface.
+   //! \param WidthIn - The width of the surface.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -437,11 +444,12 @@ public:
    //=========================================================
    //! Gets the Width of the entity attached surface.
    //!
+   //! \return This returns the Width.
    float GetWidth(void) const { return(Width); }
 
    //=========================================================
    //! Sets the Height of the entity attached surface.
-   //! \param RollIn - The Height of the surface.
+   //! \param HeightIn - The Height of the surface.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -455,83 +463,104 @@ public:
    //=========================================================
    //! Gets the Height of the entity attached surface.
    //!
+   //! \return This returns the Height.
    float GetHeight(void) const { return(Height); }
 
 
 
-   //+> Half Angles
+   //+> Symbol Surface Edge Positions
 
    //=========================================================
-   //! Sets the Left Half Angle of the surface.
-   //! \param LeftHalfAngle - The Left Half Angle.
+   //! Sets the Left Edge Position of the surface.
+   //! \param LeftEdgePosition - The position of the Left
+   //!    Edge using a linear scale from the left edge of the
+   //!    view (0.0) to the right edge of the view (1.0)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetLeftHalfAngle(const float LeftHalfAngle, bool bndchk=true);
+   int SetLeftEdgePosition(const float LeftEdgePosition, bool bndchk=true);
 
    //=========================================================
-   //! Gets the Left Half Angle of the surface.
+   //! Gets The position of the Left Edge using a linear scale
+   //!   from the left edge of the view (0.0) to the
+   //!   right edge of the view (1.0)
    //!
-   float GetLeftHalfAngle(void) const { return(XLeft); }
+   //! \return The Left Edge Position of the surface.
+   float GetLeftEdgePosition(void) const { return(XLeft); }
 
    //=========================================================
-   //! Sets the Right Half Angle of the surface.
-   //! \param RightHalfAngle - The Right Half Angle.
+   //! Sets the Right Edge Position of the surface.
+   //! \param RightEdgePosition - The position of the Right
+   //!    Edge using a linear scale from the left edge of the
+   //!    view (0.0) to the right edge of the view (1.0)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetRightHalfAngle(const float RightHalfAngle, bool bndchk=true);
+   int SetRightEdgePosition(const float RightEdgePosition, bool bndchk=true);
 
    //=========================================================
-   //! Gets the Right Half Angle of the surface.
+   //! Gets The position of the Right Edge using a linear scale
+   //!   from the left edge of the view (0.0) to the
+   //!   right edge of the view (1.0)
    //!
-   float GetRightHalfAngle(void) const { return(YRight); }
+   //! \return The Right Edge Position of the surface.
+   float GetRightEdgePosition(void) const { return(YRight); }
 
    //=========================================================
-   //! Sets the Top Half Angle of the surface.
-   //! \param TopHalfAngle - The Top Half Angle.
+   //! Sets the Top Edge Position of the surface.
+   //! \param TopEdgePosition - The position of the Top
+   //!    Edge using a linear scale from the bottom edge of the
+   //!    view (0.0) to the top edge of the view (1.0)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetTopHalfAngle(const float TopHalfAngle, bool bndchk=true);
+   int SetTopEdgePosition(const float TopEdgePosition, bool bndchk=true);
 
    //=========================================================
-   //! Gets the Top Half Angle of the surface.
+   //! Gets The position of the Top Edge using a linear scale
+   //!   from the bottom edge of the view (0.0) to the
+   //!   top edge of the view (1.0)
    //!
-   float GetTopHalfAngle(void) const { return(ZTop); }
+   //! \return The Top Edge Position of the surface.
+   float GetTopEdgePosition(void) const { return(ZTop); }
 
    //=========================================================
-   //! Sets the Bottom Half Angle of the surface.
-   //! \param BottomHalfAngle - The Bottom Half Angle.
+   //! Sets the Bottom Edge Position of the surface.
+   //! \param BottomEdgePosition - The position of the Bottom
+   //!    Edge using a linear scale from the bottom edge of the
+   //!    view (0.0) to the top edge of the view (1.0)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetBottomHalfAngle(const float BottomHalfAngle, bool bndchk=true);
+   int SetBottomEdgePosition(const float BottomEdgePosition, bool bndchk=true);
 
    //=========================================================
-   //! Gets the Bottom Half Angle of the surface.
+   //! Gets The position of the Bottom Edge using a linear scale
+   //!   from the bottom edge of the view (0.0) to the
+   //!   top edge of the view (1.0)
    //!
-   float GetBottomHalfAngle(void) const { return(YawBottom); }
+   //! \return The Top Edge Position of the surface.
+   float GetBottomEdgePosition(void) const { return(YawBottom); }
 
 
    //+> Edge Coordinates
 
    //=========================================================
-   //! Sets the Left Edge Coordinate of the surface.
+   //! Sets the Left Edge U Coordinate of the surface.
    //! This specifies the left most U coordinate contained
    //!   within the surface boundaries.
-   //! \param LeftEdgeIn - The Left Edge U Coordinate.
+   //! \param MinUIn - The Left Edge U Coordinate.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetLeftEdge(const float LeftEdgeIn, bool bndchk=true)
+   int SetMinU(const float MinUIn, bool bndchk=true)
    {
-      LeftEdge = LeftEdgeIn;
+      MinU = MinUIn;
       return(CIGI_SUCCESS);
    }
 
@@ -540,73 +569,73 @@ public:
    //! This is the left most U coordinate contained
    //!   within the surface boundaries.
    //!
-   float GetLeftEdge(void) const { return(LeftEdge); }
+   float GetMinU(void) const { return(MinU); }
 
    //=========================================================
-   //! Sets the Right Edge Coordinate of the surface.
+   //! Sets the Right Edge U Coordinate of the surface.
    //! This specifies the Right most U coordinate contained
    //!   within the surface boundaries.
-   //! \param RightEdgeIn - The Right Edge U Coordinate.
+   //! \param MaxUIn - The Right Edge U Coordinate.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetRightEdge(const float RightEdgeIn, bool bndchk=true)
+   int SetMaxU(const float MaxUIn, bool bndchk=true)
    {
-      RightEdge = RightEdgeIn;
+      MaxU = MaxUIn;
       return(CIGI_SUCCESS);
    }
 
    //=========================================================
-   //! Gets the Right Edge Coordinate of the surface.
+   //! Gets the Right Edge U Coordinate of the surface.
    //! This is the Right most U coordinate contained
    //!   within the surface boundaries.
    //!
-   float GetRightEdge(void) const { return(RightEdge); }
+   float GetMaxU(void) const { return(MaxU); }
 
    //=========================================================
-   //! Sets the Top Edge Coordinate of the surface.
-   //! This specifies the Top most V coordinate contained
-   //!   within the surface boundaries.
-   //! \param TopEdgeIn - The Top Edge V Coordinate.
-   //! \param bndchk - Enables (true) or disables (false) bounds checking.
-   //!
-   //! \return This returns CIGI_SUCCESS or an error code
-   //!   defined in CigiErrorCodes.h
-   int SetTopEdge(const float TopEdgeIn, bool bndchk=true)
-   {
-      TopEdge = TopEdgeIn;
-      return(CIGI_SUCCESS);
-   }
-
-   //=========================================================
-   //! Gets the Top Edge Coordinate of the surface.
-   //! This is the Top most V coordinate contained
-   //!   within the surface boundaries.
-   //!
-   float GetTopEdge(void) const { return(TopEdge); }
-
-   //=========================================================
-   //! Sets the Bottom Edge Coordinate of the surface.
+   //! Sets the Bottom Edge V Coordinate of the surface.
    //! This specifies the Bottom most V coordinate contained
    //!   within the surface boundaries.
-   //! \param BottomEdgeIn - The Bottom Edge V Coordinate.
+   //! \param MinVIn - The Bottom Edge V Coordinate.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetBottomEdge(const float BottomEdgeIn, bool bndchk=true)
+   int SetMinV(const float MinVIn, bool bndchk=true)
    {
-      BottomEdge = BottomEdgeIn;
+      MinV = MinVIn;
       return(CIGI_SUCCESS);
    }
 
    //=========================================================
-   //! Gets the Bottom Edge Coordinate of the surface.
+   //! Gets the Bottom Edge V Coordinate of the surface.
    //! This is the Bottom most V coordinate contained
    //!   within the surface boundaries.
    //!
-   float GetBottomEdge(void) const { return(BottomEdge); }
+   float GetMinV(void) const { return(MinV); }
+
+   //=========================================================
+   //! Sets the Top Edge V Coordinate of the surface.
+   //! This specifies the Top most V coordinate contained
+   //!   within the surface boundaries.
+   //! \param MaxVIn - The Top Edge V Coordinate.
+   //! \param bndchk - Enables (true) or disables (false) bounds checking.
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code
+   //!   defined in CigiErrorCodes.h
+   int SetMaxV(const float MaxVIn, bool bndchk=true)
+   {
+      MaxV = MaxVIn;
+      return(CIGI_SUCCESS);
+   }
+
+   //=========================================================
+   //! Gets the Top Edge V Coordinate of the surface.
+   //! This is the Top most V coordinate contained
+   //!   within the surface boundaries.
+   //!
+   float GetMaxV(void) const { return(MaxV); }
 
 
 
@@ -671,8 +700,9 @@ protected:
    //!  reference point to the center of the surface.
    //! For a surface attached to a view, this parameter
    //!  specifies the position of the surface’s leftmost boundary
-   //!  on the view frustum near clipping plane as a half-angle
-   //!  from the view frustum's eyepoint intersecting normal.
+   //!  on the view frustum near clipping plane as a linear distance
+   //!  from the left edge of the view.  Where (0.0) is the left edge
+   //!  of the view and (1.0) is the right edge of the view.
    //!
    float XLeft;
 
@@ -683,8 +713,9 @@ protected:
    //!  reference point to the center of the surface.
    //! For a surface attached to a view, this parameter
    //!  specifies the position of the surface’s rightmost boundary
-   //!  on the view frustum near clipping plane as a half-angle
-   //!  from the view frustum's eyepoint intersecting normal.
+   //!  on the view frustum near clipping plane as a linear distance
+   //!  from the left edge of the view.  Where (0.0) is the left edge
+   //!  of the view and (1.0) is the right edge of the view.
    //!
    float YRight;
 
@@ -695,8 +726,9 @@ protected:
    //!  reference point to the center of the surface.
    //! For a surface attached to a view, this parameter
    //!  specifies the position of the surface’s topmost boundary
-   //!  on the view frustum near clipping plane as a half-angle
-   //!  from the view frustum's eyepoint intersecting normal.
+   //!  on the view frustum near clipping plane as a linear distance
+   //!  from the bottom edge of the view.  Where (0.0) is the bottom edge
+   //!  of the view and (1.0) is the top edge of the view.
    //!
    float ZTop;
 
@@ -708,8 +740,9 @@ protected:
    //!  to the entity’s X axis.
    //! For a surface attached to a view, this parameter
    //!  specifies the position of the surface’s bottommost boundary
-   //!  on the view frustum near clipping plane as a half-angle
-   //!  from the view frustum's eyepoint intersecting normal.
+   //!  on the view frustum near clipping plane as a linear distance
+   //!  from the bottom edge of the view.  Where (0.0) is the bottom edge
+   //!  of the view and (1.0) is the top edge of the view.
    //!
    float YawBottom;
 
@@ -764,32 +797,32 @@ protected:
    float Height;
 
    //=========================================================
-   //! LeftEdge<br>
+   //! MinU<br>
    //! This parameter specifies the left most U coordinate
    //!  contained within the surface boundaries.
    //!
-   float LeftEdge;
+   float MinU;
 
    //=========================================================
-   //! LeftEdge<br>
+   //! MaxU<br>
    //! This parameter specifies the right most U coordinate
    //!  contained within the surface boundaries.
    //!
-   float RightEdge;
+   float MaxU;
 
    //=========================================================
-   //! LeftEdge<br>
-   //! This parameter specifies the top most V coordinate
-   //!  contained within the surface boundaries.
-   //!
-   float TopEdge;
-
-   //=========================================================
-   //! LeftEdge<br>
+   //! MinV<br>
    //! This parameter specifies the bottom most V coordinate
    //!  contained within the surface boundaries.
    //!
-   float BottomEdge;
+   float MinV;
+
+   //=========================================================
+   //! MaxV<br>
+   //! This parameter specifies the top most V coordinate
+   //!  contained within the surface boundaries.
+   //!
+   float MaxV;
 
 
 

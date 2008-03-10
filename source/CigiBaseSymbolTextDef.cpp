@@ -65,7 +65,7 @@ CigiBaseSymbolTextDef::~CigiBaseSymbolTextDef(void)
 
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiBaseSymbolTextDef - Copy constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolTextDef::CigiBaseSymbolTextDef(const CigiBaseSymbolTextDef &BaseIn)
 {
@@ -78,7 +78,7 @@ CigiBaseSymbolTextDef::CigiBaseSymbolTextDef(const CigiBaseSymbolTextDef &BaseIn
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// Copy operator
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolTextDef & CigiBaseSymbolTextDef::operator=(const CigiBaseSymbolTextDef &BaseIn)
 {
@@ -164,7 +164,7 @@ int CigiBaseSymbolTextDef::SetOrientation(const OrientationGrp OrientationIn, bo
 }
 
 // ================================================
-// SetOrientation
+// SetFontSize
 // ================================================
 int CigiBaseSymbolTextDef::SetFontSize(const float FontSizeIn, bool bndchk)
 {

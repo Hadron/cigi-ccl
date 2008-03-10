@@ -108,10 +108,9 @@ public:
    //+> Circles
 
    //=========================================================
-   //! A pure virtual Create Circle function.  
-   //! This function is not implemented in this class.
-   //! The implemented function will create a circle object and
-   //!   insert a pointer into the Circle Vector.
+   //! A virtual Create Circle function.  
+   //! This will create a circle object and insert a pointer
+   //!   to the created circle object into the Circle Vector.
    //!
    //! \return The pointer to the new circle object.
    //!   If the circle exceeds the maximum number of circles
@@ -120,11 +119,9 @@ public:
    virtual CigiBaseCircleSymbolData * AddCircle(void);
 
    //=========================================================
-   //! A pure virtual Remove Circle function.  
-   //! This function is not implemented in this class.
-   //! The implemented function will remove a Circle object
-   //!   from the Circle Vector.
-   //! \param CircleIndex - FIXME
+   //! A virtual Remove Circle function.  
+   //! This will remove a Circle object from the Circle Vector.
+   //! \param CircleIndex - Specifies the index of the desired circle.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code

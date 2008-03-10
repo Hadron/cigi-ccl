@@ -177,7 +177,7 @@ public:
    }
 
 
-   //+> Timestamp Valid
+   //+> Earth Model Reference
 
    //=========================================================
    //! Gets the earth reference model indicator.

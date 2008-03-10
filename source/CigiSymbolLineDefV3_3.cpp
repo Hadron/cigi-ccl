@@ -77,7 +77,7 @@ CigiSymbolLineDefV3_3::~CigiSymbolLineDefV3_3(void)
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiSymbolLineDefV3_3 - Copy constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolLineDefV3_3::CigiSymbolLineDefV3_3(const CigiSymbolLineDefV3_3 &BaseIn)
 : CigiBaseSymbolLineDef((CigiBaseSymbolLineDef &)BaseIn)
@@ -112,7 +112,7 @@ CigiSymbolLineDefV3_3::CigiSymbolLineDefV3_3(const CigiSymbolLineDefV3_3 &BaseIn
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// Copy operator
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolLineDefV3_3 & CigiSymbolLineDefV3_3::operator=(const CigiSymbolLineDefV3_3 &BaseIn)
 {
@@ -277,7 +277,7 @@ int CigiSymbolLineDefV3_3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 // ====================================================================
 
 // ================================================
-// Pack
+// AddVertex
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseVertexSymbolData * CigiSymbolLineDefV3_3::AddVertex(void)
 {
@@ -295,7 +295,7 @@ CigiBaseVertexSymbolData * CigiSymbolLineDefV3_3::AddVertex(void)
 }
 
 // ================================================
-// Pack
+// RemoveVertex
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiSymbolLineDefV3_3::RemoveVertex(int VertexIndex, bool bndchk)
 {

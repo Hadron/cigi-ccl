@@ -74,7 +74,7 @@ CigiBaseSymbolLineDef::~CigiBaseSymbolLineDef(void)
 
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiBaseSymbolLineDef - Copy constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolLineDef::CigiBaseSymbolLineDef(const CigiBaseSymbolLineDef &BaseIn)
 {
@@ -88,7 +88,7 @@ CigiBaseSymbolLineDef::CigiBaseSymbolLineDef(const CigiBaseSymbolLineDef &BaseIn
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// Copy operator
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseSymbolLineDef & CigiBaseSymbolLineDef::operator=(const CigiBaseSymbolLineDef &BaseIn)
 {
@@ -131,7 +131,7 @@ int CigiBaseSymbolLineDef::GetCnvt(CigiVersionID &CnvtVersion,
 
 
 // ================================================
-// SetDrawingStyle
+// SetPrimitive
 // ================================================
 int CigiBaseSymbolLineDef::SetPrimitive(const PrimitiveGrp PrimitiveIn, bool bndchk)
 {

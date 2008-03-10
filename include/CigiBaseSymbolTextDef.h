@@ -48,7 +48,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3 243  // FIXME
+#define CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3 30
 #define CIGI_SYMBOL_TEXT_DEFINITION_PACKET_SIZE_V3_3 12
 
 
@@ -148,10 +148,9 @@ public:
    virtual int Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec) =0;
 
    //=========================================================
-   //! A pure virtual function to determine the size that the
+   //! A virtual function to determine the size that the
    //!  packet will take up when packed.
-   //! This function is not implemented in this class.
-   //! \param refPacket - A pointer to the current pack point.
+   //! \param refPacket - A pointer to the packet being checked.
    //!
    //! \return The size that the packet will take up when packed
    //!
@@ -165,6 +164,7 @@ public:
    //! \param CnvtVersion - The CIGI version to which this packet
    //!    is being converted.
    //! \param CnvtInfo - The information needed for conversion
+   //!    including the type of conversion and the packet id.
    //!    
    //!
    //! \return This returns CIGI_SUCCESS or an error code 
@@ -181,7 +181,7 @@ public:
 
    //=========================================================
    //! Sets the SymbolID with bound checking control
-   //! \param SymbolIDIn - FIXME
+   //! \param SymbolIDIn - The user assigned Symbol ID
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -194,7 +194,7 @@ public:
 
    //=========================================================
    //! Gets the SymbolID with bound checking control
-   //! \return SymbolID
+   //! \return The ID of this Symbol.
    //!
    Cigi_uint16 GetSymbolID(void) const { return(SymbolID); }
    
@@ -203,7 +203,10 @@ public:
 
    //=========================================================
    //! Sets the Alignment with bound checking control
-   //! \param AlignmentIn - FIXME
+   //! \param AlignmentIn - Specifies the type of text alignment
+   //!    to be used for this text. (TopLeft, TopCenter, TopRight,
+   //!   CenterLeft, Center, CenterRight, BottomLeft, BottomCenter,
+   //!   BottomRight)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -212,7 +215,9 @@ public:
 
    //=========================================================
    //! Gets the Alignment with bound checking control
-   //! \return Alignment
+   //! \return The text alignment to be used for this text.
+   //!   (TopLeft, TopCenter, TopRight, CenterLeft, Center,
+   //!   CenterRight, BottomLeft, BottomCenter, BottomRight)
    //!
    AlignmentGrp GetAlignment(void) const { return(Alignment); }
 
@@ -221,7 +226,9 @@ public:
 
    //=========================================================
    //! Sets the Orientation with bound checking control
-   //! \param OrientationIn - FIXME
+   //! \param OrientationIn - Specifies the text orientation
+   //!    to be used for this text.  (LeftToRight, TopToBottom,
+   //!   RightToLeft, BottomToTop)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -230,7 +237,8 @@ public:
 
    //=========================================================
    //! Gets the Orientation with bound checking control
-   //! \return Orientation
+   //! \return The text orientation to be used for this text.
+   //!   (LeftToRight, TopToBottom, RightToLeft, BottomToTop)
    //!
    OrientationGrp GetOrientation(void) const { return(Orientation); }
 
@@ -239,7 +247,8 @@ public:
 
    //=========================================================
    //! Sets the FontID with bound checking control
-   //! \param FontIDIn - FIXME
+   //! \param FontIDIn - Specifies the font (by ID number) to
+   //!    be used for this text.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -252,7 +261,7 @@ public:
 
    //=========================================================
    //! Gets the FontID with bound checking control
-   //! \return FontID
+   //! \return The ID of the font to be used for this text.
    //!
    Cigi_uint8 GetFontID(void) const { return(FontID); }
 
@@ -261,7 +270,8 @@ public:
 
    //=========================================================
    //! Sets the FontSize with bound checking control
-   //! \param FontSizeIn - FIXME
+   //! \param FontSizeIn - Specifies the size of the font
+   //!    in UV units to be used for this text.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -270,7 +280,7 @@ public:
 
    //=========================================================
    //! Gets the FontSize with bound checking control
-   //! \return FontSize
+   //! \return The size of the font to be used in
    //!
    float GetFontSize(void) const { return(FontSize); }
 
@@ -279,7 +289,7 @@ public:
 
    //=========================================================
    //! Sets the Text with bound checking control
-   //! \param TextIn - FIXME
+   //! \param TextIn - A standard string of text.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -288,7 +298,7 @@ public:
 
    //=========================================================
    //! Gets the TextSize with bound checking control
-   //! \return TextSize
+   //! \return The current size of the text.
    //!
    int GetTextSize(void) const { return(VariableDataSize); }
 
@@ -305,31 +315,45 @@ protected:
 
    //=========================================================
    //! SymbolID<br>
-   //! FIXME
+   //! The Id for this symbol
    //!
    Cigi_uint16 SymbolID;
 
    //=========================================================
    //! SymbolState<br>
-   //! FIXME
+   //! The alignment of this symbol.<br>
+   //! This is the position of the anchor or reference point.<br>
+   //!   TopLeft<br>
+   //!   TopCenter<br>
+   //!   TopRight<br>
+   //!   CenterLeft<br>
+   //!   Center<br>
+   //!   CenterRight<br>
+   //!   BottomLeft<br>
+   //!   BottomCenter<br>
+   //!   BottomRight<br>
    //!
    AlignmentGrp Alignment;
 
    //=========================================================
-   //! AttachState<br>
-   //! FIXME
+   //! Orientation<br>
+   //! The orientation of the text.<br>
+   //!   LeftToRight<br>
+   //!   TopToBottom<br>
+   //!   RightToLeft<br>
+   //!   BottomToTop<br>
    //!
    OrientationGrp Orientation;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! FontID<br>
+   //! The font id number.
    //!
    Cigi_uint8 FontID;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! FontSize<br>
+   //! The size of the font in UV coordinates
    //!
    float FontSize;
 

@@ -49,7 +49,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3 244  // FIXME
+#define CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3 31
 #define CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_SIZE_V3_3 16
 
 
@@ -163,7 +163,7 @@ public:
 
    //=========================================================
    //! Sets the SymbolID with bound checking control
-   //! \param SymbolIDIn - FIXME
+   //! \param SymbolIDIn - Specifies the ID number for this symbol
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -185,7 +185,8 @@ public:
 
    //=========================================================
    //! Sets the DrawingStyle with bound checking control
-   //! \param DrawingStyleIn - FIXME
+   //! \param DrawingStyleIn - Specifies the drawing style for this
+   //!   symbol (Line, Fill)
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -194,7 +195,7 @@ public:
 
    //=========================================================
    //! Gets the DrawingStyle with bound checking control
-   //! \return DrawingStyle
+   //! \return DrawingStyle (Line, Fill)
    //!
    DrawingStyleGrp GetDrawingStyle(void) const { return(DrawingStyle); }
 
@@ -203,7 +204,8 @@ public:
 
    //=========================================================
    //! Sets the StipplePattern with bound checking control
-   //! \param StipplePatternIn - FIXME
+   //! \param StipplePatternIn - Specifies the stipple pattern to be
+   //!   used with this symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -216,7 +218,7 @@ public:
 
    //=========================================================
    //! Gets the StipplePattern with bound checking control
-   //! \return StipplePattern
+   //! \return The StipplePattern to be used with this symbol.
    //!
    Cigi_uint16 GetStipplePattern(void) const { return(StipplePattern); }
 
@@ -225,7 +227,8 @@ public:
 
    //=========================================================
    //! Sets the LineWidth with bound checking control
-   //! \param LineWidthIn - FIXME
+   //! \param LineWidthIn - Specifies the line width for this symbol
+   //!   in Symbol Surface units.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -234,7 +237,8 @@ public:
 
    //=========================================================
    //! Gets the LineWidth with bound checking control
-   //! \return LineWidth
+   //! \return LineWidth of this symbol in Symbol
+   //!   Surface units.
    //!
    float GetLineWidth(void) const { return(LineWidth); }
 
@@ -243,7 +247,9 @@ public:
 
    //=========================================================
    //! Sets the StipplePatternLen with bound checking control
-   //! \param StipplePatternLenIn - FIXME
+   //! \param StipplePatternLenIn - Specifies the length in symbol
+   //!   surface units of the line that a single copy
+   //!   of the stipple pattern occupies.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -252,7 +258,9 @@ public:
 
    //=========================================================
    //! Gets the StipplePatternLen with bound checking control
-   //! \return StipplePatternLen
+   //! \return The length in symbol surface units of the line
+   //!   that a single copy of the stipple pattern
+   //!   occupies. (StipplePatternLen)
    //!
    float GetStipplePatternLen(void) const { return(StipplePatternLen); }
 
@@ -261,7 +269,7 @@ public:
 
    //=========================================================
    //! Gets the StipplePatternLen with bound checking control
-   //! \return StipplePatternLen
+   //! \return Gets the number of circles contained in this symbol.
    //!
    int GetCircleCount(void);
 
@@ -282,7 +290,8 @@ public:
    //! This function is not implemented in this class.
    //! The implemented function will remove a Circle object
    //!   from the Circle Vector.
-   //! \param CircleIndex - FIXME
+   //! \param CircleIndex - The index of the circle to delete from this
+   //!   symbol.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
@@ -291,7 +300,7 @@ public:
 
    //=========================================================
    //! Gets a pointer to a circle object.
-   //! \param CircleIndex - FIXME
+   //! \param CircleIndex - The index of the desired circle.
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return The pointer to the desired circle object.
@@ -299,7 +308,7 @@ public:
    CigiBaseCircleSymbolData * GetCircle(int CircleIndex, bool bndchk=true);
 
    //=========================================================
-   //! Gets a pointer to a circle object.
+   //! Removes all the circles in this symbol.
    //!
    void ClearCircles(void);
 
@@ -311,37 +320,40 @@ protected:
 
    //=========================================================
    //! SymbolID<br>
-   //! FIXME
+   //! The ID number of this symbol.
    //!
    Cigi_uint16 SymbolID;
 
    //=========================================================
-   //! SymbolState<br>
-   //! FIXME
+   //! DrawingStyle<br>
+   //! The drawing style of this symbol.<br>
+   //!   Line<br>
+   //!   Fill
    //!
    DrawingStyleGrp DrawingStyle;
 
    //=========================================================
-   //! SymbolID<br>
-   //! FIXME
+   //! StipplePattern<br>
+   //! The binary Stipple Pattern to use on this symbol.
    //!
    Cigi_uint16 StipplePattern;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! LineWidth<br>
+   //! The width of the line used in this symbol in symbol surface units.
    //!
    float LineWidth;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! StipplePatternLen<br>
+   //! The length in symbol surface units along the line that a single
+   //!   copy of the stipple pattern will occupy.
    //!
    float StipplePatternLen;
 
    //=========================================================
-   //! Datum1Type<br>
-   //! FIXME
+   //! Circles<br>
+   //! A dynamic array of circles in this symbol
    //!
    std::vector<CigiBaseCircleSymbolData *> Circles;
 

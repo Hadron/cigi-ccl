@@ -77,7 +77,7 @@ CigiSymbolCircleDefV3_3::~CigiSymbolCircleDefV3_3(void)
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiSymbolCircleDefV3_3 - Copy constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolCircleDefV3_3::CigiSymbolCircleDefV3_3(const CigiSymbolCircleDefV3_3 &BaseIn)
 : CigiBaseSymbolCircleDef((CigiBaseSymbolCircleDef &)BaseIn)
@@ -112,7 +112,7 @@ CigiSymbolCircleDefV3_3::CigiSymbolCircleDefV3_3(const CigiSymbolCircleDefV3_3 &
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// Copy Operator
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolCircleDefV3_3 & CigiSymbolCircleDefV3_3::operator=(const CigiSymbolCircleDefV3_3 &BaseIn)
 {
@@ -277,7 +277,7 @@ int CigiSymbolCircleDefV3_3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 // ====================================================================
 
 // ================================================
-// Pack
+// AddCircle
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiBaseCircleSymbolData * CigiSymbolCircleDefV3_3::AddCircle(void)
 {
@@ -295,7 +295,7 @@ CigiBaseCircleSymbolData * CigiSymbolCircleDefV3_3::AddCircle(void)
 }
 
 // ================================================
-// Pack
+// RemoveCircle
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiSymbolCircleDefV3_3::RemoveCircle(int CircleIndex, bool bndchk)
 {

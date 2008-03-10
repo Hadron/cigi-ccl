@@ -78,7 +78,7 @@ CigiSymbolTextDefV3_3::~CigiSymbolTextDefV3_3(void)
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiSymbolTextDefV3_3 - Constructor with text
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolTextDefV3_3::CigiSymbolTextDefV3_3(const std::string &TextIn)
 {
@@ -98,7 +98,7 @@ CigiSymbolTextDefV3_3::CigiSymbolTextDefV3_3(const std::string &TextIn)
 }
 
 // ================================================
-// CigiBaseEntityCtrl
+// CigiSymbolTextDefV3_3 - Copy Constructor
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiSymbolTextDefV3_3::CigiSymbolTextDefV3_3(const CigiSymbolTextDefV3_3 &BaseIn)
 : CigiBaseSymbolTextDef((CigiBaseSymbolTextDef &)BaseIn)

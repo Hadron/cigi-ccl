@@ -105,7 +105,7 @@ CigiEnvCtrlV2::CigiEnvCtrlV2()
    SunEn = false;
    MoonEn = false;
    StarEn = false;
-   DateVld = false;
+   DateVld = true;
    AtmosEn = false;
    Aerosol = 0.0;
    Humidity = 30;

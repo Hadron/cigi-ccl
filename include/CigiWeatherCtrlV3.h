@@ -137,11 +137,7 @@ public:
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetLayerID(const Cigi_uint8 LayerIDIn, bool bndchk=true)
-   {
-      LayerID = LayerIDIn;
-      return(CIGI_SUCCESS);
-   }
+   int SetLayerID(const Cigi_uint8 LayerIDIn, bool bndchk=true);
 
    //=========================================================
    //! Gets the LayerID value.

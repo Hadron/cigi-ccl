@@ -137,6 +137,10 @@ public:
    int SetEntityID(const Cigi_uint16 EntityIDIn, bool bndchk=true)
    {
       EntityID = EntityIDIn;
+
+      if(CompAssoc == CigiBaseCompCtrl::Entity)
+         InstanceID = EntityID;
+
       return(CIGI_SUCCESS);
    }
 

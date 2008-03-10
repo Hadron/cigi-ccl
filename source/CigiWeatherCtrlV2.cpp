@@ -113,7 +113,7 @@ CigiWeatherCtrlV2::CigiWeatherCtrlV2()
    HorizWindSp = 0.0;
    VertWindSp = 0.0;
    WindDir = 0.0;
-   BaroPress = 0.0;
+   BaroPress = 1013.25;
    Aerosol = 0.0;
 
 }
@@ -158,7 +158,24 @@ int CigiWeatherCtrlV2::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec
    *CDta.c++ = HDta;
    *CDta.c++ = 0x00;
 
-   CIGI_SCOPY2(CDta.s++, &Data->PhenomenonType);
+
+   Cigi_uint16 tType = 0;
+   if(Data->Version <= 2)
+      tType = Data->PhenomenonType;
+   else
+   {
+      if(Data->Scope == CigiBaseWeatherCtrl::Entity)
+         tType = 0;
+      else
+      {
+         tType = (Cigi_uint16)Data->LayerID;
+         if(tType == 0)
+            tType = 3;
+      }
+   }
+   CIGI_SCOPY2(CDta.s++, &tType);
+
+
    CIGI_SCOPY4(CDta.f++, &Data->AirTemp);
 
    if(Data->PhenomenonType == 3)
@@ -253,7 +270,7 @@ int CigiWeatherCtrlV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 
       if(PhenomenonType < 7)
          LayerID = (Cigi_uint8)LayerTbl[PhenomenonType];
-      if(PhenomenonType < 256)
+      else if(PhenomenonType < 256)
          LayerID = (Cigi_uint8)PhenomenonType;
       else
          LayerID = 255;
@@ -272,6 +289,36 @@ int CigiWeatherCtrlV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 // ====================================================================
 // Accessors
 // ====================================================================
+
+
+// ================================================
+// Phenomenon Type
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiWeatherCtrlV2::SetPhenomenonType(const Cigi_uint16 PhenomenonTypeIn, bool bndchk)
+{
+   Cigi_uint16 LayerTbl[7] = { 1,1,2,0,4,5,8 };
+
+   PhenomenonType = PhenomenonTypeIn;
+
+   if(PhenomenonType == 0)
+   {
+      LayerID = 1;
+      Scope = Entity;
+   }
+   else
+   {
+      Scope = Global;
+
+      if(PhenomenonType < 7)
+         LayerID = (Cigi_uint8)LayerTbl[PhenomenonType];
+      else if(PhenomenonType < 256)
+         LayerID = (Cigi_uint8)PhenomenonType;
+      else
+         LayerID = 255;
+   }
+
+   return(CIGI_SUCCESS);
+}
 
 
 // ================================================

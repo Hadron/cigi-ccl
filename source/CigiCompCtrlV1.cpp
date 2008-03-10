@@ -262,6 +262,9 @@ int CigiCompCtrlV1::SetViewID(const Cigi_uint8 ViewIDIn, bool bndchk)
 #endif
 
    ViewID = ViewIDIn;
+   if(CompAssoc == CigiBaseCompCtrl::View)
+      InstanceID = ViewID;
+
    return(CIGI_SUCCESS);
 
 }
@@ -295,6 +298,13 @@ int CigiCompCtrlV1::SetCompAssoc(const CompAssocGrp CompAssocIn, bool bndchk)
 
    CompClassV2 = (CompClassV2Grp)CompAssoc;
    CompClassV3 = CompClassV1xV3[CompAssocIn];
+
+   if(CompAssoc == CigiBaseCompCtrl::Entity)
+      InstanceID = EntityID;
+   else if(CompAssoc == CigiBaseCompCtrl::View)
+      InstanceID = ViewID;
+   else
+      InstanceID = 0;
 
    return(CIGI_SUCCESS);
 

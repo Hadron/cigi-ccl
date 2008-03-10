@@ -91,12 +91,12 @@ CigiViewDefV1::CigiViewDefV1()
 
    ViewID = 0;
    GroupID = 0;
-   FOVNearEn = false;
-   FOVFarEn = false;
-   FOVLeftEn = false;
-   FOVRightEn = false;
-   FOVTopEn = false;
-   FOVBottomEn = false;
+   FOVNearEn = true;
+   FOVFarEn = true;
+   FOVLeftEn = true;
+   FOVRightEn = true;
+   FOVTopEn = true;
+   FOVBottomEn = true;
    MirrorMode = MirrorNone;
    PixelReplicateMode = ReplicateNone;
    ProjectionType = Perspective;

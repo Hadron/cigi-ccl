@@ -115,11 +115,7 @@ public:
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetPhenomenonType(const Cigi_uint16 PhenomenonTypeIn, bool bndchk=true)
-   {
-      PhenomenonType = PhenomenonTypeIn;
-      return(CIGI_SUCCESS);
-   }
+   int SetPhenomenonType(const Cigi_uint16 PhenomenonTypeIn, bool bndchk=true);
 
    //=========================================================
    //! Gets the PhenomenonType value.

@@ -95,7 +95,7 @@ CigiWeatherCtrlV3::CigiWeatherCtrlV3()
    HorizWindSp = 0.0;
    VertWindSp = 0.0;
    WindDir = 0.0;
-   BaroPress = 0.0;
+   BaroPress = 1013.25;
    Aerosol = 0.0;
 
 }
@@ -269,6 +269,17 @@ int CigiWeatherCtrlV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 // ====================================================================
 // Accessors
 // ====================================================================
+
+
+// ================================================
+// Layer ID
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+int CigiWeatherCtrlV3::SetLayerID(const Cigi_uint8 LayerIDIn, bool bndchk)
+{
+   LayerID = LayerIDIn;
+
+   return(CIGI_SUCCESS);
+}
 
 
 // ================================================

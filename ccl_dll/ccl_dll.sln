@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ccl_dll", "ccl_dll.vcproj", "{5F4E4776-BB82-43C9-B3C1-1EC98613D6AD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		dllDebugMT_DLL = dllDebugMT_DLL
+		dllReleaseMT_DLL = dllReleaseMT_DLL
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{5F4E4776-BB82-43C9-B3C1-1EC98613D6AD}.dllDebugMT_DLL.ActiveCfg = dllDebugMT_DLL|Win32
+		{5F4E4776-BB82-43C9-B3C1-1EC98613D6AD}.dllDebugMT_DLL.Build.0 = dllDebugMT_DLL|Win32
+		{5F4E4776-BB82-43C9-B3C1-1EC98613D6AD}.dllReleaseMT_DLL.ActiveCfg = dllReleaseMT_DLL|Win32
+		{5F4E4776-BB82-43C9-B3C1-1EC98613D6AD}.dllReleaseMT_DLL.Build.0 = dllReleaseMT_DLL|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

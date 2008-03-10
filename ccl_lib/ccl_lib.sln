@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ccl_lib", "ccl_lib.vcproj", "{C0B88FB5-7583-4546-A898-70821569969A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		libDebugMT = libDebugMT
+		libDebugMT_DLL = libDebugMT_DLL
+		libDebugST = libDebugST
+		libReleaseMT = libReleaseMT
+		libReleaseMT_DLL = libReleaseMT_DLL
+		libReleaseST = libReleaseST
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugMT.ActiveCfg = libDebugMT|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugMT.Build.0 = libDebugMT|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugMT_DLL.ActiveCfg = libDebugMT_DLL|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugMT_DLL.Build.0 = libDebugMT_DLL|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugST.ActiveCfg = libDebugST|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libDebugST.Build.0 = libDebugST|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseMT.ActiveCfg = libReleaseMT|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseMT.Build.0 = libReleaseMT|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseMT_DLL.ActiveCfg = libReleaseMT_DLL|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseMT_DLL.Build.0 = libReleaseMT_DLL|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseST.ActiveCfg = libReleaseST|Win32
+		{C0B88FB5-7583-4546-A898-70821569969A}.libReleaseST.Build.0 = libReleaseST|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

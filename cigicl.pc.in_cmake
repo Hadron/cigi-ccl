@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@CMAKE_INSTALL_PREFIX@/lib
+includedir=@CMAKE_INSTALL_PREFIX@/include
+
+Name: CIGI Class Library
+Description: Library for unpacking, manipulating, and packing CIGI packets
+Version: @VERSION@
+Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lcigicl
+Cflags: -I@CMAKE_INSTALL_PREFIX@/include/cigicl 

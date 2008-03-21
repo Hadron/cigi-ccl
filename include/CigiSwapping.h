@@ -47,13 +47,13 @@
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Changed CigiCopy8 to make sure that it works for big endian and non-intel
  *  machines.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 

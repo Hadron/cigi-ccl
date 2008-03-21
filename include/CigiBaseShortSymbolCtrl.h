@@ -28,12 +28,12 @@
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  03/11/2008 Greg Basler                       CIGI_SYM_1
  *  Initial Release.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 #if !defined(_CIGI_BASE_SHORT_SYMBOL_CTRL_INCLUDED_)

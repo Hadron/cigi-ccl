@@ -43,12 +43,12 @@
  *  Changed Input altitude to a double as required in the CIGI
  *  version 2.1 ICD.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Moved Packet information to base packet.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 

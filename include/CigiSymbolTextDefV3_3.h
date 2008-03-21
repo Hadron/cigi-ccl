@@ -28,12 +28,12 @@
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  03/11/2008 Greg Basler                       CIGI_SYM_1
  *  Initial Release.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 #if !defined(_CIGI_SYMBOL_TEXT_DEF_V3_3_INCLUDED_)
@@ -87,8 +87,7 @@ public:
    //==> Buffer Packing/Unpacking
 
    //=========================================================
-   //! A pure virtual Pack function.  
-   //! This function is not implemented in this class.
+   //! A virtual Pack function.  
    //! \param Base - A pointer to the instance of the packet 
    //!          to be packed. (Downcast to CigiBasePacket)
    //! \param Buff - A pointer to the current pack point.
@@ -100,8 +99,7 @@ public:
    virtual int Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) const;
 
    //=========================================================
-   //! A pure virtual Unpack function.
-   //! This function is not implemented in this class.
+   //! A virtual Unpack function.
    //! \param Buff - A pointer to the current pack point.
    //! \param Swap - N/A for V1 & V2
    //! \param Spec - A pointer to special data.

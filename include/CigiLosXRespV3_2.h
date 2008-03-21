@@ -39,13 +39,13 @@
  *  04/24/2007 Greg Basler                       Version 1.7.5
  *  Changed the way ValidV1or2 and IntersectionCoordSys is calculated.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Added new version conversion method.
  *  Moved Packet information to base packet.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 

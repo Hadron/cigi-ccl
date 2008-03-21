@@ -34,13 +34,13 @@
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Added new version conversion method.
  *  Moved Packet information to base packet.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 #define _EXPORT_CCL_

@@ -39,7 +39,7 @@
  *  Included the CigiTypes.h header file.
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 

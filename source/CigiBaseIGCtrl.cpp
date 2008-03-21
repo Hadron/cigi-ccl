@@ -42,12 +42,12 @@
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Added new version conversion method.
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 #define _EXPORT_CCL_

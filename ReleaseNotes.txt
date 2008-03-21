@@ -3,6 +3,17 @@ Release Notes:
 
 
  -------------------------------------------------------------------------------
+  Release: CCL Version 2.0.0
+  Date: March 11, 2008
+ -------------------------------------------------------------------------------
+
+Changed the method of conversion.
+Removed the Version Jump Table.
+Added the symbology packets.
+Changed the examples.
+Added Testing programs.
+
+ -------------------------------------------------------------------------------
   Release: CCL Version 1.7.5
   Date: April 24, 2007
  -------------------------------------------------------------------------------

@@ -39,13 +39,13 @@
  *  Changed native char and unsigned char types to
  *  Cigi types Cigi_Ascii, Cigi_int8, and Cigi_uint8.
  *  
- *  11/20/2007 Greg Basler                       Version 1.7.6
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Moved Packet information to base packet.
  *  Added Variable length packet processing
  *  
  * </pre>
  *  The Boeing Company
- *  Version: 1.7.5
+ *  Version: 2.0.0
  */
 
 

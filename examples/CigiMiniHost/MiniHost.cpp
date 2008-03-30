@@ -386,10 +386,10 @@ int init_cigi_if(void){
    OmsgPtr = &Omsg;
    ImsgPtr = &Imsg;
    
-   HostSn->SetCigiVersion(3,2);
+   HostSn->SetCigiVersion(3,3);
    HostSn->SetSynchronous(true);
    
-   Imsg.SetReaderCigiVersion(3,2);
+   Imsg.SetReaderCigiVersion(3,3);
    Imsg.UsingIteration(false);
    
    // set up a default handler for unhandled packets

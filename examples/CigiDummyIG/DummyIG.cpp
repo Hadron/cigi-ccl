@@ -86,6 +86,12 @@
 #include "XLosVectReq.h"
 #include "XPostionReq.h"
 #include "XEnvCondReq.h"
+#include "XSymbolSurfaceDefV3_3.h"
+#include "XSymbolCtrlV3_3.h"
+#include "XShortSymbolCtrlV3_3.h"
+#include "XSymbolTextDefV3_3.h"
+#include "XSymbolCircleDefV3_3.h"
+#include "XSymbolLineDefV3_3.h"
 
 
 // System includes
@@ -128,7 +134,6 @@ Network network;
 
 // CIGI specific 
 static CigiIGSession *IGSn;
-static CigiVersionJumpTable *pVJmp;
 static CigiOutgoingMsg *OmsgPtr;
 static CigiIncomingMsg *ImsgPtr;
 static DefaultProc DefaultPckt;
@@ -162,9 +167,12 @@ static XLosSegReq Pr_LosSegReq;
 static XLosVectReq Pr_LosVectReq;
 static XPositionReq Pr_PositionReq;
 static XEnvCondReq Pr_EnvCondReq;
-
-
-
+static XSymbolSurfaceDefV3_3 Pr_SymbolSurfaceDef;
+static XSymbolCtrlV3_3 Pr_SymbolCtrl;
+static XShortSymbolCtrlV3_3 Pr_ShortSymbolCtrl;
+static XSymbolTextDefV3_3 Pr_SymbolTextDef;
+static XSymbolCircleDefV3_3 Pr_SymbolCircleDef;
+static XSymbolLineDefV3_3 Pr_SymbolLineDef;
 
 
 
@@ -224,7 +232,7 @@ int main(int argc, char* argv[])
    while(1)
    {
       cout << "================================\n";
-      cout << "Frame: " << pVJmp->GetFrameCnt() << endl;
+      cout << "Frame: " << Omsg.GetFrameCnt() << endl;
       cout << "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n";
 
       /* process incoming CIGI message - this could be long */
@@ -369,7 +377,7 @@ void ReadConfig(void)
 
          Hertz_rate = hConfig->FirstChildElement("Hertz_rate").Child(0).Text();
          Hz = (Hertz_rate) ? atoi(Hertz_rate->Value()) : 60;
-         timeDelayLimit = 1.0/((float)Hz);
+         timeDelayLimit = 1.0f/((float)Hz);
 
          delete hConfig;
          
@@ -406,18 +414,15 @@ int init_cigi_if(void){
    IGSn = new CigiIGSession(1,32768,2,32768);
    // Add packet event handlers here!
  
-   CigiVersionJumpTable &VJmp = IGSn->GetVersionJumpTableMgr();
-	pVJmp = &VJmp;
- 
    CigiOutgoingMsg &Omsg = IGSn->GetOutgoingMsgMgr();
    CigiIncomingMsg &Imsg = IGSn->GetIncomingMsgMgr();
    OmsgPtr = &Omsg;
    ImsgPtr = &Imsg;
    
-   IGSn->SetCigiVersion(3,2);
+   IGSn->SetCigiVersion(3,3);
    IGSn->SetSynchronous(true);
    
-   Imsg.SetReaderCigiVersion(3,2);
+   Imsg.SetReaderCigiVersion(3,3);
    Imsg.UsingIteration(false);
    
    // set up a default handler for unhandled packets
@@ -430,9 +435,9 @@ int init_cigi_if(void){
                               (CigiBaseEventProcessor *) &Pr_EntityCtrl);
    Imsg.RegisterEventProcessor(CIGI_CONF_CLAMP_ENTITY_CTRL_PACKET_ID_V3,
                               (CigiBaseEventProcessor *) &Pr_ConfClampEntityCtrl);
-   Imsg.RegisterEventProcessor(CIGI_COMP_CTRL_PACKET_ID_V3,
+   Imsg.RegisterEventProcessor(CIGI_COMP_CTRL_PACKET_ID_V3_3,
                               (CigiBaseEventProcessor *) &Pr_CompCtrl);
-   Imsg.RegisterEventProcessor(CIGI_SHORT_COMP_CTRL_PACKET_ID_V3,
+   Imsg.RegisterEventProcessor(CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3,
                               (CigiBaseEventProcessor *) &Pr_ShortCompCtrl);
    Imsg.RegisterEventProcessor(CIGI_ART_PART_CTRL_PACKET_ID_V3,
                               (CigiBaseEventProcessor *) &Pr_ArtPartCtrl);
@@ -480,8 +485,18 @@ int init_cigi_if(void){
                               (CigiBaseEventProcessor *) &Pr_PositionReq);
    Imsg.RegisterEventProcessor(CIGI_ENV_COND_REQ_PACKET_ID_V3,
                               (CigiBaseEventProcessor *) &Pr_EnvCondReq);
-
-
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolSurfaceDef);
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolCtrl);
+   Imsg.RegisterEventProcessor(CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_ShortSymbolCtrl);
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolTextDef);
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolCircleDef);
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolLineDef);
 
 
    // initialize the SOF

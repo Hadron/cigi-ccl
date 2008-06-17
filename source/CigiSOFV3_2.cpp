@@ -178,7 +178,7 @@ int CigiSOFV3_2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    else
    {
       CigiSwap4(&FrameCntr,CDta.l++);
-      CigiSwap4(&TimeStampV3,CDta.f++);
+      CigiSwap4(&TimeStampV3,CDta.l++);
       CigiSwap4(&LastRcvdHostFrame,CDta.l++);
    }
 

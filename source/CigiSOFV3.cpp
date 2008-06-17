@@ -179,7 +179,7 @@ int CigiSOFV3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    else
    {
       CigiSwap4(&FrameCntr,CDta.l++);
-      CigiSwap4(&TimeStampV3,CDta.f++);
+      CigiSwap4(&TimeStampV3,CDta.l++);
    }
 
    TimeStampV2 = ((float)TimeStampV3) * 10.0f;

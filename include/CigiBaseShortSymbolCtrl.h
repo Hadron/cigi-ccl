@@ -36,7 +36,7 @@
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.1.0
+ *
  */
 
 #if !defined(_CIGI_BASE_SHORT_SYMBOL_CTRL_INCLUDED_)

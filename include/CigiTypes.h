@@ -44,17 +44,26 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  07/15/2008 Greg Basler                       Version 2.2.1
+ *  Removed the CCL library version from all files and created
+ *  defines in this file for the current CCL library version.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.1.0
  */
 
 
 #if !defined(CIGI_TYPES_H)
 #define CIGI_TYPES_H
 
-// Due to type problems between compilers
 
+#define CCL_MAJOR_VERSION 2
+#define CCL_MINOR_VERSION 2
+#define CCL_PATCH_LEVEL   1
+
+
+// Due to type problems between compilers
 
 #if defined(WIN32)
 

@@ -76,6 +76,7 @@
 #include "XEntityCtrlV1.h"
 #include "XEntityCtrlV2.h"
 #include "XEntityCtrlV3.h"
+#include "XEntityCtrlV3_3.h"
 #include "XEnvCondReqV3.h"
 #include "XEnvRgnCtrlV3.h"
 #include "XEventNotificationV3.h"
@@ -86,6 +87,7 @@
 #include "XIGCtrlV2.h"
 #include "XIGCtrlV3.h"
 #include "XIGCtrlV3_2.h"
+#include "XIGCtrlV3_3.h"
 #include "XLosSegReqV1.h"
 #include "XLosSegReqV2.h"
 #include "XLosSegReqV3.h"
@@ -137,6 +139,7 @@
 #include "XSymbolTextDefV3_3.h"
 #include "XSymbolCircleDefV3_3.h"
 #include "XSymbolLineDefV3_3.h"
+#include "XSymbolCloneV3_3.h"
 
 
 // System includes
@@ -204,6 +207,7 @@ static XEarthModelDefV3 Pr_EarthModelDefV3;
 static XEntityCtrlV1 Pr_EntityCtrlV1;
 static XEntityCtrlV2 Pr_EntityCtrlV2;
 static XEntityCtrlV3 Pr_EntityCtrlV3;
+static XEntityCtrlV3_3 Pr_EntityCtrlV3_3;
 static XEnvCondReqV3 Pr_EnvCondReqV3;
 static XEnvRgnCtrlV3 Pr_EnvRgnCtrlV3;
 static XEventNotificationV3 Pr_EventNotificationV3;
@@ -214,6 +218,7 @@ static XIGCtrlV1 Pr_IGCtrlV1;
 static XIGCtrlV2 Pr_IGCtrlV2;
 static XIGCtrlV3 Pr_IGCtrlV3;
 static XIGCtrlV3_2 Pr_IGCtrlV3_2;
+static XIGCtrlV3_3 Pr_IGCtrlV3_3;
 static XLosSegReqV1 Pr_LosSegReqV1;
 static XLosSegReqV2 Pr_LosSegReqV2;
 static XLosSegReqV3 Pr_LosSegReqV3;
@@ -267,8 +272,7 @@ static XShortSymbolCtrlV3_3 Pr_ShortSymbolCtrlV3_3;
 static XSymbolTextDefV3_3 Pr_SymbolTextDefV3_3;
 static XSymbolCircleDefV3_3 Pr_SymbolCircleDefV3_3;
 static XSymbolLineDefV3_3 Pr_SymbolLineDefV3_3;
-
-
+static XSymbolCloneV3_3 Pr_SymbolCloneV3_3;
 
 
 
@@ -624,6 +628,7 @@ int init_cigi_if(void){
             Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_IGCtrlV3);
          else
             Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_IGCtrl);
+         Imsg.RegisterEventProcessor(CIGI_ENTITY_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_EntityCtrlV3);
          Imsg.RegisterEventProcessor(CIGI_RATE_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_RateCtrlV3);
          Imsg.RegisterEventProcessor(CIGI_HAT_HOT_REQ_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_HatHotReqV3);
          Imsg.RegisterEventProcessor(CIGI_LOS_SEG_REQ_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_LosSegReqV3);
@@ -634,20 +639,28 @@ int init_cigi_if(void){
       else
       {
          if(PrtIgCtrl)
-            Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_IGCtrlV3_2);
+         {
+            if(MinorVer < 3)
+               Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_IGCtrlV3_2);
+            else
+               Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_IGCtrlV3_3);
+         }
          else
             Imsg.RegisterEventProcessor(CIGI_IG_CTRL_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_IGCtrl);
+
          Imsg.RegisterEventProcessor(CIGI_RATE_CTRL_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_RateCtrlV3_2);
          Imsg.RegisterEventProcessor(CIGI_HAT_HOT_REQ_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_HatHotReqV3_2);
          Imsg.RegisterEventProcessor(CIGI_LOS_SEG_REQ_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_LosSegReqV3_2);
          Imsg.RegisterEventProcessor(CIGI_LOS_VECT_REQ_PACKET_ID_V3_2,(CigiBaseEventProcessor *) &Pr_LosVectReqV3_2);
          if(MinorVer < 3)
          {
+            Imsg.RegisterEventProcessor(CIGI_ENTITY_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_EntityCtrlV3);
             Imsg.RegisterEventProcessor(CIGI_COMP_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_CompCtrlV3);
             Imsg.RegisterEventProcessor(CIGI_SHORT_COMP_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_ShortCompCtrlV3);
          }
          else
          {
+            Imsg.RegisterEventProcessor(CIGI_ENTITY_CTRL_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_EntityCtrlV3_3);
             Imsg.RegisterEventProcessor(CIGI_COMP_CTRL_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_CompCtrlV3_3);
             Imsg.RegisterEventProcessor(CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_ShortCompCtrlV3_3);
             Imsg.RegisterEventProcessor(CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_SymbolSurfaceDefV3_3);
@@ -656,13 +669,13 @@ int init_cigi_if(void){
             Imsg.RegisterEventProcessor(CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_SymbolTextDefV3_3);
             Imsg.RegisterEventProcessor(CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_SymbolCircleDefV3_3);
             Imsg.RegisterEventProcessor(CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_SymbolLineDefV3_3);
+            Imsg.RegisterEventProcessor(CIGI_SYMBOL_CLONE_PACKET_ID_V3_3,(CigiBaseEventProcessor *) &Pr_SymbolCloneV3_3);
          }
       }
 
 
 
 
-      Imsg.RegisterEventProcessor(CIGI_ENTITY_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_EntityCtrlV3);
       Imsg.RegisterEventProcessor(CIGI_CONF_CLAMP_ENTITY_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_ConfClampEntityCtrlV3);
       Imsg.RegisterEventProcessor(CIGI_ART_PART_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_ArtPartCtrlV3);
       Imsg.RegisterEventProcessor(CIGI_SHORT_ART_PART_CTRL_PACKET_ID_V3,(CigiBaseEventProcessor *) &Pr_ShortArtPartCtrlV3);

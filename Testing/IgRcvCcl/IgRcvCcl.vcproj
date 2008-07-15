@@ -197,6 +197,9 @@
 				RelativePath=".\XEntityCtrlV3.cpp">
 			</File>
 			<File
+				RelativePath=".\XEntityCtrlV3_3.cpp">
+			</File>
+			<File
 				RelativePath=".\XEnvCondReqV3.cpp">
 			</File>
 			<File
@@ -240,6 +243,9 @@
 			</File>
 			<File
 				RelativePath=".\XIGCtrlV3_2.cpp">
+			</File>
+			<File
+				RelativePath=".\XIGCtrlV3_3.cpp">
 			</File>
 			<File
 				RelativePath=".\XLosSegReqV1.cpp">
@@ -315,6 +321,9 @@
 			</File>
 			<File
 				RelativePath=".\XSymbolCircleDefV3_3.cpp">
+			</File>
+			<File
+				RelativePath=".\XSymbolCloneV3_3.cpp">
 			</File>
 			<File
 				RelativePath=".\XSymbolCtrlV3_3.cpp">
@@ -439,6 +448,9 @@
 				RelativePath=".\XEntityCtrlV3.h">
 			</File>
 			<File
+				RelativePath=".\XEntityCtrlV3_3.h">
+			</File>
+			<File
 				RelativePath=".\XEnvCondReqV3.h">
 			</File>
 			<File
@@ -482,6 +494,9 @@
 			</File>
 			<File
 				RelativePath=".\XIGCtrlV3_2.h">
+			</File>
+			<File
+				RelativePath=".\XIGCtrlV3_3.h">
 			</File>
 			<File
 				RelativePath=".\XLosSegReqV1.h">
@@ -557,6 +572,9 @@
 			</File>
 			<File
 				RelativePath=".\XSymbolCircleDefV3_3.h">
+			</File>
+			<File
+				RelativePath=".\XSymbolCloneV3_3.h">
 			</File>
 			<File
 				RelativePath=".\XSymbolCtrlV3_3.h">

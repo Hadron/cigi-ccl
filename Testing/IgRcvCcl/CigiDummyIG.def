@@ -2,12 +2,12 @@
 <MiniHostInitialization>
 
 <Config>
-<Host_Addr>172.22.1.174</Host_Addr>
+<Host_Addr>172.22.1.178</Host_Addr>
 <Port_To_IG>8000</Port_To_IG>
 <Port_To_Host>8001</Port_To_Host>
 <Hertz_rate>60</Hertz_rate>
-<Major_Version_Cigi>2</Major_Version_Cigi>
-<Minor_Version_Cigi>0</Minor_Version_Cigi>
+<Major_Version_Cigi>3</Major_Version_Cigi>
+<Minor_Version_Cigi>3</Minor_Version_Cigi>
 <Print_IGCtrl>false</Print_IGCtrl>
 </Config>
 

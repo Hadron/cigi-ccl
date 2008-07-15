@@ -28,6 +28,7 @@ void XHotReqV2::OnPacketReceived(CigiBasePacket *Packet)
    bool ok = true;
 
    printf("Hot Request:\n");
+   printf("\tHot ID = %d\n",InPckt->GetHatHotID());
    printf("\tLatitude = %f\n",InPckt->GetLat());
    printf("\tLongitude = %f\n",InPckt->GetLon());
 

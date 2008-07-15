@@ -49,9 +49,13 @@
  *  02/11/2008 Greg Basler                       Version 2.0.0
  *  Changed the conversion process.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Changed the Component class Conversion table sizing to a unified
+ *   constant.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 
@@ -386,9 +390,9 @@ public:
 protected:
 
    //==> Conversion Tables
-
-   const static CompAssocGrp CompClassV2xV1[6];
-   const static CompClassV3Grp CompClassV2xV3[6];
+   const static int CompClassCnvtSz = 6;
+   const static CompAssocGrp CompClassV2xV1[CompClassCnvtSz];
+   const static CompClassV3Grp CompClassV2xV3[CompClassCnvtSz];
 
 
 

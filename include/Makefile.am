@@ -51,6 +51,7 @@ pkginclude_HEADERS = \
 	CigiBaseSignalProcessing.h\
 	CigiBaseSpecEffDef.h\
 	CigiBaseSymbolCircleDef.h\
+	CigiBaseSymbolClone.h\
 	CigiBaseSymbolCtrl.h\
 	CigiBaseSymbolLineDef.h\
 	CigiBaseSymbolSurfaceDef.h\
@@ -88,6 +89,7 @@ pkginclude_HEADERS = \
 	CigiEntityCtrlV1.h\
 	CigiEntityCtrlV2.h\
 	CigiEntityCtrlV3.h\
+	CigiEntityCtrlV3_3.h\
 	CigiEnvCondReqV3.h\
 	CigiEnvCtrlV1.h\
 	CigiEnvCtrlV2.h\
@@ -114,6 +116,7 @@ pkginclude_HEADERS = \
 	CigiIGCtrlV2.h\
 	CigiIGCtrlV3.h\
 	CigiIGCtrlV3_2.h\
+	CigiIGCtrlV3_3.h\
 	CigiIGMsgV2.h\
 	CigiIGMsgV3.h\
 	CigiIGSession.h\
@@ -167,6 +170,7 @@ pkginclude_HEADERS = \
 	CigiSpecEffDefV2.h\
 	CigiSwapping.h\
 	CigiSymbolCircleDefV3_3.h\
+	CigiSymbolCloneV3_3.h\
 	CigiSymbolCtrlV3_3.h\
 	CigiSymbolLineDefV3_3.h\
 	CigiSymbolSurfaceDefV3_3.h\

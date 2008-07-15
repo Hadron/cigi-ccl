@@ -39,9 +39,12 @@
  *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Moved Packet information to base packet.
  *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Corrected the SetTimeStampValid description.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 
@@ -144,6 +147,14 @@ public:
    //!
    bool GetTimeStampValid(void) const { return(TimestampValid); }
 
+   //=========================================================
+   //! Sets the Timestamp valid flag for V3
+   //! \param TimeStampValidIn - Sets or clears the Time Stamp Valid flag
+   //! \param bndchk - Enables (true) or disables (false) bounds checking
+   //!
+   //! \return This returns CIGI_SUCCESS or an error code 
+   //!   defined in CigiErrorCodes.h
+   //!
 	int SetTimeStampValid(const bool TimeStampValidIn, bool bndchk=true)
    {
       TimestampValid = TimeStampValidIn;

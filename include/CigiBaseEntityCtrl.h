@@ -46,9 +46,13 @@
  *  Added new version conversion method.
  *  Moved Packet information to base packet.
  *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added Extrapolation or Interpolation Smoothing flag.
+ *  Added the defines and declarations for V3_3.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #if !defined(_CIGI_BASE_ENTITY_CTRL_INCLUDED_)
@@ -71,10 +75,14 @@
 #define CIGI_ENTITY_CTRL_PACKET_ID_V3 2
 #define CIGI_ENTITY_CTRL_PACKET_SIZE_V3 48
 
+#define CIGI_ENTITY_CTRL_PACKET_ID_V3_3 2
+#define CIGI_ENTITY_CTRL_PACKET_SIZE_V3_3 48
+
 
 class CigiEntityCtrlV1;
 class CigiEntityCtrlV2;
 class CigiEntityCtrlV3;
+class CigiEntityCtrlV3_3;
 
 
 //=========================================================
@@ -86,6 +94,7 @@ class CIGI_SPEC CigiBaseEntityCtrl : public CigiBasePacket
 friend class CigiEntityCtrlV1;
 friend class CigiEntityCtrlV2;
 friend class CigiEntityCtrlV3;
+friend class CigiEntityCtrlV3_3;
 
 public:
 
@@ -677,6 +686,15 @@ protected:
    //! 9 DeactivateUnload<br>
    //!
    AnimationStateGrp PastAnimationState;
+
+   //=========================================================
+   //! Smoothing Enabled<br>
+   //!  Enable or Disable Extrapolation or Interpolation
+   //!    motion smoothing.
+   //!  true - Smoothing is Enabled<br>
+   //!  false - Smoothing is Disabled.
+   //!
+   bool SmoothingEn;
 
 };
 

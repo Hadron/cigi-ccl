@@ -31,8 +31,11 @@
  *  2006.10.10 Greg Basler                       0.1
  *  Initial Release.
  *  
+ *  05/14/2008 Greg Basler                       Version 2.2.0
+ *  Fixed the conversion process.
+ *  
  *  Author: The Boeing Company
- *  Version: 0.1
+ *  Version: 2.1.0
  * </pre>
  */
 
@@ -53,7 +56,9 @@ namespace CigiProcessType
       ProcEntity=4,
       ProcEnvCtrl=5,
       ProcVarSize=6,
-      ProcShortArtPartToArtPart=7
+      ProcShortArtPartToArtPart=7,
+      TwoPassCnvtProcNone=8,
+      TwoPassCnvtProcStd=9
    } Type;
 }
 

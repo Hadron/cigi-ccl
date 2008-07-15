@@ -49,9 +49,14 @@
  *  02/11/2008 Greg Basler                       Version 2.0.0
  *  Converted from CigiShortCompCtrlV3.h.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected problem with conversion from V3_3 to V2 & V1
+ *   involving Component Classes of SymbolSurfaceV3_3 &
+ *   SymbolV3_3.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 
@@ -395,7 +400,7 @@ public:
 protected:
 
    //==> Conversion Tables
-   
+   const static int CompClassCnvtSz = 16;
    const static CompAssocGrp CompClassV3xV1[16];
    const static CompClassV2Grp CompClassV3xV2[16];
 

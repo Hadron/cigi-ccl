@@ -66,7 +66,7 @@
  *  Cigi_uint8.
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #if !defined(_CIGI_OUTGOING_MESSAGE_INCLUDED_)
@@ -611,7 +611,7 @@ protected:
    //=========================================================
    //! An Array of IGCtrl packers
    //!
-   CigiBaseIGCtrl *pIGCtrlPck[5];
+   CigiBaseIGCtrl *pIGCtrlPck[6];
 
    //=========================================================
    //! An Array of SOF packers

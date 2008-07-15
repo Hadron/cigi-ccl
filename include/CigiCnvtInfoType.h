@@ -1,38 +1,38 @@
 /** <pre>
  *  The SDK is used to create and format CIGI compliant messages.
  *  Copyright (c) 2001-2005 The Boeing Company
- *  
- *  This library is free software; you can redistribute it and/or modify it 
- *  under the terms of the GNU Lesser General Public License as published by 
- *  the Free Software Foundation; either version 2.1 of the License, or (at 
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation; either version 2.1 of the License, or (at
  *  your option) any later version.
- *  
+ *
  *  This library is distributed in the hope that it will be useful, but WITHOUT
- *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more 
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more
  *  details.
- *  
- *  You should have received a copy of the GNU Lesser General Public License 
- *  along with this library; if not, write to the Free Software Foundation, 
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this library; if not, write to the Free Software Foundation,
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *  
+ *
  *  FILENAME:   CigiCnvtInfoType.h
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
  *  PROJECT:    Common Image Generator Interface (CIGI) Class Library
- *  
- *  PROGRAM DESCRIPTION: 
+ *
+ *  PROGRAM DESCRIPTION:
  *  ...
- *  
+ *
  *  MODIFICATION NOTES:
  *  DATE     NAME                                Project version
  *  DESCRIPTION OF CHANGE........................
- *  
- *  2006.10.10 Greg Basler                       0.1
+ *
+ *  03/11/2008 Greg Basler                       2.0.0
  *  Initial Release.
- *  
+ *
  *  Author: The Boeing Company
- *  Version: 0.1
+ *  Version: 2.1.0
  * </pre>
  */
 

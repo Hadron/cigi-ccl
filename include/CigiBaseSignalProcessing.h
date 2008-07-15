@@ -34,9 +34,13 @@
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Added the CIGI_SPEC modifier to the class declaration for exporting the 
  *  class in a Windows DLL.
+ *  
+ *  04/03/2008 Greg Basler                       Version 2.1.0
+ *  Fixed the signals and added symbol signals
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #if !defined(_CIGI_BASE_SIGNAL_PROCESSING_INCLUDED_)
@@ -332,6 +336,15 @@ public:
    //!   implement this call.
    //!
    virtual void OnSymbolCircleDef(CigiBasePacket *Packet) { };
+
+   //=========================================================
+   //! OnSymbolClone<br>
+   //! A base function to process incoming Symbol Clone packets.<br>
+   //! This function does nothing in this base class.<br>
+   //! If processing is required, the inheriting class must
+   //!   implement this call.
+   //!
+   virtual void OnSymbolClone(CigiBasePacket *Packet) { };
 
    //=========================================================
    //! OnSymbolCtrl<br>

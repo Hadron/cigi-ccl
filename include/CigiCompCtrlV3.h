@@ -46,9 +46,13 @@
  *  Added new version conversion method.
  *  Moved Packet information to base packet.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Changed the Component class Conversion table sizing to a unified
+ *   constant.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 
@@ -392,9 +396,9 @@ public:
 protected:
 
    //==> Conversion Tables
-   
-   const static CompAssocGrp CompClassV3xV1[14];
-   const static CompClassV2Grp CompClassV3xV2[14];
+   const static int CompClassCnvtSz = 14;
+   const static CompAssocGrp CompClassV3xV1[CompClassCnvtSz];
+   const static CompClassV2Grp CompClassV3xV2[CompClassCnvtSz];
 
 
 };

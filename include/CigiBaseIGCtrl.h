@@ -55,9 +55,13 @@
  *  Added new version conversion method.
  *  Moved Packet information to base packet.
  *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added Extrapolation or Interpolation Smoothing flag.
+ *  Added the defines and declarations for V3_3.
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #if !defined(_CIGI_BASE_IG_CTRL_INCLUDED_)
@@ -81,11 +85,15 @@
 #define CIGI_IG_CTRL_PACKET_ID_V3_2 1
 #define CIGI_IG_CTRL_PACKET_SIZE_V3_2 24
 
+#define CIGI_IG_CTRL_PACKET_ID_V3_3 1
+#define CIGI_IG_CTRL_PACKET_SIZE_V3_3 24
+
 
 class CigiIGCtrlV1;
 class CigiIGCtrlV2;
 class CigiIGCtrlV3;
 class CigiIGCtrlV3_2;
+class CigiIGCtrlV3_3;
 
 
 //=========================================================
@@ -98,6 +106,7 @@ friend class CigiIGCtrlV1;
 friend class CigiIGCtrlV2;
 friend class CigiIGCtrlV3;
 friend class CigiIGCtrlV3_2;
+friend class CigiIGCtrlV3_3;
 
 public:
 
@@ -337,6 +346,15 @@ protected:
    //!  false - The timestamp is not valid.
    //!
    bool TimestampValid;
+
+   //=========================================================
+   //! Smoothing Enabled<br>
+   //!  Enable or Disable Extrapolation or Interpolation
+   //!    motion smoothing.
+   //!  true - Smoothing is Enabled<br>
+   //!  false - Smoothing is Disabled.
+   //!
+   bool SmoothingEn;
 
 
 

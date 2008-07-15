@@ -31,9 +31,12 @@
  *  03/11/2008 Greg Basler                       CIGI_SYM_1
  *  Initial Release.
  *  
+ *  04/03/2008 Greg Basler                       2.1.0
+ *  Updated packet id to reflect the ICD.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #if !defined(_CIGI_BASE_SYMBOL_CTRL_INCLUDED_)
@@ -46,7 +49,7 @@
 // preprocessor definitions
 // ====================================================================
 
-#define CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3 33
+#define CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3 34
 #define CIGI_SYMBOL_CONTROL_PACKET_SIZE_V3_3 40
 
 

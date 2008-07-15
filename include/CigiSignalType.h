@@ -31,8 +31,11 @@
  *  2006.10.10 Greg Basler                       0.1
  *  Initial Release.
  *  
+ *  2008.04.03 Greg Basler                       2.1.0
+ *  Fixed signals and added symbol signals.
+ *  
  *  Author: The Boeing Company
- *  Version: 0.1
+ *  Version: 2.1.0
  * </pre>
  */
 
@@ -103,7 +106,8 @@ namespace CigiSignalType
       SigShortSymbolCtrl,
       SigSymbolTextDef,
       SigSymbolCircleDef,
-      SigSymbolLineDef
+      SigSymbolLineDef,
+      SigSymbolClone
    } Type;
 }
 

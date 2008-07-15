@@ -92,6 +92,7 @@
 #include "XSymbolTextDefV3_3.h"
 #include "XSymbolCircleDefV3_3.h"
 #include "XSymbolLineDefV3_3.h"
+#include "XSymbolCloneV3_3.h"
 
 
 // System includes
@@ -173,6 +174,7 @@ static XShortSymbolCtrlV3_3 Pr_ShortSymbolCtrl;
 static XSymbolTextDefV3_3 Pr_SymbolTextDef;
 static XSymbolCircleDefV3_3 Pr_SymbolCircleDef;
 static XSymbolLineDefV3_3 Pr_SymbolLineDef;
+static XSymbolCloneV3_3 Pr_SymbolClone;
 
 
 
@@ -497,6 +499,10 @@ int init_cigi_if(void){
                               (CigiBaseEventProcessor *) &Pr_SymbolCircleDef);
    Imsg.RegisterEventProcessor(CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3,
                               (CigiBaseEventProcessor *) &Pr_SymbolLineDef);
+   Imsg.RegisterEventProcessor(CIGI_SYMBOL_CLONE_PACKET_ID_V3_3,
+                              (CigiBaseEventProcessor *) &Pr_SymbolClone);
+
+
 
 
    // initialize the SOF

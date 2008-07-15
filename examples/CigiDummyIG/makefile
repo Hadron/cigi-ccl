@@ -53,6 +53,13 @@ XRateCtrl.o \
 XSensorCtrl.o \
 XShortArtPartCtrl.o \
 XShortCompCtrl.o \
+XShortSymbolCtrlV3_3.o \
+XSymbolCircleDefV3_3.o \
+XSymbolCloneV3_3.o \
+XSymbolCtrlV3_3.o \
+XSymbolLineDefV3_3.o \
+XSymbolSurfaceDefV3_3.o \
+XSymbolTextDefV3_3.o \
 XTerrestrialSurfaceCtrl.o \
 XTrajectory.o \
 XViewCtrl.o \
@@ -103,6 +110,15 @@ depend:
 	./XSensorCtrl.cpp \
 	./XShortArtPartCtrl.cpp \
 	./XShortCompCtrl.cpp \
+	./XShortArtPartCtrl.cpp \
+	./XShortCompCtrl.cpp \
+	./XShortSymbolCtrlV3_3.cpp \
+	./XSymbolCircleDefV3_3.cpp \
+	./XSymbolCloneV3_3.cpp \
+	./XSymbolCtrlV3_3.cpp \
+	./XSymbolLineDefV3_3.cpp \
+	./XSymbolSurfaceDefV3_3.cpp \
+	./XSymbolTextDefV3_3.cpp \
 	./XTerrestrialSurfaceCtrl.cpp \
 	./XTrajectory.cpp \
 	./XViewCtrl.cpp \
@@ -131,6 +147,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./DefaultProc.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./DefaultProc.o: /usr/local/include/cigicl/CigiTypes.h
 ./DefaultProc.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./DefaultProc.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./DefaultProc.o: /usr/local/include/cigicl/CigiProcessType.h
+./DefaultProc.o: /usr/local/include/cigicl/CigiVersionID.h
 ./DefaultProc.o: /usr/local/include/cigicl/CigiDefaultPacket.h
 ./Network.o: Network.h /usr/include/sys/types.h /usr/include/features.h
 ./Network.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
@@ -155,11 +174,15 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./Network.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
 ./Network.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
 ./Network.o: /usr/include/fcntl.h /usr/include/bits/fcntl.h
+./Network.o: /usr/include/memory.h /usr/include/string.h
 ./XArtPartCtrl.o: XArtPartCtrl.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XArtPartCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XArtPartCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XArtPartCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiArtPartCtrlV3.h
 ./XArtPartCtrl.o: /usr/local/include/cigicl/CigiBaseArtPartCtrl.h
 ./XArtPartCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -177,6 +200,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XAtmosCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XAtmosCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XAtmosCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XAtmosCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XAtmosCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XAtmosCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XAtmosCtrl.o: /usr/local/include/cigicl/CigiAtmosCtrl.h
 ./XAtmosCtrl.o: /usr/local/include/cigicl/CigiBaseEnvCtrl.h
 ./XAtmosCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -193,6 +219,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XCelestialCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XCelestialCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XCelestialCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XCelestialCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XCelestialCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XCelestialCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XCelestialCtrl.o: /usr/local/include/cigicl/CigiCelestialCtrl.h
 ./XCelestialCtrl.o: /usr/local/include/cigicl/CigiBaseEnvCtrl.h
 ./XCelestialCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -210,6 +239,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XCollDetSegDef.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XCollDetSegDef.o: /usr/local/include/cigicl/CigiTypes.h
 ./XCollDetSegDef.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XCollDetSegDef.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XCollDetSegDef.o: /usr/local/include/cigicl/CigiProcessType.h
+./XCollDetSegDef.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XCollDetSegDef.o: /usr/local/include/cigicl/CigiCollDetSegDefV3.h
 ./XCollDetSegDef.o: /usr/local/include/cigicl/CigiBaseCollDetSegDef.h
 ./XCollDetSegDef.o: /usr/include/stdio.h /usr/include/features.h
@@ -227,6 +259,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XCollDetVolDef.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XCollDetVolDef.o: /usr/local/include/cigicl/CigiTypes.h
 ./XCollDetVolDef.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XCollDetVolDef.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XCollDetVolDef.o: /usr/local/include/cigicl/CigiProcessType.h
+./XCollDetVolDef.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XCollDetVolDef.o: /usr/local/include/cigicl/CigiCollDetVolDefV3.h
 ./XCollDetVolDef.o: /usr/local/include/cigicl/CigiBaseCollDetVolDef.h
 ./XCollDetVolDef.o: /usr/include/stdio.h /usr/include/features.h
@@ -243,6 +278,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XCompCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XCompCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XCompCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiCompCtrlV3.h
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiBaseCompCtrl.h
 ./XCompCtrl.o: /usr/local/include/cigicl/CigiExceptions.h
@@ -262,6 +300,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiConfClampEntityCtrlV3.h
 ./XConfClampEntityCtrl.o: /usr/local/include/cigicl/CigiBaseConfClampEntityCtrl.h
 ./XConfClampEntityCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -280,6 +321,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XEarthModelDef.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XEarthModelDef.o: /usr/local/include/cigicl/CigiTypes.h
 ./XEarthModelDef.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XEarthModelDef.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XEarthModelDef.o: /usr/local/include/cigicl/CigiProcessType.h
+./XEarthModelDef.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XEarthModelDef.o: /usr/local/include/cigicl/CigiEarthModelDefV3.h
 ./XEarthModelDef.o: /usr/local/include/cigicl/CigiBaseEarthModelDef.h
 ./XEarthModelDef.o: /usr/include/stdio.h /usr/include/features.h
@@ -297,6 +341,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XEntityCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XEntityCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XEntityCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiEntityCtrlV3.h
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiBaseEntityCtrl.h
 ./XEntityCtrl.o: /usr/local/include/cigicl/CigiAnimationTable.h
@@ -315,6 +362,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XEnvCondReq.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XEnvCondReq.o: /usr/local/include/cigicl/CigiTypes.h
 ./XEnvCondReq.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XEnvCondReq.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XEnvCondReq.o: /usr/local/include/cigicl/CigiProcessType.h
+./XEnvCondReq.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XEnvCondReq.o: /usr/local/include/cigicl/CigiEnvCondReqV3.h
 ./XEnvCondReq.o: /usr/local/include/cigicl/CigiBaseEnvCondReq.h
 ./XEnvCondReq.o: /usr/include/stdio.h /usr/include/features.h
@@ -332,6 +382,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiEnvRgnCtrlV3.h
 ./XEnvRgnCtrl.o: /usr/local/include/cigicl/CigiBaseEnvRgnCtrl.h
 ./XEnvRgnCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -349,6 +402,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XEventNotification.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XEventNotification.o: /usr/local/include/cigicl/CigiTypes.h
 ./XEventNotification.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XEventNotification.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XEventNotification.o: /usr/local/include/cigicl/CigiProcessType.h
+./XEventNotification.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XEventNotification.o: /usr/local/include/cigicl/CigiEventNotificationV3.h
 ./XEventNotification.o: /usr/local/include/cigicl/CigiBaseEventNotification.h
 ./XEventNotification.o: /usr/include/stdio.h /usr/include/features.h
@@ -367,7 +423,10 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XHatHotReq.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XHatHotReq.o: /usr/local/include/cigicl/CigiTypes.h
 ./XHatHotReq.o: /usr/local/include/cigicl/CigiErrorCodes.h
-./XHatHotReq.o: /usr/local/include/cigicl/CigiHatHotReqV3.h
+./XHatHotReq.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XHatHotReq.o: /usr/local/include/cigicl/CigiProcessType.h
+./XHatHotReq.o: /usr/local/include/cigicl/CigiVersionID.h
+./XHatHotReq.o: /usr/local/include/cigicl/CigiHatHotReqV3_2.h
 ./XHatHotReq.o: /usr/local/include/cigicl/CigiBaseHatHotReq.h
 ./XHatHotReq.o: /usr/include/stdio.h /usr/include/features.h
 ./XHatHotReq.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
@@ -382,7 +441,10 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XIGCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XIGCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XIGCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
-./XIGCtrl.o: /usr/local/include/cigicl/CigiIGCtrlV3.h
+./XIGCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XIGCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XIGCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
+./XIGCtrl.o: /usr/local/include/cigicl/CigiIGCtrlV3_2.h
 ./XIGCtrl.o: /usr/local/include/cigicl/CigiBaseIGCtrl.h /usr/include/stdio.h
 ./XIGCtrl.o: /usr/include/features.h /usr/include/sys/cdefs.h
 ./XIGCtrl.o: /usr/include/gnu/stubs.h
@@ -398,7 +460,10 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XLosSegReq.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XLosSegReq.o: /usr/local/include/cigicl/CigiTypes.h
 ./XLosSegReq.o: /usr/local/include/cigicl/CigiErrorCodes.h
-./XLosSegReq.o: /usr/local/include/cigicl/CigiLosSegReqV3.h
+./XLosSegReq.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XLosSegReq.o: /usr/local/include/cigicl/CigiProcessType.h
+./XLosSegReq.o: /usr/local/include/cigicl/CigiVersionID.h
+./XLosSegReq.o: /usr/local/include/cigicl/CigiLosSegReqV3_2.h
 ./XLosSegReq.o: /usr/local/include/cigicl/CigiBaseLosSegReq.h
 ./XLosSegReq.o: /usr/include/stdio.h /usr/include/features.h
 ./XLosSegReq.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
@@ -414,7 +479,10 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XLosVectReq.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XLosVectReq.o: /usr/local/include/cigicl/CigiTypes.h
 ./XLosVectReq.o: /usr/local/include/cigicl/CigiErrorCodes.h
-./XLosVectReq.o: /usr/local/include/cigicl/CigiLosVectReqV3.h
+./XLosVectReq.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XLosVectReq.o: /usr/local/include/cigicl/CigiProcessType.h
+./XLosVectReq.o: /usr/local/include/cigicl/CigiVersionID.h
+./XLosVectReq.o: /usr/local/include/cigicl/CigiLosVectReqV3_2.h
 ./XLosVectReq.o: /usr/local/include/cigicl/CigiBaseLosVectReq.h
 ./XLosVectReq.o: /usr/include/stdio.h /usr/include/features.h
 ./XLosVectReq.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
@@ -431,6 +499,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiMaritimeSurfaceCtrlV3.h
 ./XMaritimeSurfaceCtrl.o: /usr/local/include/cigicl/CigiBaseMaritimeSurfaceCtrl.h
 ./XMaritimeSurfaceCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -449,6 +520,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiMotionTrackCtrlV3.h
 ./XMotionTrackCtrl.o: /usr/local/include/cigicl/CigiBaseMotionTrackCtrl.h
 ./XMotionTrackCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -466,6 +540,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XPostionReq.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XPostionReq.o: /usr/local/include/cigicl/CigiTypes.h
 ./XPostionReq.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XPostionReq.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XPostionReq.o: /usr/local/include/cigicl/CigiProcessType.h
+./XPostionReq.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XPostionReq.o: /usr/local/include/cigicl/CigiPositionReqV3.h
 ./XPostionReq.o: /usr/local/include/cigicl/CigiBasePositionReq.h
 ./XPostionReq.o: /usr/include/stdio.h /usr/include/features.h
@@ -482,7 +559,10 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XRateCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XRateCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XRateCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
-./XRateCtrl.o: /usr/local/include/cigicl/CigiRateCtrlV3.h
+./XRateCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XRateCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XRateCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
+./XRateCtrl.o: /usr/local/include/cigicl/CigiRateCtrlV3_2.h
 ./XRateCtrl.o: /usr/local/include/cigicl/CigiBaseRateCtrl.h
 ./XRateCtrl.o: /usr/include/stdio.h /usr/include/features.h
 ./XRateCtrl.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
@@ -498,6 +578,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XSensorCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XSensorCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XSensorCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSensorCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSensorCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSensorCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XSensorCtrl.o: /usr/local/include/cigicl/CigiSensorCtrlV3.h
 ./XSensorCtrl.o: /usr/local/include/cigicl/CigiBaseSensorCtrl.h
 ./XSensorCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -515,6 +598,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiShortArtPartCtrlV3.h
 ./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiBaseShortArtPartCtrl.h
 ./XShortArtPartCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -532,6 +618,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XShortCompCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XShortCompCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XShortCompCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XShortCompCtrl.o: /usr/local/include/cigicl/CigiShortCompCtrlV3.h
 ./XShortCompCtrl.o: /usr/local/include/cigicl/CigiBaseCompCtrl.h
 ./XShortCompCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -544,11 +633,205 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XShortCompCtrl.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
 ./XShortCompCtrl.o: /usr/include/bits/stdio_lim.h
 ./XShortCompCtrl.o: /usr/include/bits/sys_errlist.h
+./XShortArtPartCtrl.o: XShortArtPartCtrl.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiTypes.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiShortArtPartCtrlV3.h
+./XShortArtPartCtrl.o: /usr/local/include/cigicl/CigiBaseShortArtPartCtrl.h
+./XShortArtPartCtrl.o: /usr/include/stdio.h /usr/include/features.h
+./XShortArtPartCtrl.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XShortArtPartCtrl.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XShortArtPartCtrl.o: /usr/include/bits/types.h /usr/include/bits/wordsize.h
+./XShortArtPartCtrl.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XShortArtPartCtrl.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XShortArtPartCtrl.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XShortArtPartCtrl.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XShortArtPartCtrl.o: /usr/include/bits/stdio_lim.h
+./XShortArtPartCtrl.o: /usr/include/bits/sys_errlist.h
+./XShortCompCtrl.o: XShortCompCtrl.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiTypes.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiShortCompCtrlV3.h
+./XShortCompCtrl.o: /usr/local/include/cigicl/CigiBaseCompCtrl.h
+./XShortCompCtrl.o: /usr/include/stdio.h /usr/include/features.h
+./XShortCompCtrl.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XShortCompCtrl.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XShortCompCtrl.o: /usr/include/bits/types.h /usr/include/bits/wordsize.h
+./XShortCompCtrl.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XShortCompCtrl.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XShortCompCtrl.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XShortCompCtrl.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XShortCompCtrl.o: /usr/include/bits/stdio_lim.h
+./XShortCompCtrl.o: /usr/include/bits/sys_errlist.h
+./XShortSymbolCtrlV3_3.o: XShortSymbolCtrlV3_3.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiShortSymbolCtrlV3_3.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBaseShortSymbolCtrl.h
+./XShortSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolCtrl.h
+./XShortSymbolCtrlV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XShortSymbolCtrlV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XShortSymbolCtrlV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/types.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/wordsize.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XShortSymbolCtrlV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XShortSymbolCtrlV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/stdio_lim.h
+./XShortSymbolCtrlV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolCircleDefV3_3.o: XSymbolCircleDefV3_3.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiSymbolCircleDefV3_3.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolCircleDef.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiBaseVariableSizePckt.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiBaseCircleSymbolData.h
+./XSymbolCircleDefV3_3.o: /usr/local/include/cigicl/CigiCircleSymbolDataV3_3.h
+./XSymbolCircleDefV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolCircleDefV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolCircleDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/types.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/wordsize.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolCircleDefV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolCircleDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolCircleDefV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolCloneV3_3.o: XSymbolCloneV3_3.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolCloneV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolCloneV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolCloneV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolCloneV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolCloneV3_3.o: /usr/include/bits/types.h /usr/include/bits/wordsize.h
+./XSymbolCloneV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolCloneV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolCloneV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolCloneV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolCloneV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolCloneV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolCtrlV3_3.o: XSymbolCtrlV3_3.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiSymbolCtrlV3_3.h
+./XSymbolCtrlV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolCtrl.h
+./XSymbolCtrlV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolCtrlV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolCtrlV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolCtrlV3_3.o: /usr/include/bits/types.h /usr/include/bits/wordsize.h
+./XSymbolCtrlV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolCtrlV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolCtrlV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolCtrlV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolCtrlV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolCtrlV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolLineDefV3_3.o: XSymbolLineDefV3_3.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiSymbolLineDefV3_3.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolLineDef.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiBaseVariableSizePckt.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiBaseVertexSymbolData.h
+./XSymbolLineDefV3_3.o: /usr/local/include/cigicl/CigiVertexSymbolDataV3_3.h
+./XSymbolLineDefV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolLineDefV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolLineDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/types.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/wordsize.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolLineDefV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolLineDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolLineDefV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolSurfaceDefV3_3.o: XSymbolSurfaceDefV3_3.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiSymbolSurfaceDefV3_3.h
+./XSymbolSurfaceDefV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolSurfaceDef.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolSurfaceDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/types.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/wordsize.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolSurfaceDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolSurfaceDefV3_3.o: /usr/include/bits/sys_errlist.h
+./XSymbolTextDefV3_3.o: XSymbolTextDefV3_3.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiBasePacket.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiTypes.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiProcessType.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiVersionID.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiSymbolTextDefV3_3.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiBaseSymbolTextDef.h
+./XSymbolTextDefV3_3.o: /usr/local/include/cigicl/CigiBaseVariableSizePckt.h
+./XSymbolTextDefV3_3.o: /usr/include/stdio.h /usr/include/features.h
+./XSymbolTextDefV3_3.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
+./XSymbolTextDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stddef.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/types.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/wordsize.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/typesizes.h /usr/include/libio.h
+./XSymbolTextDefV3_3.o: /usr/include/_G_config.h /usr/include/wchar.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/wchar.h /usr/include/gconv.h
+./XSymbolTextDefV3_3.o: /usr/lib/gcc/i386-redhat-linux/3.4.2/include/stdarg.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/stdio_lim.h
+./XSymbolTextDefV3_3.o: /usr/include/bits/sys_errlist.h
 ./XTerrestrialSurfaceCtrl.o: XTerrestrialSurfaceCtrl.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiBaseEventProcessor.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiTerrestrialSurfaceCtrlV3.h
 ./XTerrestrialSurfaceCtrl.o: /usr/local/include/cigicl/CigiBaseTerrestrialSurfaceCtrl.h
 ./XTerrestrialSurfaceCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -569,6 +852,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XTrajectory.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XTrajectory.o: /usr/local/include/cigicl/CigiTypes.h
 ./XTrajectory.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XTrajectory.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XTrajectory.o: /usr/local/include/cigicl/CigiProcessType.h
+./XTrajectory.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XTrajectory.o: /usr/local/include/cigicl/CigiTrajectoryDefV3.h
 ./XTrajectory.o: /usr/local/include/cigicl/CigiBaseTrajectoryDef.h
 ./XTrajectory.o: /usr/include/stdio.h /usr/include/features.h
@@ -585,6 +871,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XViewCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XViewCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XViewCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XViewCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XViewCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XViewCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XViewCtrl.o: /usr/local/include/cigicl/CigiViewCtrlV3.h
 ./XViewCtrl.o: /usr/local/include/cigicl/CigiBaseViewCtrl.h
 ./XViewCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -600,6 +889,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XViewDef.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XViewDef.o: /usr/local/include/cigicl/CigiTypes.h
 ./XViewDef.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XViewDef.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XViewDef.o: /usr/local/include/cigicl/CigiProcessType.h
+./XViewDef.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XViewDef.o: /usr/local/include/cigicl/CigiViewDefV3.h
 ./XViewDef.o: /usr/local/include/cigicl/CigiBaseViewDef.h
 ./XViewDef.o: /usr/include/stdio.h /usr/include/features.h
@@ -615,6 +907,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XWaveCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XWaveCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XWaveCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XWaveCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XWaveCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XWaveCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XWaveCtrl.o: /usr/local/include/cigicl/CigiWaveCtrlV3.h
 ./XWaveCtrl.o: /usr/local/include/cigicl/CigiBaseWaveCtrl.h
 ./XWaveCtrl.o: /usr/include/stdio.h /usr/include/features.h
@@ -631,6 +926,9 @@ CigiDummyIG: makefile $(OBJ_FILES) $(LIB_FILES)
 ./XWeatherCtrl.o: /usr/local/include/cigicl/CigiBasePacket.h
 ./XWeatherCtrl.o: /usr/local/include/cigicl/CigiTypes.h
 ./XWeatherCtrl.o: /usr/local/include/cigicl/CigiErrorCodes.h
+./XWeatherCtrl.o: /usr/local/include/cigicl/CigiCnvtInfoType.h
+./XWeatherCtrl.o: /usr/local/include/cigicl/CigiProcessType.h
+./XWeatherCtrl.o: /usr/local/include/cigicl/CigiVersionID.h
 ./XWeatherCtrl.o: /usr/local/include/cigicl/CigiWeatherCtrlV3.h
 ./XWeatherCtrl.o: /usr/local/include/cigicl/CigiBaseWeatherCtrl.h
 ./XWeatherCtrl.o: /usr/include/stdio.h /usr/include/features.h

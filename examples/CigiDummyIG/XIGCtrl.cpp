@@ -23,7 +23,7 @@ XIGCtrl::~XIGCtrl()
 
 void XIGCtrl::OnPacketReceived(CigiBasePacket *Packet)
 {
-   CigiIGCtrlV3_2 *InPckt = (CigiIGCtrlV3_2 *)Packet;
+   CigiIGCtrlV3_3 *InPckt = (CigiIGCtrlV3_3 *)Packet;
 
    bool ok = true;
 
@@ -33,6 +33,10 @@ void XIGCtrl::OnPacketReceived(CigiBasePacket *Packet)
    printf("DatabaseID ==> %d\n",InPckt->GetDatabaseID());
    printf("IGMode ==> %d\n",InPckt->GetIGMode());
    printf("TimestampValid ==> %d\n",InPckt->GetTimeStampValid());
+   if(InPckt->GetSmoothingEn())
+      printf("Smoothing Enabled\n");
+   else
+      printf("Smoothing Disabled\n");
    printf("MinorVersion ==> %d\n",InPckt->GetMinorVersion());
    printf("FrameCntr ==> %d\n",InPckt->GetFrameCntr());
    printf("TimeStampV3 ==> %d\n",InPckt->GetTimeStamp());

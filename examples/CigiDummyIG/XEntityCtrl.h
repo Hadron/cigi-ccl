@@ -6,7 +6,7 @@
 #define _PROC_XEntityCtrl_INCLUDED_
 
 #include "CigiBaseEventProcessor.h"
-#include "CigiEntityCtrlV3.h"
+#include "CigiEntityCtrlV3_3.h"
 
 class XEntityCtrl : public CigiBaseEventProcessor
 {
@@ -16,10 +16,10 @@ public:
 
    virtual void OnPacketReceived(CigiBasePacket *Packet);
 
-   void SetOrigPckt(CigiEntityCtrlV3 *TPcktIn) { TPckt = TPcktIn; }
+   void SetOrigPckt(CigiEntityCtrlV3_3 *TPcktIn) { TPckt = TPcktIn; }
 
 protected:
-   CigiEntityCtrlV3 *TPckt;
+   CigiEntityCtrlV3_3 *TPckt;
 
 };
 

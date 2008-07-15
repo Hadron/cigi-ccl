@@ -669,6 +669,9 @@
 				RelativePath=".\XSymbolCircleDefV3_3.cpp">
 			</File>
 			<File
+				RelativePath=".\XSymbolCloneV3_3.cpp">
+			</File>
+			<File
 				RelativePath=".\XSymbolCtrlV3_3.cpp">
 			</File>
 			<File
@@ -884,6 +887,9 @@
 			</File>
 			<File
 				RelativePath=".\XSymbolCircleDefV3_3.h">
+			</File>
+			<File
+				RelativePath=".\XSymbolCloneV3_3.h">
 			</File>
 			<File
 				RelativePath=".\XSymbolCtrlV3_3.h">

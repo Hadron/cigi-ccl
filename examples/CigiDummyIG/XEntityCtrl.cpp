@@ -23,7 +23,7 @@ XEntityCtrl::~XEntityCtrl()
 
 void XEntityCtrl::OnPacketReceived(CigiBasePacket *Packet)
 {
-   CigiEntityCtrlV3 *InPckt = (CigiEntityCtrlV3 *)Packet;
+   CigiEntityCtrlV3_3 *InPckt = (CigiEntityCtrlV3_3 *)Packet;
 
    bool ok = true;
 
@@ -38,6 +38,10 @@ void XEntityCtrl::OnPacketReceived(CigiBasePacket *Packet)
    printf("AnimationDir ==> %d\n",InPckt->GetAnimationDir());
    printf("AnimationLoopMode ==> %d\n",InPckt->GetAnimationLoopMode());
    printf("AnimationState ==> %d\n",InPckt->GetAnimationState());
+   if(InPckt->GetSmoothingEn())
+      printf("Smoothing Enabled\n");
+   else
+      printf("Smoothing Disabled\n");
    printf("Alpha ==> %d\n",InPckt->GetAlpha());
    printf("EntityType ==> %d\n",InPckt->GetEntityType());
    printf("ParentID ==> %d\n",InPckt->GetParentID());

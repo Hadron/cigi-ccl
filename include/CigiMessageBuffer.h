@@ -16,7 +16,7 @@
  *  along with this library; if not, write to the Free Software Foundation, 
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *  
- *  FILENAME:   CigiMessage.h
+ *  FILENAME:   CigiMessageBuffer.h
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
  *  PROJECT:    Common Image Generator Interface (CIGI) SDK
@@ -28,8 +28,11 @@
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Initial Release.
+ *  
+ *  07/15/2008 Greg Basler                       Version 2.2.0
+ *  Improved buffer creation (provided by Andrew Sampson).
  *  
  * </pre>
  *  Author: The Boeing Company
@@ -82,15 +85,16 @@ public:
       // This creates a buffer that is double word aligned and
       //  has double word aligned size
 
-      // Determine the number of double words
-      BufferSize = (BufLen/8) + 1;
-      Cigi_uint64 *pBuf = new Cigi_uint64[BufferSize];
+      // Determine the number of bytes with a safety buffer
+      BufferSize = BufLen +                          // Requested buffer length
+                   (BufLen % sizeof(Cigi_uint64)) +  // make double word aligned
+                   sizeof(Cigi_uint64);              // add a safety buffer
 
-      // Set the number of bytes
-      BufferSize *= 8;
+      // Allocate the message buffer
+      Buffer = new Cigi_uint8[BufferSize];
 
-      // Set the message buffer
-      Buffer = (Cigi_uint8 *)pBuf;
+      // Initialize empty buffer
+      memset( Buffer, 0, BufferSize );
 
    }
 
@@ -101,7 +105,7 @@ public:
    {
       if(Buffer != NULL)
       {
-         delete Buffer;
+         delete [] Buffer;
          Buffer = NULL;
       }
    }

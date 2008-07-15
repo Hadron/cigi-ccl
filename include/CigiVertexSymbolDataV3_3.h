@@ -28,7 +28,7 @@
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Initial Release.
  *  
  * </pre>

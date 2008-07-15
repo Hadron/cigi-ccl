@@ -31,9 +31,12 @@
  *  03/11/2008 Greg Basler                       CIGI_SYM_1
  *  Initial Release.
  *  
+ *  04/03/2008 Greg Basler                       2.1.0
+ *  Corrected pointer incrementing.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 

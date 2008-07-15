@@ -38,6 +38,7 @@ libcigicl_la_SOURCES = \
 	CigiBaseShortSymbolCtrl.cpp\
 	CigiBaseSpecEffDef.cpp\
 	CigiBaseSymbolCircleDef.cpp\
+	CigiBaseSymbolClone.cpp\
 	CigiBaseSymbolCtrl.cpp\
 	CigiBaseSymbolLineDef.cpp\
 	CigiBaseSymbolSurfaceDef.cpp\
@@ -71,6 +72,7 @@ libcigicl_la_SOURCES = \
 	CigiEntityCtrlV1.cpp\
 	CigiEntityCtrlV2.cpp\
 	CigiEntityCtrlV3.cpp\
+	CigiEntityCtrlV3_3.cpp\
 	CigiEnvCondReqV3.cpp\
 	CigiEnvCtrlV1.cpp\
 	CigiEnvCtrlV2.cpp\
@@ -93,6 +95,7 @@ libcigicl_la_SOURCES = \
 	CigiIGCtrlV2.cpp\
 	CigiIGCtrlV3.cpp\
 	CigiIGCtrlV3_2.cpp\
+	CigiIGCtrlV3_3.cpp\
 	CigiIGMsgV2.cpp\
 	CigiIGMsgV3.cpp\
 	CigiIGSession.cpp\
@@ -143,6 +146,7 @@ libcigicl_la_SOURCES = \
 	CigiSpecEffDefV2.cpp\
 	CigiSwapping.cpp\
 	CigiSymbolCircleDefV3_3.cpp\
+	CigiSymbolCloneV3_3.cpp\
 	CigiSymbolCtrlV3_3.cpp\
 	CigiSymbolLineDefV3_3.cpp\
 	CigiSymbolSurfaceDefV3_3.cpp\

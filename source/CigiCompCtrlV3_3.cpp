@@ -28,38 +28,22 @@
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
  *  
- *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
+ *  02/11/2008 Greg Basler                       Version 2.2.0
  *  Initial Release.
- *  
- *  01/21/2005 Greg Basler                       Version 1.5
- *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
- *  
- *  01/21/2005 Greg Basler                       Version 1.5
- *  Removed the inline defnitions for the PackedPointer union.
- *  
- *  01/21/2005 Greg Basler                       Version 1.5
- *  Changed native C++ types to use CCL-defined types instead where appropriate.
- *  
- *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Modified the class constructor to initialize the MinorVersion member 
- *  variable.
- *  
- *  06/23/2006 Greg Basler                       Version 1.7.1
- *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
- *  Cigi_uint8.
- *  
- *  11/20/2007 Greg Basler                       Version 2.0.0
- *  Added new version conversion method.
- *  
- *  02/11/2008 Greg Basler                       Version 2.0.0
- *  Changed the conversion process.
- *  
- *  02/11/2008 Greg Basler                       Version 2.0.0
  *  Converted from CigiCompCtrlV3.cpp.
+ *  Fixed conversion process
+ *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected problem with conversion from V3_3 to V2 & V1
+ *   involving Component Classes of SymbolSurfaceV3_3 &
+ *   SymbolV3_3.
+ *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected Version Number
  *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -72,7 +56,7 @@
 
 
 // Component Class conversion Table
-const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV3_3::CompClassV3xV1[16] =
+const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV3_3::CompClassV3xV1[CigiCompCtrlV3_3::CompClassCnvtSz] =
 {
    Entity,  // EntityV3
    View,    // ViewV3
@@ -92,7 +76,7 @@ const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV3_3::CompClassV3xV1[16] =
    NoCnvtV1   // SymbolV3_3
 };
 
-const CigiBaseCompCtrl::CompClassV2Grp CigiCompCtrlV3_3::CompClassV3xV2[16] =
+const CigiBaseCompCtrl::CompClassV2Grp CigiCompCtrlV3_3::CompClassV3xV2[CigiCompCtrlV3_3::CompClassCnvtSz] =
 {
    EntityV2,  // EntityV3
    ViewV2,    // ViewV3
@@ -128,7 +112,7 @@ CigiCompCtrlV3_3::CigiCompCtrlV3_3()
    PacketID = CIGI_COMP_CTRL_PACKET_ID_V3_3;
    PacketSize = CIGI_COMP_CTRL_PACKET_SIZE_V3_3;
    Version = 3;
-   MinorVersion = 0;
+   MinorVersion = 3;
 
    CompID = 0;
    InstanceID = 0;
@@ -237,15 +221,16 @@ int CigiCompCtrlV3_3::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    }
 
 
-   if(CompClassV3 < 14)
+   if((CompClassV3 >= CigiBaseCompCtrl::EntityV3) &&
+      (CompClassV3 <= CigiBaseCompCtrl::SymbolV3_3))
    {
       CompAssoc = CompClassV3xV1[CompClassV3];
       CompClassV2 = CompClassV3xV2[CompClassV3];
    }
    else
    {
-      CompAssoc = Entity;
-      CompClassV2 = EntityV2;
+      CompAssoc = NoCnvtV1;
+      CompClassV2 = NoCnvtV2;
    }
 
 
@@ -261,7 +246,7 @@ int CigiCompCtrlV3_3::GetCnvt(CigiVersionID &CnvtVersion,
                             CigiCnvtInfoType::Type &CnvtInfo)
 {
    // Do not convert unless a conversion is found
-   CnvtInfo.ProcID = CigiProcessType::ProcNone;
+   CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcNone;
    CnvtInfo.CnvtPacketID = 0;
 
    if(CnvtVersion.CigiMajorVersion == 3)
@@ -273,13 +258,13 @@ int CigiCompCtrlV3_3::GetCnvt(CigiVersionID &CnvtVersion,
       {
          if((CompClassV3 >= EntityV3)&&(CompClassV3 <= SystemV3))
          {
-            CnvtInfo.ProcID = CigiProcessType::ProcStd;
+            CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
             CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V3;
          }
       }
       else
       {
-         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
          CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V3_3;
       }
    }
@@ -287,7 +272,7 @@ int CigiCompCtrlV3_3::GetCnvt(CigiVersionID &CnvtVersion,
    {
       if((CompClassV2 >= EntityV2)&&(CompClassV2 <= SystemV2))
       {
-         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
          CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V2;
       }
    }
@@ -295,7 +280,7 @@ int CigiCompCtrlV3_3::GetCnvt(CigiVersionID &CnvtVersion,
    {
       if((CompAssoc >= Entity)&&(CompAssoc <= View))
       {
-         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
          CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V1;
       }
    }
@@ -303,7 +288,7 @@ int CigiCompCtrlV3_3::GetCnvt(CigiVersionID &CnvtVersion,
    {
       // All Component control packets from version 3 and above
       //  use the same packet id number
-      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
       CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V3_3;
    }
 

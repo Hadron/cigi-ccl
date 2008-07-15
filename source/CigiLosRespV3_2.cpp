@@ -42,9 +42,12 @@
  *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Added new version conversion method.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected Version Number
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -68,7 +71,7 @@ CigiLosRespV3_2::CigiLosRespV3_2()
    PacketID = CIGI_LOS_RESP_PACKET_ID_V3_2;
    PacketSize = CIGI_LOS_RESP_PACKET_SIZE_V3_2;
    Version = 3;
-   MinorVersion = 0;
+   MinorVersion = 2;
 
    LosID = 0;
    Valid = false;
@@ -198,14 +201,6 @@ int CigiLosRespV3_2::GetCnvt(CigiVersionID &CnvtVersion,
                            CigiCnvtInfoType::Type &CnvtInfo)
 {
    CnvtInfo.ProcID = CigiProcessType::ProcStd;
-
-   // Note: CIGI_LOS_RESP_PACKET_ID_V1 &
-   // CIGI_LOS_RESP_PACKET_ID_V2 are the same
-   if(CnvtVersion.CigiMajorVersion < 3)
-      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V2;
-   else
-      CnvtInfo.CnvtPacketID = CIGI_LOS_RESP_PACKET_ID_V3;
-
 
    // Note:
    // CIGI_LOS_RESP_PACKET_ID_V1 &

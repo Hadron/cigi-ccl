@@ -54,9 +54,16 @@
  *  02/11/2008 Greg Basler                       Version 2.0.0
  *  Changed the conversion process.
  *  
+ *  05/14/2008 Greg Basler                       Version 2.2.0
+ *  Fixed the conversion process.
+ *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Changed the Component class Conversion table sizing to a unified
+ *   constant.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -81,7 +88,7 @@
 
 
 // Component Class conversion Tables
-const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV2::CompClassV2xV1[6] =
+const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV2::CompClassV2xV1[CigiCompCtrlV2::CompClassCnvtSz] =
 {
    Entity,
    Environment,
@@ -91,7 +98,7 @@ const CigiBaseCompCtrl::CompAssocGrp CigiCompCtrlV2::CompClassV2xV1[6] =
    NoCnvtV1
 };
 
-const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV2::CompClassV2xV3[6] =
+const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV2::CompClassV2xV3[CigiCompCtrlV2::CompClassCnvtSz] =
 {
    EntityV3,
    AtmosphereV3,
@@ -212,9 +219,17 @@ int CigiCompCtrlV2::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    CIGI_SCOPY4(&CompData[1], CDta.l++);
 
 
-   CompAssoc = (CompAssocGrp)((CompClassV2 < 3) ? CompClassV2 : Entity);
-   CompClassV3 = (CompClassV2 < 6) ? CompClassV2xV3[CompClassV2] :
-                                     EntityV3;
+   if((CompClassV2 >= CigiBaseCompCtrl::EntityV2) &&
+      (CompClassV2 <= CigiBaseCompCtrl::SystemV2))
+   {
+      CompAssoc = CompClassV2xV1[CompClassV2];
+      CompClassV3 = CompClassV2xV3[CompClassV2];
+   }
+   else
+   {
+      CompAssoc = CigiBaseCompCtrl::NoCnvtV1;
+      CompClassV3 = CigiBaseCompCtrl::NoCnvtV3;
+   }
 
 
    return(PacketSize);
@@ -231,25 +246,25 @@ int CigiCompCtrlV2::GetCnvt(CigiVersionID &CnvtVersion,
 
    if(CnvtVersion.CigiMajorVersion == 2)
    {
-      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
       CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V2;
    }
    else if(CnvtVersion.CigiMajorVersion == 1)
    {
       if((CompAssoc >= Entity)&&(CompAssoc <= View))
       {
-         CnvtInfo.ProcID = CigiProcessType::ProcStd;
+         CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
          CnvtInfo.CnvtPacketID = CIGI_COMP_CTRL_PACKET_ID_V1;
       }
       else
       {
-         CnvtInfo.ProcID = CigiProcessType::ProcNone;
+         CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcNone;
          CnvtInfo.CnvtPacketID = 0;
       }
    }
    else
    {
-      CnvtInfo.ProcID = CigiProcessType::ProcStd;
+      CnvtInfo.ProcID = CigiProcessType::TwoPassCnvtProcStd;
       CnvtInfo.CnvtPacketID = CIGI_SHORT_COMP_CTRL_PACKET_ID_V3;
    }
 

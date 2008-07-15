@@ -50,9 +50,14 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added Extrapolation or Interpolation Smoothing flag and
+ *  initialize it to false.
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -87,6 +92,7 @@ CigiIGCtrlV3::CigiIGCtrlV3()
    TrackDeviceEn = Disable;
    BoresightTrackDevice = false;
    TimestampValid = false;
+   SmoothingEn = false;
    LastRcvdIGFrame = 0;
 
 }

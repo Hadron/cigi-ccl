@@ -54,9 +54,13 @@
  *  02/11/2008 Greg Basler                       Version 2.0.0
  *  Changed the conversion process.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Changed the Component class Conversion table sizing to a unified
+ *   constant.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -80,7 +84,7 @@
 
 
 
-const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV1::CompClassV1xV3[3] =
+const CigiBaseCompCtrl::CompClassV3Grp CigiCompCtrlV1::CompClassV1xV3[CigiCompCtrlV1::CompClassCnvtSz] =
 {
    EntityV3,
    AtmosphereV3,
@@ -176,13 +180,6 @@ int CigiCompCtrlV1::Pack(CigiBasePacket * Base, Cigi_uint8 * Buff, void *Spec) c
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiCompCtrlV1::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
 {
-   // V1 to V3 Component Class conversion table
-   const CompClassV3Grp Assoc2ClassV3[3] =
-   {
-      EntityV3,
-      AtmosphereV3,
-      ViewV3
-   };
 
    double DBuf[6];
 
@@ -210,8 +207,19 @@ int CigiCompCtrlV1::Unpack(Cigi_uint8 * Buff, bool Swap, void *Spec)
    CIGI_SCOPY4(&CompData[1], CDta.l++);
 
 
-   CompClassV2 = (CompClassV2Grp)CompAssoc;
-   CompClassV3 = Assoc2ClassV3[(int)CompAssoc];
+   if((CompAssoc >= CigiBaseCompCtrl::Entity) &&
+      (CompAssoc <= CigiBaseCompCtrl::View))
+   {
+      // The Component classes in V2 valued at 0, 1, & 2
+      //   match the classes in V1 in value and purpose.
+      CompClassV2 = (CompClassV2Grp)CompAssoc;
+      CompClassV3 = CompClassV1xV3[(int)CompAssoc];
+   }
+   else
+   {
+      CompClassV2 = CigiBaseCompCtrl::NoCnvtV2;
+      CompClassV3 = CigiBaseCompCtrl::NoCnvtV3;
+   }
 
 
    return(PacketSize);

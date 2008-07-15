@@ -42,9 +42,12 @@
  *  11/20/2007 Greg Basler                       Version 2.0.0
  *  Added new version conversion method.
  *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected Version number.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -68,7 +71,7 @@ CigiLosXRespV3_2::CigiLosXRespV3_2()
    PacketID = CIGI_LOS_XRESP_PACKET_ID_V3_2;
    PacketSize = CIGI_LOS_XRESP_PACKET_SIZE_V3_2;
    Version = 3;
-   MinorVersion = 0;
+   MinorVersion = 2;
 
    LosID = 0;
    Valid = false;

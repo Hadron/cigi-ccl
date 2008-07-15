@@ -35,9 +35,13 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Corrected Version Number
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -61,7 +65,7 @@ CigiLosSegReqV3_2::CigiLosSegReqV3_2()
    PacketID = CIGI_LOS_SEG_REQ_PACKET_ID_V3_2;
    PacketSize = CIGI_LOS_SEG_REQ_PACKET_SIZE_V3_2;
    Version = 3;
-   MinorVersion = 0;
+   MinorVersion = 2;
 
    LosID = 0;
    ReqType = Basic;

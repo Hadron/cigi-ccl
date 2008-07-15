@@ -41,9 +41,14 @@
  *  is packed from the packing object (a CigiIGCtrlV3_2 object in this case)
  *  not the object with the user filled data.  This will put the correct
  *  Minor Version number in the host to ig message.
+ *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added Extrapolation or Interpolation Smoothing flag and
+ *  initialize it to false.
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -79,6 +84,7 @@ CigiIGCtrlV3_2::CigiIGCtrlV3_2()
    TrackDeviceEn = Disable;
    BoresightTrackDevice = false;
    TimestampValid = false;
+   SmoothingEn = false;
    LastRcvdIGFrame = 0;
 
 }

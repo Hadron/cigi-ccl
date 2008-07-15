@@ -55,9 +55,15 @@
  *  Corrected a bug noted by C. Schroeder.  When byteswapping, the
  *  Unpack() method now unpacks the CIGI Version 3 timestamp not the
  *  version 2 timestamp.
+ *  
+ *  06/18/2008 Greg Basler                       Version 2.2.0
+ *  Corrected a bug noted on SourceForge.  When byteswapping, the
+ *  Unpack() method now unpacks on unsigned long CIGI Version 3
+ *  timestamp not the float timestamp.
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_

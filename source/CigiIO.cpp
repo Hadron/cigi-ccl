@@ -38,13 +38,17 @@
  *  Added a receive (Recv) member function that retreives and stores
  *    the incoming message but does not process it.
  *
- *  
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  06/10/2008 Greg Basler                       Version 2.2.0
+ *  Corrected the Receive function to work with the new CigiIncomingMsg
+ *  functionality.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 
@@ -115,15 +119,15 @@ int CigiIO::Receive()
 {
    int stat = CIGI_SUCCESS;
 
-   Cigi_uint8 *NextBuf = MsgIn.GetNextBuffToLoad();
+   MsgIn.AdvanceCrntBuffer();
+
+   Cigi_uint8 *NextBuf = MsgIn.GetMsgBuffer();
 
    int size = Read(NextBuf,MsgIn.GetMsgBufSize());
 
    if(size > 0)
    {
       MsgIn.SetCrntMsgSize(size);
-
-      MsgIn.AdvanceCrntBuffer();
 
       MsgIn.ProcessIncomingMsg();
 
@@ -147,7 +151,9 @@ int CigiIO::Recv()
 {
    int stat = CIGI_SUCCESS;
 
-   Cigi_uint8 *NextBuf = MsgIn.GetNextBuffToLoad();
+   MsgIn.AdvanceCrntBuffer();
+
+   Cigi_uint8 *NextBuf = MsgIn.GetMsgBuffer();
 
    int size = Read(NextBuf,MsgIn.GetMsgBufSize());
 

@@ -67,9 +67,26 @@
  *  is properly initialized and set.  Changed ProcessIncomingMsg,
  *  GetFirstPacket, and GetNextPacket to set the Cigi Version with the
  *  correct version numbers.
+ *  
+ *  03/11/2008 Greg Basler                       Version 2.0.0
+ *  Completely rewrote the way conversions are handled.  Also, rewrote
+ *    the message buffers and how they are handled.  Also, removed
+ *    the VersionJmpTbl.
+ *
+ *  04/03/2008 Greg Basler                       Version 2.1.0
+ *  Added CigiSymbolCloneV3_3 and fixed signals
+ *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added CigiIGCtrlV3_3
+ *  Added CigiEntityCtrlV3_3
+ *  Fixed the conversion process
+ *  Fixed EnvCtrl/AtmosCtrl/CelestialCtrl conversion process
+ *  Changed GetNextPacket to adjust to the Specialty
+ *    conversion processors.
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -169,13 +186,13 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
 
    Cigi_uint8 *Dta = Buff;
    int ReadCnt = 0;
+   Swap = false;
 
    // Process the message
    while(ReadCnt < Size)
    {
       Cigi_uint8 PacketID = *Dta;
       Cigi_uint8 PacketSize = *(Dta+1);
-      Swap = false;
 
       if(PacketSize == 0)
          break;
@@ -207,14 +224,36 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
             CigiBaseEnvCtrl *pEnv = (CigiBaseEnvCtrl *)tPckt;
             pEnv->FillHold(&EnvHoldObj);
 
-            if((ProcessingVersion.CigiMajorVersion < 3) &&
-               (ReaderVersion.CigiMajorVersion >= 3))
+            if(ProcessingVersion.CigiMajorVersion >= 3)
             {
-               ProcessPacket(CIGI_ATMOS_CTRL_PACKET_ID_V3,&EnvHoldObj);
-               ProcessPacket(CIGI_CELESTIAL_CTRL_PACKET_ID_V3,&EnvHoldObj);
+               // From V3 or above
+               if(ReaderVersion.CigiMajorVersion >= 3)
+               {
+                  // To V3 or above
+                  ProcessPacket(tPckt->GetPacketID(),tPckt);
+               }
+               else
+               {
+                  // To V1 or V2
+                  // V1 Env Ctrl & V2 Env Ctrl have the same ID number
+                  ProcessPacket(CIGI_ENV_CTRL_PACKET_ID_V2,&EnvHoldObj);
+               }
             }
-            else
-               ProcessPacket(PacketID,&EnvHoldObj);
+            else  // V1 or V2
+            {
+               if(ReaderVersion.CigiMajorVersion >= 3)
+               {
+                  // To V3 or above
+                  ProcessPacket(CIGI_ATMOS_CTRL_PACKET_ID_V3,&EnvHoldObj);
+                  ProcessPacket(CIGI_CELESTIAL_CTRL_PACKET_ID_V3,&EnvHoldObj);
+               }
+               else
+               {
+                  // To V1 or V2
+                  // V1 Env Ctrl & V2 Env Ctrl have the same ID number
+                  ProcessPacket(CIGI_ENV_CTRL_PACKET_ID_V2,tPckt);
+               }
+            }
          }
 
          break;
@@ -224,6 +263,7 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
             // A special case of CIGI version 3 and later
             //  Short Articulated Part being converted
             //  to a CIGI Version 1 or 2 Articulated Part
+            tPckt->Unpack(Dta,Swap,&EnvHoldObj);
             CigiBaseShortArtPartCtrl *pSArtPart = (CigiBaseShortArtPartCtrl *)tPckt;
             Cigi_uint8 ArtPartID1 = pSArtPart->GetArtPart1();
             Cigi_uint8 ArtPartID2 = pSArtPart->GetArtPart2();
@@ -274,6 +314,19 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
 
             ProcessPacket(CnvtDta.CnvtPacketID,tPckt);
          }
+         break;
+
+      case CigiProcessType::TwoPassCnvtProcNone:
+      case CigiProcessType::TwoPassCnvtProcStd:
+         // Packets requiring unpacking to determine
+         //  final conversion method
+         tPckt->Unpack(Dta,Swap,NULL);
+
+         tPckt->GetCnvt(ReaderVersion,CnvtDta);
+
+         if(CnvtDta.ProcID == CigiProcessType::TwoPassCnvtProcStd)
+            ProcessPacket(CnvtDta.CnvtPacketID,tPckt);
+
          break;
       }
 
@@ -611,6 +664,27 @@ bool CigiIncomingMsg::SignalJump(const Cigi_uint8 PacketID, CigiBasePacket *Pack
       case CigiSignalType::SigCelestialCtrl:
          (*iSig)->OnCelestialCtrl(Packet);
          break;
+      case CigiSignalType::SigSymbolSurfaceDef:
+         (*iSig)->OnSymbolSurfaceDef(Packet);
+         break;
+      case CigiSignalType::SigSymbolCtrl:
+         (*iSig)->OnSymbolCtrl(Packet);
+         break;
+      case CigiSignalType::SigShortSymbolCtrl:
+         (*iSig)->OnShortSymbolCtrl(Packet);
+         break;
+      case CigiSignalType::SigSymbolTextDef:
+         (*iSig)->OnSymbolTextDef(Packet);
+         break;
+      case CigiSignalType::SigSymbolCircleDef:
+         (*iSig)->OnSymbolCircleDef(Packet);
+         break;
+      case CigiSignalType::SigSymbolLineDef:
+         (*iSig)->OnSymbolLineDef(Packet);
+         break;
+      case CigiSignalType::SigSymbolClone:
+         (*iSig)->OnSymbolClone(Packet);
+         break;
       default:
          (*iSig)->OnUnrecognized(Packet);
          break;
@@ -850,6 +924,19 @@ CigiBasePacket * CigiIncomingMsg::GetNextPacket()
             }
             break;
 
+         case CigiProcessType::TwoPassCnvtProcNone:
+         case CigiProcessType::TwoPassCnvtProcStd:
+            // Packets requiring unpacking to determine
+            //  final conversion method
+            tPckt->Unpack(CrntPacket,Swap,NULL);
+
+            tPckt->GetCnvt(ReaderVersion,CnvtDta);
+
+            if(CnvtDta.ProcID != CigiProcessType::TwoPassCnvtProcStd)
+               tPckt = NULL;
+
+            break;
+
          default:
             tPckt = NULL;
             break;
@@ -862,6 +949,7 @@ CigiBasePacket * CigiIncomingMsg::GetNextPacket()
       else
          Valid = false;
    }
+
 
    return(tPckt);
 
@@ -1194,21 +1282,25 @@ void CigiIncomingMsg::SetIncomingIGV3Tbls(void)
    {
       if(ProcessingVersion.CigiMinorVersion >= 3)
       {
+         IncomingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiIGCtrlV3_3;
+         IncomingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiEntityCtrlV3_3;
          IncomingHandlerTbl[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolSurfaceDefV3_3;
          IncomingHandlerTbl[CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCtrlV3_3;
          IncomingHandlerTbl[CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiShortSymbolCtrlV3_3;
          IncomingHandlerTbl[CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolTextDefV3_3;
          IncomingHandlerTbl[CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCircleDefV3_3;
          IncomingHandlerTbl[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolLineDefV3_3;
+         IncomingHandlerTbl[CIGI_SYMBOL_CLONE_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCloneV3_3;
          IncomingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiCompCtrlV3_3;
          IncomingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiShortCompCtrlV3_3;
       }
       else
       {
+         IncomingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3_2] = (CigiBasePacket *) new CigiIGCtrlV3_2;
+         IncomingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
          IncomingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiCompCtrlV3;
          IncomingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortCompCtrlV3;
       }
-      IncomingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3_2;
       IncomingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3_2;
       IncomingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3_2;
       IncomingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosSegReqV3_2;
@@ -1217,6 +1309,7 @@ void CigiIncomingMsg::SetIncomingIGV3Tbls(void)
    else
    {
       IncomingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3;
+      IncomingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
       IncomingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3;
       IncomingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3;
       IncomingHandlerTbl[CIGI_LOS_SEG_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiLosSegReqV3;
@@ -1225,7 +1318,6 @@ void CigiIncomingMsg::SetIncomingIGV3Tbls(void)
       IncomingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortCompCtrlV3;
    }
 
-   IncomingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
    IncomingHandlerTbl[CIGI_VIEW_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewDefV3;
    IncomingHandlerTbl[CIGI_VIEW_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewCtrlV3;
    IncomingHandlerTbl[CIGI_SENSOR_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiSensorCtrlV3;
@@ -1375,6 +1467,15 @@ void CigiIncomingMsg::SetReaderVersion(CigiVersionID &Version)
             SignalTbl[CIGI_WAVE_CTRL_PACKET_ID_V3] = CigiSignalType::SigWaveCtrl;
             SignalTbl[CIGI_COMP_CTRL_PACKET_ID_V3] = CigiSignalType::SigCompCtrl;
             SignalTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = CigiSignalType::SigShortCompCtrl;
+
+            SignalTbl[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = CigiSignalType::SigSymbolSurfaceDef;
+            SignalTbl[CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3] = CigiSignalType::SigSymbolCtrl;
+            SignalTbl[CIGI_SHORT_SYMBOL_CONTROL_PACKET_ID_V3_3] = CigiSignalType::SigShortSymbolCtrl;
+            SignalTbl[CIGI_SYMBOL_TEXT_DEFINITION_PACKET_ID_V3_3] = CigiSignalType::SigSymbolTextDef;
+            SignalTbl[CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3] = CigiSignalType::SigSymbolCircleDef;
+            SignalTbl[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = CigiSignalType::SigSymbolLineDef;
+            SignalTbl[CIGI_SYMBOL_CLONE_PACKET_ID_V3_3] = CigiSignalType::SigSymbolClone;
+
          }
       }
       else if(ReaderVersion.CigiMajorVersion == 2)

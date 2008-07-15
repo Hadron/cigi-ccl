@@ -34,9 +34,13 @@
  *  06/23/2006 Greg Basler                       Version 1.7.1
  *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
+ *  
+ *  05/15/2008 Greg Basler                       Version 2.2.0
+ *  Fixed Version Number.
+ *  
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #define _EXPORT_CCL_
@@ -60,7 +64,7 @@ CigiRateCtrlV3_2::CigiRateCtrlV3_2()
    PacketID = CIGI_RATE_CTRL_PACKET_ID_V3_2;
    PacketSize = CIGI_RATE_CTRL_PACKET_SIZE_V3_2;
    Version = 3;
-   MinorVersion = 0;
+   MinorVersion = 2;
 
    EntityID = 0;
    ArtPartIDV1 = 0;

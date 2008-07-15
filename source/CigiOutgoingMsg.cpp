@@ -81,9 +81,26 @@
  *    request if the incoming database number is the same or the negative of
  *    database request. It does not 0 the database request if the incoming
  *    database number is -128.
+ *  
+ *  03/11/2008 Greg Basler                       Version 2.0.0
+ *  Completely rewrote the way conversions are handled.  Also, rewrote
+ *    the message buffers and how they are handled.  Also, removed
+ *    the VersionJmpTbl.
+ *  
+ *  04/03/2008 Greg Basler                       Version 2.1.0
+ *  Added CigiSymbolCloneV3_3
+ *  
+ *  05/09/2008 Greg Basler                       Version 2.2.0
+ *  Added CigiIGCtrlV3_3
+ *  Added CigiEntityCtrlV3_3
+ *  Fixed the conversion process
+ *  
+ *  05/16/2008 Greg Basler                       Version 2.2.0
+ *  Fixed the EnvCtrl conversion process
+ *
  * </pre>
  *  Author: The Boeing Company
- *  Version: 2.0.0
+ *  Version: 2.1.0
  */
 
 #include <stdlib.h>
@@ -127,6 +144,7 @@ CigiOutgoingMsg::CigiOutgoingMsg()
    pIGCtrlPck[2] = new CigiIGCtrlV2;
    pIGCtrlPck[3] = new CigiIGCtrlV3;
    pIGCtrlPck[4] = new CigiIGCtrlV3_2;
+   pIGCtrlPck[5] = new CigiIGCtrlV3_3;
 
    pSOFPck[0] = NULL;
    pSOFPck[1] = new CigiSOFV1;
@@ -160,6 +178,7 @@ CigiOutgoingMsg::~CigiOutgoingMsg()
       delete pIGCtrlPck[ndx];
       delete pSOFPck[ndx];
    }
+   delete pIGCtrlPck[6];
 
    for(int ndx=0;ndx<200;ndx++)
    {
@@ -347,10 +366,13 @@ void CigiOutgoingMsg::ChangeBufferCigiVersion(CigiVersionID &Version)
 
    if(Session->IsHost())
    {
-      CrntFillBuf->PackIGCtrl =
-         pIGCtrlPck[OutgoingVersion.CigiMajorVersion];
-      if((OutgoingVersion.GetCombinedCigiVersion() >= 0x302))
+      if((OutgoingVersion.GetCombinedCigiVersion() >= 0x303))
+         CrntFillBuf->PackIGCtrl = pIGCtrlPck[5];
+      else if((OutgoingVersion.GetCombinedCigiVersion() == 0x301))
          CrntFillBuf->PackIGCtrl = pIGCtrlPck[4];
+      else
+         CrntFillBuf->PackIGCtrl =
+            pIGCtrlPck[OutgoingVersion.CigiMajorVersion];
 
       int pSize = CrntFillBuf->PackIGCtrl->GetPacketSize();
       CrntFillBuf->BufferFillCnt = pSize;
@@ -499,54 +521,60 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBaseEnvCtrl &refPacket)
 
    Cigi_uint8 FillVer = refPacket.GetVersion();
 
-   if(OutgoingVersion.CigiMajorVersion == FillVer)
+   if(FillVer >= 3)
    {
-      // This is one version being packed
-      if(VldSnd[refPacket.GetPacketID()])
+      // From V3 or above
+      if(OutgoingVersion.CigiMajorVersion >= 3)
       {
-         PackObj(refPacket,
-                 *OutgoingHandlerTbl[refPacket.GetPacketID()],
-                 NULL);
+         // To V3 and above
+         if(VldSnd[refPacket.GetPacketID()])
+         {
+            PackObj(refPacket,
+                  *OutgoingHandlerTbl[refPacket.GetPacketID()],
+                  NULL);
+         }
       }
-   }
-   else if((OutgoingVersion.CigiMajorVersion < 3) && (FillVer < 3))
-   {
-      // This is V1 being converted to V2
-      //  or V2 being converted to V1.
-      // Note: V1 & V2 use the same packet id number
-      if(VldSnd[refPacket.GetPacketID()])
+      else
       {
-         PackObj(refPacket,
-                 *OutgoingHandlerTbl[refPacket.GetPacketID()],
-                 NULL);
-      }
-   }
-   else if(OutgoingVersion.CigiMajorVersion < 3)
-   {
-      // This is V3 being converted to V1 or V2
-      // Note: V1 & V2 use the same packet id number
-      if(VldSnd[CIGI_ENV_CTRL_PACKET_ID_V2])
-      {
-         PackObj(EnvHoldObj,
-                 *OutgoingHandlerTbl[CIGI_ENV_CTRL_PACKET_ID_V2],
-                 NULL);
+         // To V1 or V2
+         // Note: V1 & V2 use the same packet id number
+         if(VldSnd[CIGI_ENV_CTRL_PACKET_ID_V2])
+         {
+            PackObj(EnvHoldObj,
+                  *OutgoingHandlerTbl[CIGI_ENV_CTRL_PACKET_ID_V2],
+                  NULL);
+         }
       }
    }
    else
    {
-      // This is V1 or V2 converting to V3
-      // If CIGI_ATMOS_CTRL_PACKET_ID_V3 is valid to send
-      //   CIGI_CELESTIAL_CTRL_PACKET_ID_V3 is also valid to send.
-      if(VldSnd[CIGI_ATMOS_CTRL_PACKET_ID_V3])
+      // From V1 or V2
+      if(OutgoingVersion.CigiMajorVersion >= 3)
       {
-         PackObj(EnvHoldObj,
-                 *OutgoingHandlerTbl[CIGI_ATMOS_CTRL_PACKET_ID_V3],
-                 NULL);
-         PackObj(EnvHoldObj,
-                 *OutgoingHandlerTbl[CIGI_CELESTIAL_CTRL_PACKET_ID_V3],
-                 NULL);
+         // To V3 or above
+         // If CIGI_ATMOS_CTRL_PACKET_ID_V3 is valid to send
+         //   CIGI_CELESTIAL_CTRL_PACKET_ID_V3 is also valid to send.
+         if(VldSnd[CIGI_ATMOS_CTRL_PACKET_ID_V3])
+         {
+            PackObj(EnvHoldObj,
+               *OutgoingHandlerTbl[CIGI_ATMOS_CTRL_PACKET_ID_V3],
+               NULL);
+            PackObj(EnvHoldObj,
+               *OutgoingHandlerTbl[CIGI_CELESTIAL_CTRL_PACKET_ID_V3],
+               NULL);
+         }
       }
-
+      else
+      {
+         // To V1 or V2
+         // Note: V1 & V2 use the same packet id number
+         if(VldSnd[refPacket.GetPacketID()])
+         {
+            PackObj(refPacket,
+               *OutgoingHandlerTbl[refPacket.GetPacketID()],
+               NULL);
+         }
+      }
    }
 
    return(*this);
@@ -614,7 +642,8 @@ CigiOutgoingMsg & CigiOutgoingMsg::operator <<(CigiBasePacket &refBasePacket)
    CigiCnvtInfoType::Type Cnvt;
    refBasePacket.GetCnvt(OutgoingVersion,Cnvt);
 
-   if(Cnvt.ProcID == CigiProcessType::ProcStd)
+   if((Cnvt.ProcID == CigiProcessType::ProcStd) ||
+      (Cnvt.ProcID == CigiProcessType::TwoPassCnvtProcStd))
    {
       if(VldSnd[Cnvt.CnvtPacketID])
          PackObj(refBasePacket,*OutgoingHandlerTbl[Cnvt.CnvtPacketID],NULL);
@@ -1365,6 +1394,10 @@ void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
    {
       if(OutgoingVersion.CigiMinorVersion >= 3)
       {
+         OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiIGCtrlV3_3;
+         VldSnd[CIGI_IG_CTRL_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiEntityCtrlV3_3;
+         VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V3_3] = true;
          OutgoingHandlerTbl[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolSurfaceDefV3_3;
          VldSnd[CIGI_SYMBOL_SURFACE_DEF_PACKET_ID_V3_3] = true;
          OutgoingHandlerTbl[CIGI_SYMBOL_CONTROL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCtrlV3_3;
@@ -1377,6 +1410,8 @@ void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
          VldSnd[CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3] = true;
          OutgoingHandlerTbl[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolLineDefV3_3;
          VldSnd[CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3] = true;
+         OutgoingHandlerTbl[CIGI_SYMBOL_CLONE_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiSymbolCloneV3_3;
+         VldSnd[CIGI_SYMBOL_CLONE_PACKET_ID_V3_3] = true;
          OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiCompCtrlV3_3;
          VldSnd[CIGI_COMP_CTRL_PACKET_ID_V3_3] = true;
          OutgoingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3_3] = (CigiBasePacket *) new CigiShortCompCtrlV3_3;
@@ -1384,13 +1419,15 @@ void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
       }
       else
       {
+         OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3_2] = (CigiBasePacket *) new CigiIGCtrlV3_2;
+         VldSnd[CIGI_IG_CTRL_PACKET_ID_V3_2] = true;
+         OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
+         VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V3] = true;
          OutgoingHandlerTbl[CIGI_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiCompCtrlV3;
          VldSnd[CIGI_COMP_CTRL_PACKET_ID_V3] = true;
          OutgoingHandlerTbl[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiShortCompCtrlV3;
          VldSnd[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = true;
       }
-      OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3_2;
-      VldSnd[CIGI_IG_CTRL_PACKET_ID_V3] = true;
       OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3_2;
       VldSnd[CIGI_RATE_CTRL_PACKET_ID_V3] = true;
       OutgoingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3_2;
@@ -1404,6 +1441,8 @@ void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
    {
       OutgoingHandlerTbl[CIGI_IG_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiIGCtrlV3;
       VldSnd[CIGI_IG_CTRL_PACKET_ID_V3] = true;
+      OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
+      VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V3] = true;
       OutgoingHandlerTbl[CIGI_RATE_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiRateCtrlV3;
       VldSnd[CIGI_RATE_CTRL_PACKET_ID_V3] = true;
       OutgoingHandlerTbl[CIGI_HAT_HOT_REQ_PACKET_ID_V3] = (CigiBasePacket *) new CigiHatHotReqV3;
@@ -1418,8 +1457,6 @@ void CigiOutgoingMsg::SetOutgoingHostV3Tbls(void)
       VldSnd[CIGI_SHORT_COMP_CTRL_PACKET_ID_V3] = true;
    }
 
-   OutgoingHandlerTbl[CIGI_ENTITY_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiEntityCtrlV3;
-   VldSnd[CIGI_ENTITY_CTRL_PACKET_ID_V3] = true;
    OutgoingHandlerTbl[CIGI_VIEW_DEF_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewDefV3;
    VldSnd[CIGI_VIEW_DEF_PACKET_ID_V3] = true;
    OutgoingHandlerTbl[CIGI_VIEW_CTRL_PACKET_ID_V3] = (CigiBasePacket *) new CigiViewCtrlV3;

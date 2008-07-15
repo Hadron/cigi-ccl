@@ -1,5 +1,5 @@
 PROJECT(ccl)
-SET(VERSION 2.0.0)
+SET(VERSION 2.1.0)
 
 #============================================================================
 # Please note:
@@ -130,6 +130,7 @@ SET(CCL_PUBLIC_HDRS
     include/CigiBaseSymbolLineDef.h
     include/CigiBaseSymbolSurfaceDef.h
     include/CigiBaseSymbolTextDef.h
+    include/CigiBaseSymbolClone.h
 	include/CigiBaseTerrestrialSurfaceCtrl.h
 	include/CigiBaseTerrestrialSurfaceResp.h
 	include/CigiBaseTrajectoryDef.h
@@ -246,6 +247,7 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiSymbolLineDefV3_3.h
 	include/CigiSymbolSurfaceDefV3_3.h
 	include/CigiSymbolTextDefV3_3.h
+	include/CigiSymbolCloneV3_3.h
 	include/CigiTerrestrialSurfaceCtrlV3.h
 	include/CigiTerrestrialSurfaceRespV3.h
 	include/CigiTrajectoryDefV1.h
@@ -308,6 +310,7 @@ SET(CCL_SRCS
 	source/CigiBaseSymbolLineDef.cpp
 	source/CigiBaseSymbolSurfaceDef.cpp
 	source/CigiBaseSymbolTextDef.cpp
+	source/CigiBaseSymbolClone.cpp
 	source/CigiBaseTerrestrialSurfaceCtrl.cpp
 	source/CigiBaseTrajectoryDef.cpp
 	source/CigiBaseViewCtrl.cpp
@@ -413,6 +416,7 @@ SET(CCL_SRCS
 	source/CigiSymbolLineDefV3_3.cpp
 	source/CigiSymbolSurfaceDefV3_3.cpp
 	source/CigiSymbolTextDefV3_3.cpp
+	source/CigiSymbolCloneV3_3.cpp
 	source/CigiTerrestrialSurfaceCtrlV3.cpp
 	source/CigiTerrestrialSurfaceRespV3.cpp
 	source/CigiTrajectoryDefV1.cpp

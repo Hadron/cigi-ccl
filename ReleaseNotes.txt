@@ -3,6 +3,14 @@ Release Notes:
 
 
  -------------------------------------------------------------------------------
+  Release: CCL Version 2.1.0
+  Date: March 11, 2008
+ -------------------------------------------------------------------------------
+
+Added the Symbol Clone packet and changed the Packet ID numbers for
+the Symbol Control and Short Symbol Control packets.
+
+ -------------------------------------------------------------------------------
   Release: CCL Version 2.0.0
   Date: March 11, 2008
  -------------------------------------------------------------------------------

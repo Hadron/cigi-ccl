@@ -1,5 +1,16 @@
 Version 2.0.0
 -------------
+[04.04.2008]
+
+Changes/Additions:
+------------------
+
+- Added the Symbol Clone Packet.
+- Changed the Packet IDs for the Symbol Ctrl and Short Symbol Ctrl packets.
+
+
+Version 2.0.0
+-------------
 [03.11.2008]
 
 Changes/Additions:

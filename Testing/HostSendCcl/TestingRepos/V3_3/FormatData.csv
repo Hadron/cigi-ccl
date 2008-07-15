@@ -78,4 +78,10 @@ SymbolLineDef,SetSymbolID,SetPrimitive,SetStipplePattern,SetLineWidth,SetStipple
 ,,LineLoop,,,,,
 ,,Triangles,,,,,
 ,,TriangleStrip,,,,,
-,,TriangleFan
+,,TriangleFan,
+
+
+SymbolClone,SetSymbolID,SetSourceType,SetSourceID
+
+,,Symbol,
+,,SymbolTemplate,

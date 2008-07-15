@@ -1,3 +1,9 @@
+EntityCtrl,2,Active,Detach,Disable,NoInherit,NoClamp,Forward,Continuous,Play,TRUE,50,104,0,2.4,3.3,63.3,10,20,30
+EntityCtrl,2,Standby,Attach,Enable,Inherit,AltClamp,Backward,OneShot,Pause,FALSE,50,104,0,2.4,3.3,63.3,10,20,30
+EntityCtrl,2,Remove,Detach,Disable,NoInherit,AltAttClamp,Forward,Continuous,Continue,FALSE,50,104,0,2.4,3.3,63.3,10,20,30
+EntityCtrl,2,Active,Detach,Disable,NoInherit,NoClamp,Forward,Continuous,Stop,TRUE,50,104,0,2.4,3.3,63.3,10,20,30
+EntityCtrl,8,Active,Detach,Disable,NoInherit,NoClamp,Forward,Continuous,Play,TRUE,50,104,0,2.4,3.3,63.3,10,20,30
+EntityCtrl,259,Active,Detach,Disable,NoInherit,NoClamp,Forward,Continuous,Play,FALSE,36,12801,544,2.4,3.3,63.3,10,20,30
 CompCtrl,1,1,SymbolSurfaceV3_3,1,15,15,15,15,15,15,,,,,,,,,
 CompCtrl,1,1,SymbolV3_3,1,15,15,15,15,15,15,,,,,,,,,
 ShortCompCtrl,1,1,SymbolSurfaceV3_3,1,15,15,,,,,,,,,,,,,
@@ -14,26 +20,26 @@ SymbolCtrl,4,Destroyed,Detach,Continue,NotInherit,0,8,64,100,1,1.2,-1.3,15.1,175
 ShortSymbolCtrl,1,Visible,Detach,Continue,NotInherit,None,0,FlashPeriodDatumType,2.2,,,,,,,,,,
 ShortSymbolCtrl,2,Visible,Attach,Reset,NotInherit,SurfaceIdDatumType,4,UPositionDatumType,2.4,,,,,,,,,,
 ShortSymbolCtrl,4,Visible,Attach,Continue,Inherit,ParentIdDatumType,1,VPositionDatumType,-3.3,,,,,,,,,,
-ShortSymbolCtrl,8,Visible,Attach,Reset,Inherit,LayerDatumType,15,RotationDatumType,15.2,,,,,,,,
-ShortSymbolCtrl,16,Visible,Detach,Continue,NotInherit,FlashDutyCycleDatumType,65,ColorDatumType,21,210,18,80,,,,,
-ShortSymbolCtrl,32,Visible,Attach,Reset,NotInherit,ColorDatumType,175,40,36,100,SurfaceIdDatumType,2,,,,,
-SymbolTextDef,1,TopLeft,LeftToRight,1,1.2,Happy,,,,,,,,,,,
-SymbolTextDef,2,TopCenter,TopToBottom,2,1.3,Sad,,,,,,,,,,,
-SymbolTextDef,4,TopRight,RightToLeft,3,0.9,Grumpy,,,,,,,,,,,
-SymbolTextDef,8,CenterLeft,BottomToTop,4,1.4,Blue,,,,,,,,,,,
-SymbolTextDef,16,Center,LeftToRight,5,1.2,Green,,,,,,,,,,,
-SymbolTextDef,32,CenterRight,TopToBottom,6,2.2,This is a phrase,,,,,,,,,,,
-SymbolTextDef,64,BottomLeft,RightToLeft,7,0.8,Jumping Frogs,,,,,,,,,,,
+ShortSymbolCtrl,8,Visible,Attach,Reset,Inherit,LayerDatumType,15,RotationDatumType,15.2,,,,,,,,,,
+ShortSymbolCtrl,16,Visible,Detach,Continue,NotInherit,FlashDutyCycleDatumType,65,ColorDatumType,21,210,18,80,,,,,,,
+ShortSymbolCtrl,32,Visible,Attach,Reset,NotInherit,ColorDatumType,175,40,36,100,SurfaceIdDatumType,2,,,,,,,
+SymbolTextDef,1,TopLeft,LeftToRight,1,1.2,Happy,,,,,,,,,,,,,
+SymbolTextDef,2,TopCenter,TopToBottom,2,1.3,Sad,,,,,,,,,,,,,
+SymbolTextDef,4,TopRight,RightToLeft,3,0.9,Grumpy,,,,,,,,,,,,,
+SymbolTextDef,8,CenterLeft,BottomToTop,4,1.4,Blue,,,,,,,,,,,,,
+SymbolTextDef,16,Center,LeftToRight,5,1.2,Green,,,,,,,,,,,,,
+SymbolTextDef,32,CenterRight,TopToBottom,6,2.2,This is a phrase,,,,,,,,,,,,,
+SymbolTextDef,64,BottomLeft,RightToLeft,7,0.8,Jumping Frogs,,,,,,,,,,,,,
 SymbolTextDef,128,BottomCenter,BottomToTop,8,1.9,Tree Frogs,,,,,,,,,,,
 SymbolTextDef,256,BottomRight,LeftToRight,9,5.5,Pale Blue Sky,,,,,,,,,,,
 SymbolCircleDef,1,Line,43605,0.3,2.1,2.3,1.2,5.3,0,45.1,134.9,,,,,,
 SymbolCircleDef,2,Fill,50115,0.2,1.3,3.3,-1.1,6.1,4.2,199.5,339.5,,,,,,
 SymbolCircleDef,4,Line,43605,0.3,2.1,2.3,1.2,5.3,0,45.1,134.9,3.3,-1.1,6.1,4.2,199.5,339.5
 SymbolCircleDef,8,Fill,50115,0.2,1.3,3.3,-1.1,6.1,4.2,199.5,339.5,2.3,1.2,5.3,0,45.1,134.9
-SymbolLineDef,1,Points,43605,0.3,2.1,2.3,1.2,,,,,,
-SymbolLineDef,2,Lines,50115,0.2,1.3,3.3,-1.1,2.1,2.2,,,,
-SymbolLineDef,4,LineStrip,43605,0.3,2.1,2.3,1.2,1.2,1.4,3.3,3.5,4.8,5.2
-SymbolLineDef,8,LineLoop,50115,0.2,1.3,3.3,-1.1,1.2,1.4,3.3,3.5,4.8,5.2
-SymbolLineDef,16,Triangles,43605,0.3,2.1,2.3,1.2,3.3,1.2,3.3,2.1,,
-SymbolLineDef,32,TriangleStrip,50115,0.2,1.3,2.3,1.2,3.3,1.2,3.3,2.1,4.8,1.2
-SymbolLineDef,64,TriangleFan,43605,0.3,2.1,2.3,1.2,3.3,1.2,3.3,2.1,2.8,2.6
+SymbolLineDef,1,Points,43605,0.3,2.1,2.3,1.2,,,,,,,,,,
+SymbolLineDef,2,Lines,50115,0.2,1.3,3.3,-1.1,2.1,2.2,,,,,,,,
+SymbolLineDef,4,LineStrip,43605,0.3,2.1,2.3,1.2,1.2,1.4,3.3,3.5,4.8,5.2,,,,
+SymbolLineDef,8,LineLoop,50115,0.2,1.3,3.3,-1.1,1.2,1.4,3.3,3.5,4.8,5.2,,,,
+SymbolLineDef,16,Triangles,43605,0.3,2.1,2.3,1.2,3.3,1.2,3.3,2.1,,,,,,
+SymbolLineDef,32,TriangleStrip,50115,0.2,1.3,2.3,1.2,3.3,1.2,3.3,2.1,4.8,1.2,,,,
+SymbolLineDef,64,TriangleFan,43605,0.3,2.1,2.3,1.2,3.3,1.2,3.3,2.1,2.8,2.6,,,,

@@ -50,6 +50,7 @@
 // From CCL
 #include <CigiHostSession.h>
 #include <CigiExceptions.h>
+#include <CigiIGCtrlV3_3.h>
 #include <CigiIGCtrlV3_2.h>
 #include <CigiIGCtrlV3.h>
 #include <CigiIGCtrlV2.h>
@@ -109,6 +110,7 @@ XSOF *Pr_SOF = NULL;
 DefaultProc *Pr_Default = NULL;
 
 
+static CigiIGCtrlV3_3 CIGC3_3;
 static CigiIGCtrlV3_2 CIGC3_2;
 static CigiIGCtrlV3 CIGC3;
 static CigiIGCtrlV2 CIGC2;
@@ -415,7 +417,7 @@ int init_cigi_if(void)
 
 
    // Version specific items
-   pCIGC = &CIGC3_2;
+   pCIGC = &CIGC3_3;
    int tSOF_ID = CIGI_SOF_PACKET_ID_V3_2;
    OutProc = NULL;
    if(MajorVer == 3)
@@ -428,7 +430,10 @@ int init_cigi_if(void)
       else
       {
          tSOF_ID = CIGI_SOF_PACKET_ID_V3_2;
-         pCIGC = &CIGC3_2;
+         if(MinorVer < 3)
+            pCIGC = &CIGC3_2;
+         else
+            pCIGC = &CIGC3_3;
       }
       OutProc = new OutputProcessor3;
    }

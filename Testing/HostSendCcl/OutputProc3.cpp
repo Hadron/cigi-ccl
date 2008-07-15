@@ -31,6 +31,7 @@
 #include "Proc_ConfClampEntityCtrlV3.h"
 #include "Proc_EarthModelDefV3.h"
 #include "Proc_EntityCtrlV3.h"
+#include "Proc_EntityCtrlV3_3.h"
 #include "Proc_EnvCondReqV3.h"
 #include "Proc_EnvRgnCtrlV3.h"
 #include "Proc_MaritimeSurfaceCtrlV3.h"
@@ -61,6 +62,7 @@
 #include "Proc_SymbolTextDefV3_3.h"
 #include "Proc_SymbolCircleDefV3_3.h"
 #include "Proc_SymbolLineDefV3_3.h"
+#include "Proc_SymbolCloneV3_3.h"
 
 
 using namespace std;
@@ -104,7 +106,6 @@ void OutputProcessor3::Init(CigiHostSession *HostSnIn,
       Parsers.push_back((PcktParsingProcessor *)(new Proc_CollDetVolDefV3));
       Parsers.push_back((PcktParsingProcessor *)(new Proc_ConfClampEntityCtrlV3));
       Parsers.push_back((PcktParsingProcessor *)(new Proc_EarthModelDefV3));
-      Parsers.push_back((PcktParsingProcessor *)(new Proc_EntityCtrlV3));
       Parsers.push_back((PcktParsingProcessor *)(new Proc_EnvCondReqV3));
       Parsers.push_back((PcktParsingProcessor *)(new Proc_EnvRgnCtrlV3));
       Parsers.push_back((PcktParsingProcessor *)(new Proc_MaritimeSurfaceCtrlV3));
@@ -121,6 +122,7 @@ void OutputProcessor3::Init(CigiHostSession *HostSnIn,
 
       if(MinorVer < 2)
       {
+         Parsers.push_back((PcktParsingProcessor *)(new Proc_EntityCtrlV3));
          Parsers.push_back((PcktParsingProcessor *)(new Proc_RateCtrlV3));
          Parsers.push_back((PcktParsingProcessor *)(new Proc_HatHotReqV3));
          Parsers.push_back((PcktParsingProcessor *)(new Proc_LosSegReqV3));
@@ -136,11 +138,13 @@ void OutputProcessor3::Init(CigiHostSession *HostSnIn,
          Parsers.push_back((PcktParsingProcessor *)(new Proc_RateCtrlV3_2));
          if(MinorVer < 3)
          {
+            Parsers.push_back((PcktParsingProcessor *)(new Proc_EntityCtrlV3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_CompCtrlV3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_ShortCompCtrlV3));
          }
          else
          {
+            Parsers.push_back((PcktParsingProcessor *)(new Proc_EntityCtrlV3_3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_CompCtrlV3_3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_ShortCompCtrlV3_3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_SymbolSurfaceDefV3_3));
@@ -149,6 +153,7 @@ void OutputProcessor3::Init(CigiHostSession *HostSnIn,
             Parsers.push_back((PcktParsingProcessor *)(new Proc_SymbolTextDefV3_3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_SymbolCircleDefV3_3));
             Parsers.push_back((PcktParsingProcessor *)(new Proc_SymbolLineDefV3_3));
+            Parsers.push_back((PcktParsingProcessor *)(new Proc_SymbolCloneV3_3));
          }
       }
    }

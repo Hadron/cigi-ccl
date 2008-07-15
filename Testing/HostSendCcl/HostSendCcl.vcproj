@@ -200,6 +200,9 @@
 				RelativePath=".\Proc_EntityCtrlV3.cpp">
 			</File>
 			<File
+				RelativePath=".\Proc_EntityCtrlV3_3.cpp">
+			</File>
+			<File
 				RelativePath=".\Proc_EnvCondReqV3.cpp">
 			</File>
 			<File
@@ -300,6 +303,9 @@
 			</File>
 			<File
 				RelativePath=".\Proc_SymbolCircleDefV3_3.cpp">
+			</File>
+			<File
+				RelativePath=".\Proc_SymbolCloneV3_3.cpp">
 			</File>
 			<File
 				RelativePath=".\Proc_SymbolCtrlV3_3.cpp">
@@ -463,6 +469,9 @@
 				RelativePath=".\Proc_EntityCtrlV3.h">
 			</File>
 			<File
+				RelativePath=".\Proc_EntityCtrlV3_3.h">
+			</File>
+			<File
 				RelativePath=".\Proc_EnvCondReqV3.h">
 			</File>
 			<File
@@ -563,6 +572,9 @@
 			</File>
 			<File
 				RelativePath=".\Proc_SymbolCircleDefV3_3.h">
+			</File>
+			<File
+				RelativePath=".\Proc_SymbolCloneV3_3.h">
 			</File>
 			<File
 				RelativePath=".\Proc_SymbolCtrlV3_3.h">

@@ -2113,6 +2113,9 @@
 				RelativePath="..\source\CigiBaseSymbolCircleDef.cpp">
 			</File>
 			<File
+				RelativePath="..\source\CigiBaseSymbolClone.cpp">
+			</File>
+			<File
 				RelativePath="..\source\CigiBaseSymbolCtrl.cpp">
 			</File>
 			<File
@@ -3589,6 +3592,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\source\CigiEntityCtrlV3_3.cpp">
+			</File>
+			<File
 				RelativePath="..\source\CigiEnvCondReqV3.cpp">
 				<FileConfiguration
 					Name="libReleaseST|Win32">
@@ -4775,6 +4781,9 @@
 						PreprocessorDefinitions=""
 						BasicRuntimeChecks="3"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\source\CigiIGCtrlV3_3.cpp">
 			</File>
 			<File
 				RelativePath="..\source\CigiIGMsgV2.cpp">
@@ -7324,6 +7333,9 @@
 				RelativePath="..\source\CigiSymbolCircleDefV3_3.cpp">
 			</File>
 			<File
+				RelativePath="..\source\CigiSymbolCloneV3_3.cpp">
+			</File>
+			<File
 				RelativePath="..\source\CigiSymbolCtrlV3_3.cpp">
 			</File>
 			<File
@@ -8348,6 +8360,9 @@
 				RelativePath="..\include\CigiBaseSymbolCircleDef.h">
 			</File>
 			<File
+				RelativePath="..\include\CigiBaseSymbolClone.h">
+			</File>
+			<File
 				RelativePath="..\include\CigiBaseSymbolCtrl.h">
 			</File>
 			<File
@@ -8459,6 +8474,9 @@
 				RelativePath="..\include\CigiEntityCtrlV3.h">
 			</File>
 			<File
+				RelativePath="..\include\CigiEntityCtrlV3_3.h">
+			</File>
+			<File
 				RelativePath="..\include\CigiEnvCondReqV3.h">
 			</File>
 			<File
@@ -8535,6 +8553,9 @@
 			</File>
 			<File
 				RelativePath="..\include\CigiIGCtrlV3_2.h">
+			</File>
+			<File
+				RelativePath="..\include\CigiIGCtrlV3_3.h">
 			</File>
 			<File
 				RelativePath="..\include\CigiIGMsgV2.h">
@@ -8694,6 +8715,9 @@
 			</File>
 			<File
 				RelativePath="..\include\CigiSymbolCircleDefV3_3.h">
+			</File>
+			<File
+				RelativePath="..\include\CigiSymbolCloneV3_3.h">
 			</File>
 			<File
 				RelativePath="..\include\CigiSymbolCtrlV3_3.h">

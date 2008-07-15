@@ -52,7 +52,7 @@
 // From CCL
 #include <CigiHostSession.h>
 #include <CigiExceptions.h>
-#include <CigiEntityCtrlV3.h>
+#include <CigiEntityCtrlV3_3.h>
 #include <CigiIGCtrlV3_2.h>
 #include <CigiSOFV3_2.h>
 #include <CigiAnimationStopV3.h>
@@ -104,7 +104,7 @@ static CigiIncomingMsg *ImsgPtr;
 static SOFP *pSOFP;
 static AnimStop *pAnimStop;
 static DefaultProc DefaultPckt;
-static CigiEntityCtrlV3 COwn;
+static CigiEntityCtrlV3_3 COwn;
 static CigiIGCtrlV3_2 CIGC;
 
 // CIGI network message buffers and information
@@ -409,7 +409,7 @@ int init_cigi_if(void){
    
    
    // initialize the Ownship
-   //  the other parameters are set by CigiEntityCtrlV3
+   //  the other parameters are set by CigiEntityCtrlV3_3
    COwn.SetEntityID(0);
    COwn.SetEntityType(0);
    COwn.SetEntityState(CigiBaseEntityCtrl::Active);

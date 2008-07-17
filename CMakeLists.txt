@@ -79,8 +79,8 @@ ENDIF()
 #==========================================================
 
 SET(CCL_PUBLIC_HDRS
-    include/CigiAerosolRespV3.h
-    include/CigiAllPackets.h
+	include/CigiAerosolRespV3.h
+	include/CigiAllPackets.h
 	include/CigiAnimationStopV3.h
 	include/CigiAnimationTable.h
 	include/CigiArtPartCtrlV1.h
@@ -90,7 +90,7 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiBaseAerosolResp.h
 	include/CigiBaseAnimationStop.h
 	include/CigiBaseArtPartCtrl.h
-    include/CigiBaseCircleSymbolData.h
+	include/CigiBaseCircleSymbolData.h
 	include/CigiBaseCollDetSegDef.h
 	include/CigiBaseCollDetSegResp.h
 	include/CigiBaseCollDetVolDef.h
@@ -122,28 +122,28 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiBaseSensorCtrl.h
 	include/CigiBaseSensorResp.h
 	include/CigiBaseShortArtPartCtrl.h
-    include/CigiBaseShortSymbolCtrl.h
+	include/CigiBaseShortSymbolCtrl.h
 	include/CigiBaseSignalProcessing.h
 	include/CigiBaseSpecEffDef.h
-    include/CigiBaseSymbolCircleDef.h
-    include/CigiBaseSymbolCtrl.h
-    include/CigiBaseSymbolLineDef.h
-    include/CigiBaseSymbolSurfaceDef.h
-    include/CigiBaseSymbolTextDef.h
-    include/CigiBaseSymbolClone.h
+	include/CigiBaseSymbolCircleDef.h
+	include/CigiBaseSymbolClone.h
+	include/CigiBaseSymbolCtrl.h
+	include/CigiBaseSymbolLineDef.h
+	include/CigiBaseSymbolSurfaceDef.h
+	include/CigiBaseSymbolTextDef.h
 	include/CigiBaseTerrestrialSurfaceCtrl.h
 	include/CigiBaseTerrestrialSurfaceResp.h
 	include/CigiBaseTrajectoryDef.h
-    include/CigiBaseVariableSizePckt.h
-    include/CigiBaseVertexSymbolData.h
+	include/CigiBaseVariableSizePckt.h
+	include/CigiBaseVertexSymbolData.h
 	include/CigiBaseViewCtrl.h
 	include/CigiBaseViewDef.h
 	include/CigiBaseWaveCtrl.h
 	include/CigiBaseWeatherCondResp.h
 	include/CigiBaseWeatherCtrl.h
 	include/CigiCelestialCtrl.h
-    include/CigiCircleSymbolDataV3_3.h
-    include/CigiCnvtInfoType.h
+	include/CigiCircleSymbolDataV3_3.h
+	include/CigiCnvtInfoType.h
 	include/CigiCollDetSegDefV1.h
 	include/CigiCollDetSegDefV2.h
 	include/CigiCollDetSegDefV3.h
@@ -157,19 +157,20 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiCompCtrlV1.h
 	include/CigiCompCtrlV2.h
 	include/CigiCompCtrlV3.h
-    include/CigiCompCtrlV3_3.h
+	include/CigiCompCtrlV3_3.h
 	include/CigiConfClampEntityCtrlV3.h
 	include/CigiDefaultPacket.h
 	include/CigiEarthModelDefV3.h
 	include/CigiEntityCtrlV1.h
 	include/CigiEntityCtrlV2.h
 	include/CigiEntityCtrlV3.h
+	include/CigiEntityCtrlV3_3.h
 	include/CigiEnvCondReqV3.h
 	include/CigiEnvCtrlV1.h
 	include/CigiEnvCtrlV2.h
 	include/CigiEnvRgnCtrlV3.h
 	include/CigiErrorCodes.h
-    include/CigiEventNotificationV3.h
+	include/CigiEventNotificationV3.h
 	include/CigiException.h
 	include/CigiExceptions.h
 	include/CigiHatHotReqV3.h
@@ -190,6 +191,7 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiIGCtrlV2.h
 	include/CigiIGCtrlV3.h
 	include/CigiIGCtrlV3_2.h
+	include/CigiIGCtrlV3_3.h
 	include/CigiIGMsgV2.h
 	include/CigiIGMsgV3.h
 	include/CigiIGSession.h
@@ -212,12 +214,12 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiMaritimeSurfaceCtrlV3.h
 	include/CigiMaritimeSurfaceRespV3.h
 	include/CigiMessage.h
-    include/CigiMessageBuffer.h
+	include/CigiMessageBuffer.h
 	include/CigiMotionTrackCtrlV3.h
 	include/CigiOutgoingMsg.h
 	include/CigiPositionReqV3.h
 	include/CigiPositionRespV3.h
-    include/CigiProcessType.h
+	include/CigiProcessType.h
 	include/CigiRateCtrlV1.h
 	include/CigiRateCtrlV2.h
 	include/CigiRateCtrlV3.h
@@ -237,25 +239,25 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiShortArtPartCtrlV3.h
 	include/CigiShortCompCtrlV3.h
 	include/CigiShortCompCtrlV3_3.h
-    include/CigiShortSymbolCtrlV3_3.h
-    include/CigiSignalType.h
+	include/CigiShortSymbolCtrlV3_3.h
+	include/CigiSignalType.h
 	include/CigiSpecEffDefV1.h
 	include/CigiSpecEffDefV2.h
 	include/CigiSwapping.h
-    include/CigiSymbolCircleDefV3_3.h
+	include/CigiSymbolCircleDefV3_3.h
+	include/CigiSymbolCloneV3_3.h
 	include/CigiSymbolCtrlV3_3.h
 	include/CigiSymbolLineDefV3_3.h
 	include/CigiSymbolSurfaceDefV3_3.h
 	include/CigiSymbolTextDefV3_3.h
-	include/CigiSymbolCloneV3_3.h
 	include/CigiTerrestrialSurfaceCtrlV3.h
 	include/CigiTerrestrialSurfaceRespV3.h
 	include/CigiTrajectoryDefV1.h
 	include/CigiTrajectoryDefV2.h
 	include/CigiTrajectoryDefV3.h
 	include/CigiTypes.h
-    include/CigiVersionID.h
-    include/CigiVertexSymbolDataV3_3.h
+	include/CigiVersionID.h
+	include/CigiVertexSymbolDataV3_3.h
 	include/CigiViewCtrlV1.h
 	include/CigiViewCtrlV2.h
 	include/CigiViewCtrlV3.h
@@ -306,11 +308,11 @@ SET(CCL_SRCS
 	source/CigiBaseShortSymbolCtrl.cpp
 	source/CigiBaseSpecEffDef.cpp
 	source/CigiBaseSymbolCircleDef.cpp
+	source/CigiBaseSymbolClone.cpp
 	source/CigiBaseSymbolCtrl.cpp
 	source/CigiBaseSymbolLineDef.cpp
 	source/CigiBaseSymbolSurfaceDef.cpp
 	source/CigiBaseSymbolTextDef.cpp
-	source/CigiBaseSymbolClone.cpp
 	source/CigiBaseTerrestrialSurfaceCtrl.cpp
 	source/CigiBaseTrajectoryDef.cpp
 	source/CigiBaseViewCtrl.cpp
@@ -340,6 +342,7 @@ SET(CCL_SRCS
 	source/CigiEntityCtrlV1.cpp
 	source/CigiEntityCtrlV2.cpp
 	source/CigiEntityCtrlV3.cpp
+	source/CigiEntityCtrlV3_3.cpp
 	source/CigiEnvCondReqV3.cpp
 	source/CigiEnvCtrlV1.cpp
 	source/CigiEnvCtrlV2.cpp
@@ -362,6 +365,7 @@ SET(CCL_SRCS
 	source/CigiIGCtrlV2.cpp
 	source/CigiIGCtrlV3.cpp
 	source/CigiIGCtrlV3_2.cpp
+	source/CigiIGCtrlV3_3.cpp
 	source/CigiIGMsgV2.cpp
 	source/CigiIGMsgV3.cpp
 	source/CigiIGSession.cpp
@@ -412,11 +416,11 @@ SET(CCL_SRCS
 	source/CigiSpecEffDefV2.cpp
 	source/CigiSwapping.cpp
 	source/CigiSymbolCircleDefV3_3.cpp
+	source/CigiSymbolCloneV3_3.cpp
 	source/CigiSymbolCtrlV3_3.cpp
 	source/CigiSymbolLineDefV3_3.cpp
 	source/CigiSymbolSurfaceDefV3_3.cpp
 	source/CigiSymbolTextDefV3_3.cpp
-	source/CigiSymbolCloneV3_3.cpp
 	source/CigiTerrestrialSurfaceCtrlV3.cpp
 	source/CigiTerrestrialSurfaceRespV3.cpp
 	source/CigiTrajectoryDefV1.cpp

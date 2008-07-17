@@ -505,6 +505,12 @@ protected:
 	void ChangeBufferCigiVersion(CigiVersionID &Version);
 
    //=========================================================
+   //! Deletes the contents of OutgoingHandlerTbl and sets entries in 
+   //! VldSnd accordingly.
+   //!
+   void ClearHandlerTable(void);
+
+   //=========================================================
    //! Sets the external interface tables to Host output with
    //!   Cigi Version 1 packets
    //!

@@ -172,19 +172,17 @@ CigiOutgoingMsg::CigiOutgoingMsg()
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CigiOutgoingMsg::~CigiOutgoingMsg()
 {
-
-   for(int ndx=1;ndx<5;ndx++)
+   int ndx;
+   for(ndx=1;ndx<6;ndx++)
    {
       delete pIGCtrlPck[ndx];
+   }
+   for(ndx=1;ndx<5;ndx++)
+   {
       delete pSOFPck[ndx];
    }
-   delete pIGCtrlPck[6];
 
-   for(int ndx=0;ndx<200;ndx++)
-   {
-      if(OutgoingHandlerTbl[ndx] != (CigiBasePacket *)&DefaultPacket)
-         delete OutgoingHandlerTbl[ndx];
-   }
+   ClearHandlerTable();
 
 }
 
@@ -262,15 +260,7 @@ void CigiOutgoingMsg::ChangeOutgoingCigiVersion(CigiVersionID &Version)
    {
       OutgoingVersion = Version;
 
-      for(int ndx=0;ndx<200;ndx++)
-      {
-         if(OutgoingHandlerTbl[ndx] != (CigiBasePacket *)&DefaultPacket)
-         {
-            delete OutgoingHandlerTbl[ndx];
-            OutgoingHandlerTbl[ndx] = &DefaultPacket;
-         }
-         VldSnd[ndx] = false;
-      }
+      ClearHandlerTable();
 
       if(Session->IsHost())
       {
@@ -1247,6 +1237,23 @@ int CigiOutgoingMsg::RegisterUserPacket(CigiBasePacket *Packet,
    }
 
    return(stat);
+}
+
+
+// ================================================
+// ClearHandlerTable
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+void CigiOutgoingMsg::ClearHandlerTable()
+{
+      for(int ndx=0;ndx<200;ndx++)
+      {
+         if(OutgoingHandlerTbl[ndx] != (CigiBasePacket *)&DefaultPacket)
+         {
+            delete OutgoingHandlerTbl[ndx];
+            OutgoingHandlerTbl[ndx] = &DefaultPacket;
+         }
+         VldSnd[ndx] = false;
+      }
 }
 
 

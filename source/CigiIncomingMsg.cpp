@@ -137,6 +137,8 @@ CigiIncomingMsg::~CigiIncomingMsg()
 {
    int ndx;
 
+   ClearTbls(false);
+
    for(ndx=0;ndx<257;ndx++)
    {
       // Events

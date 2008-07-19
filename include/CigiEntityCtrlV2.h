@@ -305,8 +305,8 @@ public:
 
 protected:
 
-   const static EffectStV2Grp V3toV2[4];
-   const static AnimationStateGrp V2toV3[3];
+   static const EffectStV2Grp V3toV2[4];
+   static const AnimationStateGrp V2toV3[3];
 
 };
 

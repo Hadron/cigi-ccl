@@ -404,8 +404,8 @@ public:
 protected:
 
    //==> Conversion Tables
-   const static int CompClassCnvtSz = 3;
-   const static CompClassV3Grp CompClassV1xV3[CompClassCnvtSz];
+   static const int CompClassCnvtSz = 3;
+   static const CompClassV3Grp CompClassV1xV3[CompClassCnvtSz];
 
 
 };

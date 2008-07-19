@@ -400,9 +400,9 @@ public:
 protected:
 
    //==> Conversion Tables
-   const static int CompClassCnvtSz = 16;
-   const static CompAssocGrp CompClassV3xV1[16];
-   const static CompClassV2Grp CompClassV3xV2[16];
+   static const int CompClassCnvtSz = 16;
+   static const CompAssocGrp CompClassV3xV1[16];
+   static const CompClassV2Grp CompClassV3xV2[16];
 
 
 };

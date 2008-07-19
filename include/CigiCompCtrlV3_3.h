@@ -399,9 +399,9 @@ public:
 protected:
 
    //==> Conversion Tables
-   const static int CompClassCnvtSz = 16;
-   const static CompAssocGrp CompClassV3xV1[CompClassCnvtSz];
-   const static CompClassV2Grp CompClassV3xV2[CompClassCnvtSz];
+   static const int CompClassCnvtSz = 16;
+   static const CompAssocGrp CompClassV3xV1[CompClassCnvtSz];
+   static const CompClassV2Grp CompClassV3xV2[CompClassCnvtSz];
 
 
 };

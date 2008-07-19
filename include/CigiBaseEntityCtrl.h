@@ -599,8 +599,8 @@ protected:
 
    //==> Conversion Tables
    
-   const static AnimationStateGrp ToV1[10];
-   const static AnimationStateGrp ToV3[10];
+   static const AnimationStateGrp ToV1[10];
+   static const AnimationStateGrp ToV3[10];
 
 
    //==> Member flags

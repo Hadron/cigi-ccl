@@ -367,7 +367,7 @@ protected:
    //! MaxCharCnt<br>
    //! The maximum number of bytes not including NULLs
    //!
-   const static int MaxCharCnt = 235;
+   static const int MaxCharCnt = 235;
 
 };
 

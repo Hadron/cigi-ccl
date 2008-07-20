@@ -1075,6 +1075,17 @@ int CigiOutgoingMsg::GetMsgLength()
 
 
 // ================================================
+// GetBufferString
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+std::string CigiOutgoingMsg::GetBufferString(void)
+{
+	Cigi_uint8 *buffer = this->GetBuffer();
+	int size = this->GetMsgLength();
+	return std::string(buffer,buffer+size);
+}
+
+
+// ================================================
 // UnlockMsg
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 int CigiOutgoingMsg::UnlockMsg()

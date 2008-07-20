@@ -132,3 +132,7 @@ CIGI_SPEC void CigiSwap8( void *dest, const void *src)
 }
 
 
+void CIGI_SPEC CigiCopy8( void *dest, const void *src)
+{
+	*( ( double*)( dest)) = *( ( double*)( src));
+}

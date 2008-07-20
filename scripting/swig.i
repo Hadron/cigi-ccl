@@ -195,6 +195,11 @@
 #include "CigiWeatherCtrlV3.h"
 %}
 
+// "None" is a reserved word in Python; the following will 
+// rename uses of None in the CCL...
+%rename(NoCloud) CigiBaseWeatherCtrl::None;
+%rename(NoDatum) CigiBaseShortSymbolCtrl::None;
+
 %include CigiBasePacket.h
 %include CigiBaseVariableSizePckt.h
 %include CigiSession.h

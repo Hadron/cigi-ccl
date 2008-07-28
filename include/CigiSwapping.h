@@ -95,7 +95,8 @@ void CIGI_SPEC CigiSwap8( void *dest, const void *src);
 //! \param _dest_ - Specifies where the double word should be placed
 //! \param _src_ - Specifies the source double word to copy.
 //!
-void CIGI_SPEC CigiCopy8( void *dest, const void *src);
+inline void CIGI_SPEC CigiCopy8( void *dest, const void *src);
+
 
 /** Macros for copying bytes of data from one address to another.
   */

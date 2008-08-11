@@ -42,6 +42,7 @@
 #if !defined(_CIGI_MESSAGE_BUFFER_INCLUDED_)
 #define _CIGI_MESSAGE_BUFFER_INCLUDED_
 
+#include <string.h> // for memset
 
 #include "CigiTypes.h"
 #include "CigiVersionID.h"

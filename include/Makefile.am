@@ -181,6 +181,8 @@ pkginclude_HEADERS = \
 	CigiTrajectoryDefV2.h\
 	CigiTrajectoryDefV3.h\
 	CigiTypes.h\
+	CigiTypes_Default.h\
+	CigiTypes_MSVS_Win32.h\
 	CigiVersionID.h\
 	CigiVertexSymbolDataV3_3.h\
 	CigiViewCtrlV1.h\

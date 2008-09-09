@@ -256,6 +256,8 @@ SET(CCL_PUBLIC_HDRS
 	include/CigiTrajectoryDefV2.h
 	include/CigiTrajectoryDefV3.h
 	include/CigiTypes.h
+	include/CigiTypes_Default.h
+	include/CigiTypes_MSVS_Win32.h
 	include/CigiVersionID.h
 	include/CigiVertexSymbolDataV3_3.h
 	include/CigiViewCtrlV1.h

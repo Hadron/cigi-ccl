@@ -1181,6 +1181,12 @@
 				RelativePath="..\include\CigiTypes.h">
 			</File>
 			<File
+				RelativePath="..\include\CigiTypes_Default.h">
+			</File>
+			<File
+				RelativePath="..\include\CigiTypes_MSVS_Win32.h">
+			</File>
+			<File
 				RelativePath="..\include\CigiVersionID.h">
 			</File>
 			<File

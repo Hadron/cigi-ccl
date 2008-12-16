@@ -62,9 +62,9 @@
 #define CIGI_TYPES_H
 
 
-#define CCL_MAJOR_VERSION 2
-#define CCL_MINOR_VERSION 2
-#define CCL_PATCH_LEVEL   1
+#define CCL_MAJOR_VERSION 3
+#define CCL_MINOR_VERSION 3
+#define CCL_PATCH_LEVEL   0
 
 
 // Due to type problems between compilers

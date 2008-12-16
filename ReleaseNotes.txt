@@ -3,6 +3,19 @@ Release Notes:
 
 
  -------------------------------------------------------------------------------
+  Release: CCL Version 3.3.0
+  Date: December 16, 2008
+ -------------------------------------------------------------------------------
+
+Changed the version numbering system for the CCL to Applicable CIGI major version,
+Applicable CIGI minor version, Bug fix version.
+Corrected several bugs.
+Changed CigiTypes header and added a types header for Windows Visual studio and
+a header for Linux.  The types header for Linux takes advantage of stdint.h.
+Added the Entity Control and IG Control for CIGI 3.3 which adds smoothing flags.
+
+
+ -------------------------------------------------------------------------------
   Release: CCL Version 2.1.0
   Date: March 11, 2008
  -------------------------------------------------------------------------------

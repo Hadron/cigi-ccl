@@ -760,14 +760,14 @@ void CigiIncomingMsg::AdvanceCrntBuffer(void)
             iBuf++;
          }
       }
-
-      if(Buffers.empty())
-      {
-         GetNextBuffToLoad();
-      }
-
-      CrntMsgBuf = (*Buffers.begin());
    }
+
+   if(Buffers.empty())
+   {
+      GetNextBuffToLoad();
+   }
+
+   CrntMsgBuf = (*Buffers.begin());
 
 }
 

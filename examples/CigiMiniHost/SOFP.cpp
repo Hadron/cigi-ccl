@@ -1,10 +1,10 @@
 /** <pre>
- *  This Class will process the Start-Of-Frame for the LCPS
+ *  This Class will process the Start-Of-Frame
  *  
  *  FILENAME:   SOFP.cpp
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
- *  PROJECT:    LCPS
+ *  PROJECT:    CIGI
  *  
  *  PROGRAM DESCRIPTION: 
  *  ...
@@ -57,8 +57,6 @@ void SOFP::OnPacketReceived(CigiBasePacket *Packet)
 	CigiSOFV3_2 *sof = (CigiSOFV3_2 *)(Packet);
 
    // We are actually not processing any information in the SOF
-   // The incoming msg and host session are pulling out the version
-   //   information
 	
 }
 

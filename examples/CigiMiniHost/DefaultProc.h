@@ -1,11 +1,10 @@
 /** <pre>
- *  This Class will process the "Animation Stop Event Notification"
- *   for the LCPS
+ *  This Class will process any packet not assigned
  *  
  *  FILENAME:   DefaultProc.h
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
- *  PROJECT:    LCPS
+ *  PROJECT:    CIGI
  *  
  *  PROGRAM DESCRIPTION: 
  *  ...
@@ -55,8 +54,8 @@ public:
    //==> Incoming Packet Processing
 
    //=========================================================
-   //! The callback handler for the CIGI SOF packet
-   //! \param Packet - The pointer to the SOF packet object.
+   //! The default callback handler for the CIGI
+   //! \param Packet - The pointer to the default packet object.
    //!
    virtual void OnPacketReceived(CigiBasePacket *Packet);
 

@@ -5,7 +5,7 @@
 
 
 //=========================================================
-//! The base class for the SOF Event Packet Processing
+//! The base class for the Animation Stop Event Packet Processing
 //!
 class AnimStop : public CigiBaseEventProcessor
 {
@@ -28,8 +28,8 @@ public:
    //==> Incoming Packet Processing
 
    //=========================================================
-   //! The callback handler for the CIGI SOF packet
-   //! \param Packet - The pointer to the SOF packet object.
+   //! The callback handler for the CIGI Animation Stop packet
+   //! \param Packet - The pointer to the Animation Stop packet object.
    //!
    virtual void OnPacketReceived(CigiBasePacket *Packet);
 

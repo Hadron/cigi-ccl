@@ -1,11 +1,10 @@
 /** <pre>
  *  This Class will process the "Animation Stop Event Notification"
- *   for the LCPS
  *  
  *  FILENAME:   AnimStop.cpp
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
- *  PROJECT:    LCPS
+ *  PROJECT:    CIGI
  *  
  *  PROGRAM DESCRIPTION: 
  *  ...

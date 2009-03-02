@@ -1,10 +1,10 @@
 /** <pre>
- *  This Class will process the Start-Of-Frame for the LCPS
+ *  This Class will process the Start-Of-Frame
  *  
  *  FILENAME:   SOFP.h
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
- *  PROJECT:    LCPS
+ *  PROJECT:    CIGI
  *  
  *  PROGRAM DESCRIPTION: 
  *  ...

@@ -65,7 +65,7 @@ void Proc_EventNotificationV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_EventNotificationV3.SetEventData(pPV->GetULong(),0,true);
+         Om_EventNotificationV3.SetEventData((Cigi_uint32)pPV->GetULong(),0,true);
          printf("\tEventData 1 = %u\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)
@@ -81,7 +81,7 @@ void Proc_EventNotificationV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_EventNotificationV3.SetEventData(pPV->GetULong(),1,true);
+         Om_EventNotificationV3.SetEventData((Cigi_uint32)pPV->GetULong(),1,true);
          printf("\tEventData 2 = %u\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)
@@ -97,7 +97,7 @@ void Proc_EventNotificationV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_EventNotificationV3.SetEventData(pPV->GetULong(),2,true);
+         Om_EventNotificationV3.SetEventData((Cigi_uint32)pPV->GetULong(),2,true);
          printf("\tEventData 3 = %u\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)

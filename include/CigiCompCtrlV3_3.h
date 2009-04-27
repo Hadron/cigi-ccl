@@ -54,6 +54,14 @@
  *   involving Component Classes of SymbolSurfaceV3_3 &
  *   SymbolV3_3.
  *  
+ *  04/22/2009 Greg Basler                       Version 3.3.1
+ *  Corrected a problem with component state.  In CIGI V1 and V2
+ *  the component state is Cigi_uint16.  In Cigi V3.0 and above
+ *  the component state is Cigi_uint8.  Converting between these
+ *  can and probably will cause problems.  In addition, the
+ *  accessors should reflect the correct size of the value per
+ *  the ICD
+ *  
  * </pre>
  *  Author: The Boeing Company
  *
@@ -155,21 +163,25 @@ public:
 
    //=========================================================
    //! Sets the CompState with bound checking control
-   //! \param CompStateIn - 
+   //! \param CompStateIn - Component state value
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetCompState(const Cigi_uint16 CompStateIn, bool bndchk=true)
+   int SetCompState(const Cigi_uint8 CompStateIn, bool bndchk=true)
    {
-      CompState = CompStateIn;
+      CompState = (Cigi_uint16) CompStateIn;
       return(CIGI_SUCCESS);
    }
 
    //=========================================================
    //! Gets the CompState value.
    //! \return the current CompState.
-   Cigi_uint16 GetCompState(void) const { return(CompState); }
+   Cigi_uint8 GetCompState(void)
+   {
+      Cigi_uint8 V3State = (Cigi_uint8)((CompState > 0x00ff) ? 0xff : CompState);
+      return(V3State);
+   }
 
 
    //+> CompClassV3

@@ -143,7 +143,7 @@ void Proc_CompCtrlV1::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_CompCtrl.SetCompData(pPV->GetULong(),0,true);
+         Om_CompCtrl.SetCompData((Cigi_uint32)pPV->GetULong(),0,true);
          printf("\tComponent Data 0 = %d\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)
@@ -159,7 +159,7 @@ void Proc_CompCtrlV1::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_CompCtrl.SetCompData(pPV->GetULong(),1,true);
+         Om_CompCtrl.SetCompData((Cigi_uint32)pPV->GetULong(),1,true);
          printf("\tComponent Data 1 = %d\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)

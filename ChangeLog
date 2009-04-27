@@ -1,3 +1,22 @@
+Version 3.3.1
+-------------
+[04.27.2009]
+
+Changes/Additions:
+------------------
+
+- Corrected a bug in CigiIncomingMsg::AdvanceCrntBuffer discovered by and a patch
+  submitted by Christopher Buell.  This bug would not advance the buffer if the
+  current buffer pointer was null.
+- Corrected a problem with component state.
+  In CIGI V1 and V2 the component state is Cigi_uint16.
+  In Cigi V3.0 and above the component state is Cigi_uint8.
+  Converting between these can and probably will cause problems.
+  In addition, the accessors should reflect the correct size of the value per the ICD
+- With few files in the examples and Testing, the compilers had problems resolving
+  types and overloaded functions.  The types were made more explicit to resolve this problem.
+
+
 Version 3.3.0
 -------------
 [12.16.2008]

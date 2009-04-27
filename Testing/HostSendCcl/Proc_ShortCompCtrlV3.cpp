@@ -166,7 +166,7 @@ void Proc_ShortCompCtrlV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_ShortCompCtrl.SetCompState(pPV->GetUShort(),true);
+         Om_ShortCompCtrl.SetCompState(pPV->GetUChar(),true);
          printf("\tComponent State = %d\n",pPV->GetUShort());
       }
       catch(CigiValueOutOfRangeException ORX)
@@ -182,7 +182,7 @@ void Proc_ShortCompCtrlV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_ShortCompCtrl.SetCompData(pPV->GetULong(),0,true);
+         Om_ShortCompCtrl.SetCompData((Cigi_uint32)pPV->GetULong(),0,true);
          printf("\tComponent Data 0 = %d\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)
@@ -198,7 +198,7 @@ void Proc_ShortCompCtrlV3::ProcPckt(ParseValue *pPV)
    {
       try
       {
-         Om_ShortCompCtrl.SetCompData(pPV->GetULong(),1,true);
+         Om_ShortCompCtrl.SetCompData((Cigi_uint32)pPV->GetULong(),1,true);
          printf("\tComponent Data 1 = %d\n",pPV->GetULong());
       }
       catch(CigiValueOutOfRangeException ORX)

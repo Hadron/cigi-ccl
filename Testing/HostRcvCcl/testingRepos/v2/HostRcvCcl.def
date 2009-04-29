@@ -2,7 +2,7 @@
 <HostCclReceiverInitialization>
 
 <Config>
-<IG_Addr>172.22.1.174</IG_Addr>
+<IG_Addr>127.0.0.1</IG_Addr>
 <Port_To_IG>8000</Port_To_IG>
 <Port_From_IG>8001</Port_From_IG>
 <Major_Version_Cigi>2</Major_Version_Cigi>

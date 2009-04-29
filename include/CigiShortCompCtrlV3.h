@@ -152,21 +152,27 @@ public:
 
    //=========================================================
    //! Sets the CompState with bound checking control
-   //! \param CompStateIn - 
+   //! \param CompStateIn - The state value
    //! \param bndchk - Enables (true) or disables (false) bounds checking.
    //!
    //! \return This returns CIGI_SUCCESS or an error code
    //!   defined in CigiErrorCodes.h
-   int SetCompState(const Cigi_uint16 CompStateIn, bool bndchk=true)
+   int SetCompState(const Cigi_uint8 CompStateIn, bool bndchk=true)
    {
-      CompState = CompStateIn;
+      CompState = (Cigi_uint16)CompStateIn;
       return(CIGI_SUCCESS);
    }
 
    //=========================================================
    //! Gets the CompState value.
    //! \return the current CompState.
-   Cigi_uint16 GetCompState(void) const { return(CompState); }
+   Cigi_uint8 GetCompState(void)
+   {
+      Cigi_uint8 tState = (Cigi_uint8)((CompState > 0x00ff) ?
+                          0x00ff : CompState);
+
+      return(tState);
+   }
 
 
    //+> CompClassV3

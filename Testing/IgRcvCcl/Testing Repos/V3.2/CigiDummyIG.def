@@ -2,7 +2,7 @@
 <MiniHostInitialization>
 
 <Config>
-<Host_Addr>172.22.1.174</Host_Addr>
+<Host_Addr>127.0.0.1</Host_Addr>
 <Port_To_IG>8000</Port_To_IG>
 <Port_To_Host>8001</Port_To_Host>
 <Hertz_rate>60</Hertz_rate>

@@ -52,6 +52,7 @@ class CigiException;
 
 // -------- include files -----------------------------------------
 
+#include <string>
 #include <string.h>
 
 #include "CigiErrorCodes.h"
@@ -101,7 +102,7 @@ public:
    //!
    bool HasMessage( void) const
    {
-      return(Msg != NULL);
+      return !Msg.empty();
    }
 
    //=========================================================
@@ -124,7 +125,7 @@ public:
    //! The virtual implemented what funtion.
    //! \return The message for this exception.
    //!
-   virtual const char *what() const throw() { return(Msg); }
+   virtual const char *what() const throw() { return Msg.c_str(); }
 
 
 protected:
@@ -132,7 +133,7 @@ protected:
    //=========================================================
    //! The message for this exception.
    //!
-   char *Msg;
+   std::string Msg;
 
    //=========================================================
    //! The error code for this exception.
@@ -141,74 +142,5 @@ protected:
 
 
 };
-
-
-
-
-
     
 #endif  // _CIGI_EXCEPTION_INCLUDED_
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

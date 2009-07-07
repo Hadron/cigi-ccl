@@ -49,6 +49,7 @@
     
     
 #include "CigiException.h"
+#include <sstream>
 #include <string.h>
 #include <stdio.h>
 
@@ -69,8 +70,7 @@ public:
    //!
    CigiAllocFailedException(void)
    {
-      memcpy(ErrMsg,"Allocation Failure\n",21);
-      Msg = ErrMsg;
+      Msg = "Allocation Failure\n";
       ErrorCode = CIGI_ERROR_ALLOC_FAILED;
    }
 
@@ -81,8 +81,6 @@ public:
    virtual ~CigiAllocFailedException(void) throw() { };
 
 protected:
-
-   char ErrMsg[25];
 
 };
 
@@ -101,8 +99,7 @@ public:
    //!
    CigiBufferOverrunException(void)
    {
-      memcpy(ErrMsg,"Buffer Overrun Error\n",22);
-      Msg = ErrMsg;
+      Msg = "Buffer Overrun Error\n";
       ErrorCode = CIGI_ERROR_BUFFER_OVERRUN;
    }
 
@@ -113,8 +110,6 @@ public:
    virtual ~CigiBufferOverrunException(void) throw() { };
 
 protected:
-
-   char ErrMsg[25];
 
 };
 
@@ -133,8 +128,7 @@ public:
    //!
    CigiBufferTooSmallException(void)
    {
-      memcpy(ErrMsg,"Buffer Too Small Error\n",26);
-      Msg = ErrMsg;
+      Msg = "Buffer Too Small Error\n";
       ErrorCode = CIGI_ERROR_BUFFER_TOO_SMALL;
    }
 
@@ -147,7 +141,6 @@ public:
 
 protected:
 
-   char ErrMsg[30];
 
 };
 
@@ -167,8 +160,7 @@ public:
    //!
    CigiCalledOutOfSequenceException(void)
    {
-      memcpy(ErrMsg,"Routine Call Out Of Sequence Error\n",38);
-      Msg = ErrMsg;
+      Msg = "Routine Call Out Of Sequence Error\n";
       ErrorCode = CIGI_ERROR_CALLED_OUT_OF_SEQUENCE;
    }
 
@@ -180,7 +172,6 @@ public:
 
 protected:
 
-   char ErrMsg[40];
 
 };
 
@@ -199,8 +190,7 @@ public:
    //!
    CigiInvalidOpcodeException(void)
    {
-      memcpy(ErrMsg,"Invalid Packet ID\n",21);
-      Msg = ErrMsg;
+      Msg = "Invalid Packet ID\n";
       ErrorCode = CIGI_ERROR_INVALID_OPCODE;
    }
 
@@ -212,7 +202,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -231,8 +220,7 @@ public:
    //!
    CigiInvalidPacketException(void)
    {
-      memcpy(ErrMsg,"Invalid Packet\n",18);
-      Msg = ErrMsg;
+      Msg = "Invalid Packet\n";
       ErrorCode = CIGI_ERROR_INVALID_PACKET;
    }
 
@@ -244,7 +232,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -263,8 +250,7 @@ public:
    //!
    CigiInvalidPacketSizeException(void)
    {
-      memcpy(ErrMsg,"Invalid Packet Size\n",23);
-      Msg = ErrMsg;
+      Msg = "Invalid Packet Size\n";
       ErrorCode = CIGI_ERROR_INVALID_PACKET_SIZE;
    }
 
@@ -276,7 +262,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -295,8 +280,7 @@ public:
    //!
    CigiInvalidSessionException(void) 
    {
-      memcpy(ErrMsg,"Invalid Session\n",19);
-      Msg = ErrMsg;
+      Msg = "Invalid Session\n";
       ErrorCode = CIGI_ERROR_INVALID_SESSION;
    }
 
@@ -308,7 +292,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -327,8 +310,7 @@ public:
    //!
    CigiInvalidSessionTypeException(void) 
    {
-      memcpy(ErrMsg,"Invalid Session Type\n",24);
-      Msg = ErrMsg;
+      Msg = "Invalid Session Type\n";
       ErrorCode = CIGI_ERROR_INVALID_SESSION_TYPE;
    }
 
@@ -340,7 +322,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -359,8 +340,7 @@ public:
    //!
    CigiMaxSessionsException(void) 
    {
-      memcpy(ErrMsg,"Requested Number Of Sessions Exceeds Maximum\n",48);
-      Msg = ErrMsg;
+      Msg = "Requested Number Of Sessions Exceeds Maximum\n";
       ErrorCode = CIGI_ERROR_MAX_SESSIONS;
    }
 
@@ -372,7 +352,6 @@ public:
 
 protected:
 
-   char ErrMsg[50];
 
 };
 
@@ -391,8 +370,7 @@ public:
    //!
    CigiMissingIgControlException(void) 
    {
-      memcpy(ErrMsg,"The Message Is Missing The IG Control Packet\n",48);
-      Msg = ErrMsg;
+      Msg = "The Message Is Missing The IG Control Packet\n";
       ErrorCode = CIGI_ERROR_MISSING_IG_CONTROL_PACKET;
    }
 
@@ -404,7 +382,6 @@ public:
 
 protected:
 
-   char ErrMsg[50];
 
 };
 
@@ -424,8 +401,7 @@ public:
    //!
    CigiMissingStartOfFrameException(void) 
    {
-      memcpy(ErrMsg,"The Message Is Missing The Start Of Frame Packet\n",52);
-      Msg = ErrMsg;
+      Msg = "The Message Is Missing The Start Of Frame Packet\n";
       ErrorCode = CIGI_ERROR_MISSING_SOF_PACKET;
    }
 
@@ -437,7 +413,6 @@ public:
 
 protected:
 
-   char ErrMsg[55];
 
 };
 
@@ -456,8 +431,7 @@ public:
    //!
    CigiNotImplementedException(void) 
    {
-      memcpy(ErrMsg,"Not Implemented Error\n",25);
-      Msg = ErrMsg;
+      Msg = "Not Implemented Error\n";
       ErrorCode = CIGI_ERROR_NOT_IMPLEMENTED;
    }
 
@@ -469,7 +443,6 @@ public:
 
 protected:
 
-   char ErrMsg[30];
 
 };
 
@@ -488,8 +461,7 @@ public:
    //!
    CigiNullPointerException(void) 
    {
-      memcpy(ErrMsg,"Null Pointer Error\n",21);
-      Msg = ErrMsg;
+      Msg = "Null Pointer Error\n";
       ErrorCode = CIGI_ERROR_UNEXPECTED_NULL;
    }
 
@@ -501,7 +473,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -520,8 +491,7 @@ public:
    //!
    CigiPacketTooLargeException(void) 
    {
-      memcpy(ErrMsg,"Packet Is Too Large\n",23);
-      Msg = ErrMsg;
+      Msg = "Packet Is Too Large\n";
       ErrorCode = CIGI_ERROR_PACKET_TOO_LARGE;
    }
 
@@ -533,7 +503,6 @@ public:
 
 protected:
 
-   char ErrMsg[25];
 
 };
 
@@ -553,8 +522,7 @@ public:
    //!
    CigiValueOutOfRangeException(void) 
    {
-      memcpy(ErrMsg,"Value Out Of Range\n",23);
-      Msg = ErrMsg;
+      Msg = "Value Out Of Range\n";
       ErrorCode = CIGI_ERROR_VALUE_OUT_OF_RANGE;
    }
 
@@ -562,22 +530,14 @@ public:
    //! Integer Data Fill Constructor for the CigiValueOutOfRangeException 
    //!   exception class
    //!
-   CigiValueOutOfRangeException(char *ParameterName, int Value, int Low, int High) 
+   CigiValueOutOfRangeException(const char *ParameterName, int Value, int Low, int High) 
    {
+      std::ostringstream os;
+      os << "Parameter Out of Range: Parameter "
+         << ParameterName << " is " << Value 
+         << ". The valid range is from " << Low << " to " << High << std::endl;
 
-      if(strlen(ParameterName) < 75)
-         PrtPname = ParameterName;
-      else
-      {
-         memcpy(SubPname,ParameterName,74);
-         SubPname[74] = 0;
-         PrtPname = SubPname;
-      }
-
-      sprintf(ErrMsg,"Parameter Out of Range: Parameter %s is %d. The valid range is from %d to %d.\n",
-              PrtPname, Value, Low, High);
-
-      Msg = ErrMsg;
+      Msg = os.str();
       ErrorCode = CIGI_ERROR_VALUE_OUT_OF_RANGE;
    }
 
@@ -585,21 +545,14 @@ public:
    //! Float/Double Data Fill Constructor for the CigiValueOutOfRangeException 
    //!   exception class
    //!
-   CigiValueOutOfRangeException(char *ParameterName, double Value, double Low, double High) 
+   CigiValueOutOfRangeException(const char *ParameterName, double Value, double Low, double High) 
    {
-      if(strlen(ParameterName) < 75)
-         PrtPname = ParameterName;
-      else
-      {
-         memcpy(SubPname,ParameterName,74);
-         SubPname[74] = 0;
-         PrtPname = SubPname;
-      }
+      std::ostringstream os;
+      os << "Parameter Out of Range: Parameter "
+         << ParameterName << " is " << Value 
+         << ". The valid range is from " << Low << " to " << High << std::endl;
 
-      sprintf(ErrMsg,"Parameter Out of Range: Parameter %s is %g. The valid range is from %g to %g.\n",
-              PrtPname, Value, Low, High);
-
-      Msg = ErrMsg;
+      Msg = os.str();
       ErrorCode = CIGI_ERROR_VALUE_OUT_OF_RANGE;
    }
 
@@ -607,21 +560,14 @@ public:
    //! Float/Double Data Fill Constructor for the CigiValueOutOfRangeException 
    //!   exception class
    //!
-   CigiValueOutOfRangeException(char *ParameterName, double Value, char *Mod, double Limit) 
+   CigiValueOutOfRangeException(const char *ParameterName, double Value, const char *Mod, double Limit) 
    {
-      if(strlen(ParameterName) < 75)
-         PrtPname = ParameterName;
-      else
-      {
-         memcpy(SubPname,ParameterName,74);
-         SubPname[74] = 0;
-         PrtPname = SubPname;
-      }
+      std::ostringstream os;
+      os << "Parameter Out of Range: Parameter "
+         << ParameterName << " is " << Value 
+         << ". The valid range is " << Mod << " " << Limit << std::endl;
 
-      sprintf(ErrMsg,"Parameter Out of Range: Parameter %s is %g. The valid range is %s %g.\n",
-              PrtPname, Value, Mod, Limit);
-
-      Msg = ErrMsg;
+      Msg = os.str();
       ErrorCode = CIGI_ERROR_VALUE_OUT_OF_RANGE;
    }
 
@@ -632,10 +578,6 @@ public:
    virtual ~CigiValueOutOfRangeException(void) throw() { };
 
 protected:
-
-   char ErrMsg[255];
-   char SubPname[75];
-   char *PrtPname;
 
 };
 
@@ -654,8 +596,7 @@ public:
    //!
    CigiWrongVersionException(void) 
    {
-      memcpy(ErrMsg,"Wrong Cigi Version Used\n",28);
-      Msg = ErrMsg;
+      Msg = "Wrong Cigi Version Used\n";
       ErrorCode = CIGI_ERROR_WRONG_VERSION;
    }
 
@@ -667,7 +608,6 @@ public:
 
 protected:
 
-   char ErrMsg[30];
 
 };
 
@@ -687,8 +627,7 @@ public:
    //!
    CigiInvalidUserPacketException(void) 
    {
-      memcpy(ErrMsg,"Cigi User Defined Packets Must Have an ID above 199\n",56);
-      Msg = ErrMsg;
+      Msg = "Cigi User Defined Packets Must Have an ID above 199\n";
       ErrorCode = CIGI_ERROR_INVALID_USER_PACKET;
    }
 
@@ -698,9 +637,11 @@ public:
    //!
    CigiInvalidUserPacketException(Cigi_uint8 PacketID)
    {
-      int IPacketID = (int)PacketID;
-      sprintf(ErrMsg,"Cigi User Defined Packets Must Have an ID above 199\nUsed ID was %d\n",IPacketID);
-      Msg = ErrMsg;
+      std::ostringstream os;
+      os << "Cigi User Defined Packets Must Have an ID above 199\nUsed ID was "
+         << (int)PacketID << std::endl;
+
+      Msg = os.str();
       ErrorCode = CIGI_ERROR_INVALID_USER_PACKET;
    }
 
@@ -713,7 +654,6 @@ public:
 
 protected:
 
-   char ErrMsg[90];
 
 };
 
@@ -734,8 +674,7 @@ public:
    //!
    CigiImproperPacketException(void) 
    {
-      memcpy(ErrMsg,"Improper packet for Session Type\n",37);
-      Msg = ErrMsg;
+      Msg = "Improper packet for Session Type\n";
       ErrorCode = CIGI_ERROR_IMPROPER_PACKET;
    }
 
@@ -748,7 +687,6 @@ public:
 
 protected:
 
-   char ErrMsg[40];
 
 };
 

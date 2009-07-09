@@ -865,6 +865,10 @@ int CigiOutgoingMsg::UpdateFrameCntr(Cigi_uint8 *OutgoingMsg, Cigi_uint8 *Incomi
             else
                CigiSwap4(&RcvdFrame,(IncomingMsgWord + 2));  // Swap RcvFrame
          }
+         else
+         {
+            CIGI_SCOPY4(&RcvdFrame,(IncomingMsgWord + 2));
+         }
       }
 
       if(!FrameIncr)

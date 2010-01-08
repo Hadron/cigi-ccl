@@ -97,6 +97,11 @@
  *  
  *  05/16/2008 Greg Basler                       Version 2.2.0
  *  Fixed the EnvCtrl conversion process
+ *  
+ *  12/7/200 Greg Basler                         Version 3.3.2
+ *  Removed automatic zeroing of the database id based on the SOF declared
+ *  database id.  Now the UpdateIGCtrl method just bounds checks the
+ *  database id and corrects it to zero if needed.
  *
  * </pre>
  *  Author: The Boeing Company
@@ -916,31 +921,11 @@ int CigiOutgoingMsg::UpdateIGCtrl(Cigi_uint8 *OutgoingMsg, Cigi_uint8 *IncomingM
    UpdateFrameCntr(OutgoingMsg,IncomingMsg);
 
 
-   // check and adjust the Database IDs for
+   // bounds check the Database ID
    OBufr = (Cigi_int8 *)(OutgoingMsg + 3);
-   if(*OBufr != 0)
+   if(*OBufr < 0)
    {
-      if(*OBufr < 0)
-      {
-         *OBufr = 0;  // Host sent Database IDs should never be negative
-      }
-#if !defined(_NO_DATABASE_ADJUSTMENT_)
-      else if(IncomingMsg != NULL)
-      {
-         // If *IBufr is -128, the IG did not find that database
-         //   so the host should send a corrected database id
-         // However, if the *OBufr is the same as the *IBufr or
-         //  the *IBufr is the negative of *OBufr,
-         //  (specifically excluding -128) the outgoing
-         //  database id should be 0
-         IBufr = (Cigi_int8 *)(IncomingMsg + 3);
-         if((*IBufr != -128) &&
-            ((*OBufr == *IBufr) || (*OBufr == (*IBufr * (-1)))))
-         {
-            *OBufr = 0;
-         }
-      }
-#endif
+      *OBufr = 0;  // Host sent Database IDs should never be negative
    }
 
    return(CIGI_SUCCESS);

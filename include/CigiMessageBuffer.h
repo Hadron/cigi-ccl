@@ -83,13 +83,13 @@ public:
       , PackIGCtrl(NULL)
       , PackSOF(NULL)
    {
-      // This creates a buffer that is double word aligned and
-      //  has double word aligned size
+      // This creates a buffer that has double word aligned size
 
-      // Determine the number of bytes with a safety buffer
-      BufferSize = BufLen +                          // Requested buffer length
-                   (BufLen % sizeof(Cigi_uint64)) +  // make double word aligned
-                   sizeof(Cigi_uint64);              // add a safety buffer
+      // Divide to get the number of double-words.  The +1 is to cover any 
+      // remainder.
+      BufferSize = ((BufLen/sizeof(Cigi_uint64)) + 1);
+      // Multiply to convert the number of double-words to bytes
+      BufferSize *= sizeof(Cigi_uint64);
 
       // Allocate the message buffer
       Buffer = new Cigi_uint8[BufferSize];

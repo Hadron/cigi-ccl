@@ -83,7 +83,7 @@ CigiSymbolLineDefV3_3::CigiSymbolLineDefV3_3(const CigiSymbolLineDefV3_3 &BaseIn
 : CigiBaseSymbolLineDef((CigiBaseSymbolLineDef &)BaseIn)
 {
    PacketID = CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3;
-   PacketSize = CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3;
+   PacketSize = CIGI_SYMBOL_LINE_DEFINITION_PACKET_SIZE_V3_3;
    Version = 3;
    MinorVersion = 3;
 
@@ -117,7 +117,7 @@ CigiSymbolLineDefV3_3::CigiSymbolLineDefV3_3(const CigiSymbolLineDefV3_3 &BaseIn
 CigiSymbolLineDefV3_3 & CigiSymbolLineDefV3_3::operator=(const CigiSymbolLineDefV3_3 &BaseIn)
 {
    PacketID = CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3;
-   PacketSize = CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3;
+   PacketSize = CIGI_SYMBOL_LINE_DEFINITION_PACKET_SIZE_V3_3;
    Version = 3;
    MinorVersion = 3;
 

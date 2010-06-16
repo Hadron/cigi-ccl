@@ -86,7 +86,7 @@ CigiSymbolCircleDefV3_3::CigiSymbolCircleDefV3_3(const CigiSymbolCircleDefV3_3 &
 : CigiBaseSymbolCircleDef((CigiBaseSymbolCircleDef &)BaseIn)
 {
    PacketID = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3;
-   PacketSize = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3;
+   PacketSize = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_SIZE_V3_3;
    Version = 3;
    MinorVersion = 3;
 
@@ -120,7 +120,7 @@ CigiSymbolCircleDefV3_3::CigiSymbolCircleDefV3_3(const CigiSymbolCircleDefV3_3 &
 CigiSymbolCircleDefV3_3 & CigiSymbolCircleDefV3_3::operator=(const CigiSymbolCircleDefV3_3 &BaseIn)
 {
    PacketID = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3;
-   PacketSize = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_ID_V3_3;
+   PacketSize = CIGI_SYMBOL_CIRCLE_DEFINITION_PACKET_SIZE_V3_3;
    Version = 3;
    MinorVersion = 3;
 

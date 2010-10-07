@@ -249,7 +249,7 @@ void CigiOutgoingMsg::AdvanceBuffer(void)
       ChangeOutgoingCigiVersion(MostMatureVersionReceived);
 
    // Set the buffer's Cigi Version
-   ChangeBufferCigiVersion(OutgoingVersion);
+   ChangeBufferCigiVersion();
 
 }
 
@@ -307,7 +307,7 @@ void CigiOutgoingMsg::SetMostMatureReceivedCigiVersion(CigiVersionID &Version)
                (!CrntFillBuf->DataPresent))
             {
                // Set the buffer's Cigi Version
-               ChangeBufferCigiVersion(OutgoingVersion);
+               ChangeBufferCigiVersion();
             }
          }
       }
@@ -338,7 +338,7 @@ int CigiOutgoingMsg::SetOutgoingCigiVersion(CigiVersionID &Version,
             ChangeOutgoingCigiVersion(Version);
 
             // Set the buffer's Cigi Version
-            ChangeBufferCigiVersion(OutgoingVersion);
+            ChangeBufferCigiVersion();
 
             CmdVersionChng = false;  // Already changed
          }
@@ -352,8 +352,9 @@ int CigiOutgoingMsg::SetOutgoingCigiVersion(CigiVersionID &Version,
 // ================================================
 // SetMostMatureReceivedCigiVersion
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-void CigiOutgoingMsg::ChangeBufferCigiVersion(CigiVersionID &Version)
+void CigiOutgoingMsg::ChangeBufferCigiVersion(void)
 {
+  
    // Set the buffer's Cigi Version
    CrntFillBuf->CigiVersion = OutgoingVersion;
 
@@ -361,7 +362,7 @@ void CigiOutgoingMsg::ChangeBufferCigiVersion(CigiVersionID &Version)
    {
       if((OutgoingVersion.GetCombinedCigiVersion() >= 0x303))
          CrntFillBuf->PackIGCtrl = pIGCtrlPck[5];
-      else if((OutgoingVersion.GetCombinedCigiVersion() == 0x301))
+      else if((OutgoingVersion.GetCombinedCigiVersion() == 0x302))
          CrntFillBuf->PackIGCtrl = pIGCtrlPck[4];
       else
          CrntFillBuf->PackIGCtrl =

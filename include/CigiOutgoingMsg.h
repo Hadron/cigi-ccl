@@ -631,10 +631,13 @@ protected:
    }
 
    //=========================================================
-   //! Sets the buffer's complete Cigi Version.
-   //! \param CigiVersionIn - The Buffer's Cigi Version
+   //! Sets the buffer's complete CIGI version.
+   //! Also, changes which version of the IG Control packet
+   //! gets packed into the buffer.
+   //! It uses the version of CIGI that is currently set as
+   //! the version being used for the Outgoing Message.
    //!
-	void ChangeBufferCigiVersion(CigiVersionID &Version);
+	void ChangeBufferCigiVersion(void);
 
    //=========================================================
    //! Deletes the contents of OutgoingHandlerTbl and sets entries in 

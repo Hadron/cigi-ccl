@@ -51,7 +51,7 @@
 #include "CigiAnimationTable.h"
 #include "CigiErrorCodes.h"
 
-#include <memory.h>
+#include <string.h>
 
 
 // ====================================================================

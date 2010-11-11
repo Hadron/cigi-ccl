@@ -65,7 +65,7 @@
 #include "CigiSwapping.h"
 #include "CigiExceptions.h"
 
-#include <memory.h>
+#include <string.h>
 
 
 #ifdef CIGI_LITTLE_ENDIAN

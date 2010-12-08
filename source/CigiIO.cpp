@@ -160,9 +160,6 @@ int CigiIO::Recv()
    if(size > 0)
    {
       MsgIn.SetCrntMsgSize(size);
-
-      MsgIn.AdvanceCrntBuffer();
-
    }
    else
    {

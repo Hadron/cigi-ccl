@@ -1,4 +1,4 @@
-AC_INIT([CIGI Class Library], [3.3.1], 
+AC_INIT([CIGI Class Library], [3.3.2], 
         [http://cigi.sourceforge.net], 
         [cigicl])
 AM_INIT_AUTOMAKE

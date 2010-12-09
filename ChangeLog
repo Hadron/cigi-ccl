@@ -1,3 +1,40 @@
+Version 3.3.2
+-------------
+[12.09.2010]
+
+Changes/Additions:
+------------------
+
+- Updated CMakeLists.txt, configure.ac, and Doxyfile to reference the correct
+  version number.
+- Changed CigiException and CigiExceptions so that the error message is based on
+  the basic_string standard container instead of a pointer to a buffer containing
+  a C type string.
+- Corrected a bug in CigiMessageBuffer calculating the needed size of the message
+  buffers.
+- Changed CigiOutgoingMsg::ChangeBufferCigiVersion so that it nolonged needs the
+  CIGI version number as a parameter.
+- Removed the inline modifier from CigiCopy8.
+- Changed #include <memory.h> to #include <string.h> in CigiAnimationTable.cpp,
+  CigiArtPartCtrlV1 & V2, CigiCollDetSegDefV1 & V2, CigiCollDetSegRespV1 & V2,
+  CigiCollDetVolDefV2, CigiCollDetVolRespV2, CigiCompCtrlV1 & V2, CigiEntityCtrlV1,
+  CigiEnvCtrlV1 & V2, CigiHatReqV1 & V2, CigiHatRespV1 & V2, CigiHotReqV2,
+  CigiHotRespV2, CigiIGCtrlV1 & V2, CigiIGMsgV2, CigiLosRespV1 & V2, CigiLosSegReqV1
+  & V2, CigiLosVectReqV1 & V2, CigiRateCtrlV1 & V2, CigiSensorCtrlV1 & V2,
+  CigiSensorRespV1 & V2, CigiSOFV1 & V2, CigiSpecEffDefV1 & V2,
+  CigiTrajectoryDefV1 & V2, CigiViewCtrlV1 & V2, CigiViewDefV1 & V2,
+  and CigiWeatherCtrlV1 & V2.
+- Corrected a bug in CigiIO::Recv.  Removed the second MsgIn.AdvanceCrntBuffer call
+  This should not have been called.  It should only be called once at the beginning
+  of the method.  This was causing one buffer to be filled by the incoming and an
+  empty buffer being read.
+- Changed CigiOutgoingMsg so that the Database version is not zeroed automatically.
+  Also Corrected a few Outgoing version problems.
+- Corrected CigiSymbolLineDefV3_3.  CIGI_SYMBOL_LINE_DEFINITION_PACKET_ID_V3_3
+  was being used where CIGI_SYMBOL_LINE_DEFINITION_PACKET_SIZE_V3_3 should have
+  been used.  It now uses the correct macros.
+
+
 Version 3.3.1
 -------------
 [04.27.2009]

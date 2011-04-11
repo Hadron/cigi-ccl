@@ -1,73 +1,73 @@
 /** <pre>
  *  The SDK is used to create and format CIGI compliant messages.
  *  Copyright (c) 2001-2005 The Boeing Company
- *
- *  This library is free software; you can redistribute it and/or modify it
- *  under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation; either version 2.1 of the License, or (at
+ *  
+ *  This library is free software; you can redistribute it and/or modify it 
+ *  under the terms of the GNU Lesser General Public License as published by 
+ *  the Free Software Foundation; either version 2.1 of the License, or (at 
  *  your option) any later version.
- *
- *  This library is distributed in the hope that it will be useful, but WITHOUT
- *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more
+ *  
+ *  This library is distributed in the hope that it will be useful, but WITHOUT 
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more 
  *  details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with this library; if not, write to the Free Software Foundation,
+ *  
+ *  You should have received a copy of the GNU Lesser General Public License 
+ *  along with this library; if not, write to the Free Software Foundation, 
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *
+ *  
  *  FILENAME:   CigiIncomingMsg.cpp
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
  *  PROJECT:    Common Image Generator Interface (CIGI) SDK
- *
+ *  
  *  PROGRAM DESCRIPTION:
  *  ...
- *
+ *  
  *  MODIFICATION NOTES:
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
- *
+ *  
  *  09/17/2003 Greg Basler                       CIGI_CR_DR_1
  *  Initial Release.
- *
+ *  
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
- *
+ *  
  *  04/06/2005 Greg Basler                       Version 1.5.2
- *  Fixed the GetFirstPacket function to use the correct start of frame and IG
+ *  Fixed the GetFirstPacket function to use the correct start of frame and IG 
  *  control opcode values.
- *
+ *  
  *  07/05/2005 Greg Basler                       Version 1.5.4
- *  Modified the ProcessIncomingMsg function to check for and throw a buffer
- *  overrun exception when the actual data exists beyond the end of the
+ *  Modified the ProcessIncomingMsg function to check for and throw a buffer 
+ *  overrun exception when the actual data exists beyond the end of the 
  *  incoming buffer.
- *
+ *  
  *  08/11/2005 Greg Basler                       Version 1.5.5
- *  Modified the GetFirstPacket method to get the pointer to the correct
+ *  Modified the GetFirstPacket method to get the pointer to the correct 
  *  SOF and IG Control handling objects.
- *
+ *  
  *  10/06/2005 Greg Basler                       Version 1.5.6
- *  Fixed the ProcessIncomingMsg and GetFirstPacket methods to correctly
+ *  Fixed the ProcessIncomingMsg and GetFirstPacket methods to correctly 
  *  handle frame counter synchronization.
- *
+ *  
  *  04/14/2006 Greg Basler                       Version 1.7.0
  *  Modified the ProcessIncomingMsg method to use CIGI minor version numbers.
- *
+ *  
  *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Modified the GetFirstPacket and GetNextPacket methods to use CIGI minor
+ *  Modified the GetFirstPacket and GetNextPacket methods to use CIGI minor 
  *  version numbers.
- *
+ *  
  *  06/23/2006 Greg Basler                       Version 1.7.1
- *  Changed native char and unsigned char types to CIGI types Cigi_int8 and
+ *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
  *  Cigi_uint8.
- *
+ *  
  *  07/14/2006 Greg Basler                       Version 1.7.2
  *  Changed the constructor and GetFirstPacket so that the IterationVersion
  *  is properly initialized and set.  Changed ProcessIncomingMsg,
  *  GetFirstPacket, and GetNextPacket to set the Cigi Version with the
  *  correct version numbers.
- *
+ *  
  *  03/11/2008 Greg Basler                       Version 2.0.0
  *  Completely rewrote the way conversions are handled.  Also, rewrote
  *    the message buffers and how they are handled.  Also, removed
@@ -75,7 +75,7 @@
  *
  *  04/03/2008 Greg Basler                       Version 2.1.0
  *  Added CigiSymbolCloneV3_3 and fixed signals
- *
+ *  
  *  05/09/2008 Greg Basler                       Version 2.2.0
  *  Added CigiIGCtrlV3_3
  *  Added CigiEntityCtrlV3_3
@@ -1018,10 +1018,6 @@ int CigiIncomingMsg::UnregisterEventProcessor(int PacketID, CigiBaseEventProcess
          iEvent = EventList[PacketID].erase(iEvent);
          break;
       }
-      else
-      {
-         iEvent++;
-      }
    }
 
    return(CIGI_SUCCESS);
@@ -1087,10 +1083,6 @@ int CigiIncomingMsg::UnregisterCallBack(int PacketID, CigiCBProcessor CallBack)
          iCB = CallBackList[PacketID].erase(iCB);
          break;
       }
-      else
-      {
-         iCB++;
-      }
    }
 
    return(CIGI_SUCCESS);
@@ -1137,10 +1129,6 @@ int CigiIncomingMsg::UnregisterSignalProcessor(CigiBaseSignalProcessing *SignalM
       {
          iSig = SignalList.erase(iSig);
          break;
-      }
-      else
-      {
-         iSig++;
       }
    }
 

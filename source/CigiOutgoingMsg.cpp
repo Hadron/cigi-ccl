@@ -1,68 +1,68 @@
 /** <pre>
  *  The SDK is used to create and format CIGI compliant messages.
  *  Copyright (c) 2001-2005 The Boeing Company
- *  
- *  This library is free software; you can redistribute it and/or modify it 
- *  under the terms of the GNU Lesser General Public License as published by 
- *  the Free Software Foundation; either version 2.1 of the License, or (at 
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation; either version 2.1 of the License, or (at
  *  your option) any later version.
- *  
+ *
  *  This library is distributed in the hope that it will be useful, but WITHOUT
- *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more 
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more
  *  details.
- *  
- *  You should have received a copy of the GNU Lesser General Public License 
- *  along with this library; if not, write to the Free Software Foundation, 
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this library; if not, write to the Free Software Foundation,
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *  
+ *
  *  FILENAME:   CigiOutgoingMsg.cpp
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
  *  PROJECT:    Common Image Generator Interface (CIGI) SDK
- *  
- *  PROGRAM DESCRIPTION: 
+ *
+ *  PROGRAM DESCRIPTION:
  *  ...
- *  
+ *
  *  MODIFICATION NOTES:
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
- *  
+ *
  *  09/15/2003 James Durtschy                    CIGI_CR_DR_1
  *  Initial Release.
- *  
+ *
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Defined _EXPORT_CCL_ for exporting the class in a Windows DLL.
- *  
+ *
  *  01/21/2005 Greg Basler                       Version 1.5
  *  Changed native C++ types to use CCL-defined types instead where appropriate.
- *  
+ *
  *  02/20/2006 Greg Basler                       Version 1.6.0
  *  Added the PackageMsg and FreeMsg methods to better update the frame
  *  the frame counter in the IG_Ctrl packet for hosts
- *  
+ *
  *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Modified the class constructor and destructor methods to initialize 
+ *  Modified the class constructor and destructor methods to initialize
  *  (allocate) and destroy the CurrentIGCtrl and CurrentSOF member variables.
- *  
+ *
  *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Updated the overloaded << operators for the CigiBaseIGCtrl parameter to set 
- *  the CurrentIGCtrl member variable, and for the CigiBaseSOF parameter to set 
+ *  Updated the overloaded << operators for the CigiBaseIGCtrl parameter to set
+ *  the CurrentIGCtrl member variable, and for the CigiBaseSOF parameter to set
  *  the CurrentSOF member variable.
- *  
+ *
  *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Updated the UpdateFrameCntr methods to use minor version numbers and to add 
+ *  Updated the UpdateFrameCntr methods to use minor version numbers and to add
  *  additional frame synchronization functionality.
- *  
+ *
  *  04/14/2006 Greg Basler                       Version 1.7.0
- *  Modified the UpdateIGCtrl and UpdateSOF methods to use minor version 
+ *  Modified the UpdateIGCtrl and UpdateSOF methods to use minor version
  *  numbers and to add additional frame synchronization functionality.
- *  
+ *
  *  04/14/2006 Greg Basler                       Version 1.7.0
  *  Implemented the Reset method.
- *  
+ *
  *  06/23/2006 Greg Basler                       Version 1.7.1
- *  Changed native char and unsigned char types to CIGI types Cigi_int8 and 
+ *  Changed native char and unsigned char types to CIGI types Cigi_int8 and
  *  Cigi_uint8.
  *
  *  11/27/2006 Greg Basler                       Version 1.7.4
@@ -72,7 +72,7 @@
  *    incoming database id.
  *    It does not zero the id if the incoming id is -128 because an incoming
  *    database id of -128 signifies a database not found condition.
- *  
+ *
  *  04/24/2007 Greg Basler                       Version 1.7.5
  *  Corrected a problem with the database id adjustment code in UpdateIGCtrl.
  *    The user can disable database id adjustment by declaring
@@ -81,23 +81,23 @@
  *    request if the incoming database number is the same or the negative of
  *    database request. It does not 0 the database request if the incoming
  *    database number is -128.
- *  
+ *
  *  03/11/2008 Greg Basler                       Version 2.0.0
  *  Completely rewrote the way conversions are handled.  Also, rewrote
  *    the message buffers and how they are handled.  Also, removed
  *    the VersionJmpTbl.
- *  
+ *
  *  04/03/2008 Greg Basler                       Version 2.1.0
  *  Added CigiSymbolCloneV3_3
- *  
+ *
  *  05/09/2008 Greg Basler                       Version 2.2.0
  *  Added CigiIGCtrlV3_3
  *  Added CigiEntityCtrlV3_3
  *  Fixed the conversion process
- *  
+ *
  *  05/16/2008 Greg Basler                       Version 2.2.0
  *  Fixed the EnvCtrl conversion process
- *  
+ *
  *  12/7/200 Greg Basler                         Version 3.3.2
  *  Removed automatic zeroing of the database id based on the SOF declared
  *  database id.  Now the UpdateIGCtrl method just bounds checks the
@@ -354,7 +354,7 @@ int CigiOutgoingMsg::SetOutgoingCigiVersion(CigiVersionID &Version,
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 void CigiOutgoingMsg::ChangeBufferCigiVersion(void)
 {
-  
+
    // Set the buffer's Cigi Version
    CrntFillBuf->CigiVersion = OutgoingVersion;
 
@@ -959,8 +959,8 @@ int CigiOutgoingMsg::LockMsg()
 
    // Get the next buffer for transmission
    //  And verify the Session is valid
-   CrntMsgBuf = *(Buffers.begin());
-   if((CrntMsgBuf == NULL) || (Session == NULL))
+   CigiMessageBuffer *ChkMsgBuf = *(Buffers.begin());
+   if((ChkMsgBuf == NULL) || (Session == NULL))
    {
 #ifndef CIGI_NO_EXCEPT
       throw CigiNullPointerException();
@@ -968,7 +968,7 @@ int CigiOutgoingMsg::LockMsg()
       return(CIGI_ERROR_UNEXPECTED_NULL);
    }
 
-   if(!CrntMsgBuf->ValidIGCtrlSOF)
+   if(!ChkMsgBuf->ValidIGCtrlSOF)
    {
       if(Session->IsHost())
       {
@@ -986,7 +986,7 @@ int CigiOutgoingMsg::LockMsg()
       }
    }
 
-   if( !CrntMsgBuf->Active || CrntMsgBuf->Locked )
+   if( !ChkMsgBuf->Active || ChkMsgBuf->Locked )
    {
 #ifndef CIGI_NO_EXCEPT
       throw CigiCalledOutOfSequenceException();
@@ -994,6 +994,7 @@ int CigiOutgoingMsg::LockMsg()
       return(CIGI_ERROR_CALLED_OUT_OF_SEQUENCE);
    }
 
+   CrntMsgBuf = ChkMsgBuf;
    CrntMsgBuf->Locked = true;
 
    // Set up next fill buffer the CrntFillBuf and the
@@ -1069,9 +1070,9 @@ int CigiOutgoingMsg::GetMsgLength()
 // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 std::string CigiOutgoingMsg::GetBufferString(void)
 {
-	Cigi_uint8 *buffer = this->GetBuffer();
-	int size = this->GetMsgLength();
-	return std::string(buffer,buffer+size);
+   Cigi_uint8 *buffer = this->GetBuffer();
+   int size = this->GetMsgLength();
+   return std::string(buffer,buffer+size);
 }
 
 

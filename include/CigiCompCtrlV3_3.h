@@ -177,7 +177,7 @@ public:
    //=========================================================
    //! Gets the CompState value.
    //! \return the current CompState.
-   Cigi_uint8 GetCompState(void)
+   Cigi_uint8 GetCompState(void) const
    {
       Cigi_uint8 V3State = (Cigi_uint8)((CompState > 0x00ff) ? 0xff : CompState);
       return(V3State);

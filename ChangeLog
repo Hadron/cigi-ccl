@@ -1,3 +1,20 @@
+Version 3.3.3
+-------------
+[02.02.2012]
+
+Changes/Additions:
+------------------
+
+- Corrected a bug in CigiOutgoingMsg that was corrupting the send buffer pointer.
+  Used a temporary buffer to point to the outgoing buffer.  Then conducts a validity
+  check on the buffer.  If it passes, then the outgoing buffer pointer is updated.
+- Corrected a bug in CigiIncomingMsg that was not incrementing through each of
+  the Event, Signal, and Callback lists.
+- Added the const modifier to the GetCompState member function in each of the
+  CigiCompCtrlV3.h, the CigiCompCtrlV3_3.h, the CigiShortCompCtrlV3.h, and
+  the CigiShortCompCtrlV3_3.h files.
+
+
 Version 3.3.2
 -------------
 [12.09.2010]

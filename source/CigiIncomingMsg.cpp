@@ -896,7 +896,7 @@ CigiBasePacket * CigiIncomingMsg::GetNextPacket()
          Cigi_uint8 PacketID = *CrntPacket;
          Cigi_uint8 PacketSize = *(CrntPacket+1);
 
-         CigiBasePacket *tPckt = IncomingHandlerTbl[PacketID];
+         tPckt = IncomingHandlerTbl[PacketID];
 
          CigiCnvtInfoType::Type CnvtDta;
          tPckt->GetCnvt(ReaderVersion,CnvtDta);

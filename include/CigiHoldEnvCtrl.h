@@ -145,6 +145,26 @@ public:
    virtual void FillHold(CigiBaseEnvCtrl * Hold) const  { };
 
 
+   //==> ID & Size Manipulation
+
+   //=========================================================
+   //! Sets the packet id.
+   //! \param - The packet id.
+   //!
+   void SetPacketID(Cigi_uint8 PacketIdIn)
+   {
+      PacketID = PacketIdIn;
+   }
+
+   //=========================================================
+   //! Sets the size of the packet.
+   //! \param - The size in bytes of the packet.
+   //!
+   void SetPacketSize(Cigi_uint8 PacketSizeIn)
+   {
+      PacketSize = PacketSizeIn;
+   }
+
 
 
 };

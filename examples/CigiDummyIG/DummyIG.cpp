@@ -45,7 +45,7 @@
 #define TIXML_USE_STL
 
 #include <tinyxml.h>
-#include <tinystr.h>
+// #include <tinystr.h>
 
 
 // CIGI related includes

@@ -1,0 +1,72 @@
+Source: cigi-ccl
+Section: libs
+Priority: optional
+Maintainer: Klee Dienes <klee@mit.edu>
+Build-Depends: debhelper (>= 9), autotools-dev, cmake, libtinyxml-dev
+Standards-Version: 3.9.4
+Homepage: http://cigi.sourceforge.net/
+
+Package: libcigicl1-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libcigicl1 (= ${binary:Version}), ${misc:Depends}
+Description: development files for the CIGI class library (CCL)
+ The CCL is a C++ language library for implementing CIGI in both host
+ and IG applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI
+
+Package: libcigicl1-dbg
+Section: debug
+Priority: extra
+Architecture: any
+Multi-Arch: same
+Depends: libcigicl1 (= ${binary:Version}), ${misc:Depends}
+Description: debug symbols for the CIGI class library (CCL)
+ The CCL is a C++ language library for implementing CIGI in both host
+ and IG applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI
+
+Package: libcigicl1
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: runtime library for the CIGI class library (CCL)
+ The CCL is a C++ language library for implementing CIGI in both host
+ and IG applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI
+
+Package: cigi-ccl-examples
+Section: devel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: compiled examples for the CIGI class library (CCL)
+ The CCL is a C++ language library for implementing CIGI in both host
+ and IG applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI

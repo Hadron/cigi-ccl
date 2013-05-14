@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+.PHONY: override_dh_installdocs override_dh_strip
+
+ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
+  INSTALL_PROGRAM += -s
+endif
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+  MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+%:
+	dh $@ --parallel
+
+override_dh_installdocs:
+	dh_installdocs --link-doc=libcigicl1
+
+override_dh_strip:
+	dh_strip --dbg-package=libcigicl1-dbg

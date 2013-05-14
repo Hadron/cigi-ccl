@@ -28,7 +28,7 @@ SET(VERSION 3.3.3)
 #
 #============================================================================
 
-#CMAKE_MINIMUM_REQUIRED(VERSION 2.4.7)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4.7)
 SET(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS 1)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 IF(MSVC OR MINGW)
@@ -442,6 +442,9 @@ SET(CCL_SRCS
   source/CigiWeatherCtrlV3.cpp
 )
 
+ADD_SUBDIRECTORY(examples/CigiMiniHost)
+ADD_SUBDIRECTORY(examples/CigiDummyIG)
+
 #==========================================================
 # Library Targets
 #==========================================================
@@ -486,8 +489,8 @@ SET_TARGET_PROPERTIES(cigicl-static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 
 INSTALL(TARGETS cigicl-static cigicl-shared
         RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        LIBRARY DESTINATION lib/${CMAKE_LIBRARY_ARCHITECTURE}
+        ARCHIVE DESTINATION lib/${CMAKE_LIBRARY_ARCHITECTURE})
 INSTALL(FILES ${CCL_PUBLIC_HDRS} DESTINATION include/cigicl)
 INSTALL(FILES
     COPYING
@@ -498,5 +501,5 @@ INSTALL(FILES
     DESTINATION share/cigicl)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-    INSTALL(FILES ${CMAKE_BINARY_DIR}/cigicl.pc DESTINATION lib/pkgconfig)
+    INSTALL(FILES ${CMAKE_BINARY_DIR}/cigicl.pc DESTINATION lib/${CMAKE_LIBRARY_ARCHITECTURE}/pkgconfig)
 ENDIF()

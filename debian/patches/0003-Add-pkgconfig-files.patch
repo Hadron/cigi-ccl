@@ -1,0 +1,25 @@
+From: Klee Dienes <klee.dienes@hadronindustries.com>
+Date: Tue, 14 May 2013 17:06:26 -0400
+Subject: Add pkgconfig files.
+
+---
+ cigicl.pc.in_cmake |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cigicl.pc.in_cmake b/cigicl.pc.in_cmake
+index 9bf1bd9..80ecec0 100644
+--- a/cigicl.pc.in_cmake
++++ b/cigicl.pc.in_cmake
+@@ -1,10 +1,10 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@CMAKE_INSTALL_PREFIX@/lib
++libdir=@CMAKE_INSTALL_PREFIX@/lib/@CMAKE_LIBRARY_ARCHITECTURE@
+ includedir=@CMAKE_INSTALL_PREFIX@/include
+ 
+ Name: CIGI Class Library
+ Description: Library for unpacking, manipulating, and packing CIGI packets
+ Version: @VERSION@
+-Libs: -L@CMAKE_INSTALL_PREFIX@/lib -lcigicl
++Libs: -L@CMAKE_INSTALL_PREFIX@/lib/@CMAKE_LIBRARY_ARCHITECTURE@ -lcigicl
+ Cflags: -I@CMAKE_INSTALL_PREFIX@/include/cigicl 

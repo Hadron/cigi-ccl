@@ -1,0 +1,161 @@
+From: Klee Dienes <klee.dienes@hadronindustries.com>
+Date: Tue, 14 May 2013 17:00:45 -0400
+Subject: Add compilation of CigiDummyIG and CigiMiniHost.
+
+---
+ examples/CigiDummyIG/CMakeLists.txt  |   89 ++++++++++++++++++++++++++++++++++
+ examples/CigiDummyIG/DummyIG.cpp     |    2 +-
+ examples/CigiMiniHost/CMakeLists.txt |   21 ++++++++
+ examples/CigiMiniHost/MiniHost.cpp   |    2 +-
+ 4 files changed, 112 insertions(+), 2 deletions(-)
+ create mode 100644 examples/CigiDummyIG/CMakeLists.txt
+ create mode 100644 examples/CigiMiniHost/CMakeLists.txt
+
+diff --git a/examples/CigiDummyIG/CMakeLists.txt b/examples/CigiDummyIG/CMakeLists.txt
+new file mode 100644
+index 0000000..fe7edd4
+--- /dev/null
++++ b/examples/CigiDummyIG/CMakeLists.txt
+@@ -0,0 +1,89 @@
++SET(DUMMYID_HDRS
++DefaultProc.h
++Network.h
++XArtPartCtrl.h
++XAtmosCtrl.h
++XCelestialCtrl.h
++XCollDetSegDef.h
++XCollDetVolDef.h
++XCompCtrl.h
++XConfClampEntityCtrl.h
++XEarthModelDef.h
++XEntityCtrl.h
++XEnvCondReq.h
++XEnvRgnCtrl.h
++XEventNotification.h
++XHatHotReq.h
++XIGCtrl.h
++XLosSegReq.h
++XLosVectReq.h
++XMaritimeSurfaceCtrl.h
++XMotionTrackCtrl.h
++XPostionReq.h
++XRateCtrl.h
++XSensorCtrl.h
++XShortArtPartCtrl.h
++XShortCompCtrl.h
++XShortSymbolCtrlV3_3.h
++XSymbolCircleDefV3_3.h
++XSymbolCloneV3_3.h
++XSymbolCtrlV3_3.h
++XSymbolLineDefV3_3.h
++XSymbolSurfaceDefV3_3.h
++XSymbolTextDefV3_3.h
++XTerrestrialSurfaceCtrl.h
++XTrajectory.h
++XViewCtrl.h
++XViewDef.h
++XWaveCtrl.h
++XWeatherCtrl.h
++)
++
++SET(DUMMYIG_SRCS
++DefaultProc.cpp
++DummyIG.cpp
++Network.cpp
++XArtPartCtrl.cpp
++XAtmosCtrl.cpp
++XCelestialCtrl.cpp
++XCollDetSegDef.cpp
++XCollDetVolDef.cpp
++XCompCtrl.cpp
++XConfClampEntityCtrl.cpp
++XEarthModelDef.cpp
++XEntityCtrl.cpp
++XEnvCondReq.cpp
++XEnvRgnCtrl.cpp
++XEventNotification.cpp
++XHatHotReq.cpp
++XIGCtrl.cpp
++XLosSegReq.cpp
++XLosVectReq.cpp
++XMaritimeSurfaceCtrl.cpp
++XMotionTrackCtrl.cpp
++XPostionReq.cpp
++XRateCtrl.cpp
++XSensorCtrl.cpp
++XShortArtPartCtrl.cpp
++XShortCompCtrl.cpp
++XShortSymbolCtrlV3_3.cpp
++XSymbolCircleDefV3_3.cpp
++XSymbolCloneV3_3.cpp
++XSymbolCtrlV3_3.cpp
++XSymbolLineDefV3_3.cpp
++XSymbolSurfaceDefV3_3.cpp
++XSymbolTextDefV3_3.cpp
++XTerrestrialSurfaceCtrl.cpp
++XTrajectory.cpp
++XViewCtrl.cpp
++XViewDef.cpp
++XWaveCtrl.cpp
++XWeatherCtrl.cpp
++)
++
++INCLUDE_DIRECTORIES(../../include)
++
++ADD_EXECUTABLE(CigiDummyIG ${DUMMYIG_HDRS} ${DUMMYIG_SRCS})
++TARGET_LINK_LIBRARIES(CigiDummyIG cigicl-shared tinyxml)
++
++INSTALL(TARGETS CigiDummyIG DESTINATION bin)
+diff --git a/examples/CigiDummyIG/DummyIG.cpp b/examples/CigiDummyIG/DummyIG.cpp
+index 877cfa5..063beda 100644
+--- a/examples/CigiDummyIG/DummyIG.cpp
++++ b/examples/CigiDummyIG/DummyIG.cpp
+@@ -45,7 +45,7 @@
+ #define TIXML_USE_STL
+ 
+ #include <tinyxml.h>
+-#include <tinystr.h>
++// #include <tinystr.h>
+ 
+ 
+ // CIGI related includes
+diff --git a/examples/CigiMiniHost/CMakeLists.txt b/examples/CigiMiniHost/CMakeLists.txt
+new file mode 100644
+index 0000000..c565cd0
+--- /dev/null
++++ b/examples/CigiMiniHost/CMakeLists.txt
+@@ -0,0 +1,21 @@
++SET(MINIHOST_HDRS
++AnimStop.h
++DefaultProc.h
++Network.h
++SOFP.h
++)
++  
++SET(MINIHOST_SRCS
++AnimStop.cpp
++DefaultProc.cpp
++MiniHost.cpp
++Network.cpp
++SOFP.cpp
++)
++
++INCLUDE_DIRECTORIES(../../include)
++
++ADD_EXECUTABLE(CigiMiniHost ${MINIHOST_HDRS} ${MINIHOST_SRCS})
++TARGET_LINK_LIBRARIES(CigiMiniHost cigicl-shared tinyxml)
++
++INSTALL(TARGETS CigiMiniHost DESTINATION bin)
+diff --git a/examples/CigiMiniHost/MiniHost.cpp b/examples/CigiMiniHost/MiniHost.cpp
+index 22e4dae..1684834 100644
+--- a/examples/CigiMiniHost/MiniHost.cpp
++++ b/examples/CigiMiniHost/MiniHost.cpp
+@@ -45,7 +45,7 @@
+ #define TIXML_USE_STL
+ 
+ #include <tinyxml.h>
+-#include <tinystr.h>
++//#include <tinystr.h>
+ 
+ 
+ // CIGI related includes

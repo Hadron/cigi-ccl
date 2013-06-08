@@ -1,0 +1,60 @@
+From: Klee Dienes <klee.dienes@hadronindustries.com>
+Date: Sat, 8 Jun 2013 09:58:24 -0400
+Subject: Update COPYING and license.html to new FSF address.
+
+---
+ COPYING      |   26 ++++++++++++--------------
+ license.html |    2 +-
+ 2 files changed, 13 insertions(+), 15 deletions(-)
+
+diff --git a/COPYING b/COPYING
+index 4d50cd8..8062436 100644
+--- a/COPYING
++++ b/COPYING
+@@ -2,21 +2,19 @@ The CIGI Class Library is licensed under the GNU Lesser General Public License
+ (GPL).
+ 
+ ----
+-This library is free software; you can redistribute it and/or modify it under 
+-the terms of the GNU Lesser General Public License as published by the Free 
+-Software Foundation; either version 2.1 of the License, or (at your option) any 
+-later version.
++This library is free software; you can redistribute it and/or
++modify it under the terms of the GNU Lesser General Public
++License as published by the Free Software Foundation; either
++version 2.1 of the License, or (at your option) any later version.
+ 
+-This library is distributed in the hope that it will be useful, but WITHOUT ANY 
+-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
++This library is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++Lesser General Public License for more details.
++
++You should have received a copy of the GNU Lesser General Public
++License along with this library; if not, write to the Free Software
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+-You should have received a copy of the GNU Lesser General Public License along 
+-with this library; if not, write to the 
+-    
+-    Free Software Foundation, Inc.
+-    59 Temple Place, Suite 330
+-    Boston, MA 02111-1307 USA
+-    
+ ----
+ Please see the accompanying license.html file for the full license.
+diff --git a/license.html b/license.html
+index d5a06f0..45641ea 100644
+--- a/license.html
++++ b/license.html
+@@ -8,7 +8,7 @@
+ 
+ <blockquote>
+ <p>Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.</p>
+ 

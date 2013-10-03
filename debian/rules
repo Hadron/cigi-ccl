@@ -1,6 +1,12 @@
 #!/usr/bin/make -f
 
-.PHONY: override_dh_installdocs override_dh_strip
+.PHONY: override_dh_installdocs override_dh_strip override_dh_auto_configure
+
+DPKG_EXPORT_BUILDFLAGS = 1
+-include /usr/share/dpkg/buildflags.mk
+
+CFLAGS   += $(CPPFLAGS)
+CXXFLAGS += $(CPPFLAGS)
 
 ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
   INSTALL_PROGRAM += -s
@@ -15,7 +21,7 @@ endif
 	dh $@ --parallel
 
 override_dh_installdocs:
-	dh_installdocs --link-doc=libcigicl1
+	dh_installdocs --link-doc=libcigicl1 --exclude=license.html
 
 override_dh_strip:
 	dh_strip --dbg-package=libcigicl1-dbg

@@ -1,46 +1,46 @@
 /** <pre>
  *  The SDK is used to create and format CIGI compliant messages.
  *  Copyright (c) 2001-2005 The Boeing Company
- *  
- *  This library is free software; you can redistribute it and/or modify it 
- *  under the terms of the GNU Lesser General Public License as published by 
- *  the Free Software Foundation; either version 2.1 of the License, or (at 
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation; either version 2.1 of the License, or (at
  *  your option) any later version.
- *  
+ *
  *  This library is distributed in the hope that it will be useful, but WITHOUT
- *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more 
+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser Public License for more
  *  details.
- *  
- *  You should have received a copy of the GNU Lesser General Public License 
- *  along with this library; if not, write to the Free Software Foundation, 
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with this library; if not, write to the Free Software Foundation,
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *  
+ *
  *  FILENAME:   CigiCompCtrlV3_3.cpp
  *  LANGUAGE:   C++
  *  CLASS:      UNCLASSIFIED
  *  PROJECT:    Common Image Generator Interface (CIGI) SDK
- *  
- *  PROGRAM DESCRIPTION: 
+ *
+ *  PROGRAM DESCRIPTION:
  *  ...
- *  
+ *
  *  MODIFICATION NOTES:
  *  DATE     NAME                                SCR NUMBER
  *  DESCRIPTION OF CHANGE........................
- *  
+ *
  *  02/11/2008 Greg Basler                       Version 2.2.0
  *  Initial Release.
  *  Converted from CigiCompCtrlV3.cpp.
  *  Fixed conversion process
- *  
+ *
  *  05/15/2008 Greg Basler                       Version 2.2.0
  *  Corrected problem with conversion from V3_3 to V2 & V1
  *   involving Component Classes of SymbolSurfaceV3_3 &
  *   SymbolV3_3.
- *  
+ *
  *  05/15/2008 Greg Basler                       Version 2.2.0
  *  Corrected Version Number
- *  
+ *
  * </pre>
  *  Author: The Boeing Company
  *
@@ -532,7 +532,7 @@ int CigiCompCtrlV3_3::SetCompData(const Cigi_uint32 CompDataIn,
       if(bndchk)
       {
 #ifndef CIGI_NO_EXCEPT
-         throw CigiValueOutOfRangeException("Word",Word,0,1);
+         throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
       }
 #endif
@@ -565,7 +565,7 @@ int CigiCompCtrlV3_3::SetCompData(const Cigi_int32 CompDataIn,
       if(bndchk)
       {
 #ifndef CIGI_NO_EXCEPT
-         throw CigiValueOutOfRangeException("Word",Word,0,1);
+         throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
       }
 #endif
@@ -594,7 +594,7 @@ int CigiCompCtrlV3_3::SetCompData(const float CompDataIn,
       if(bndchk)
       {
 #ifndef CIGI_NO_EXCEPT
-         throw CigiValueOutOfRangeException("Word",Word,0,1);
+         throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
       }
 #endif
@@ -628,7 +628,7 @@ int CigiCompCtrlV3_3::SetCompData(const Cigi_uint64 CompDataIn,
       if(bndchk)
       {
 #ifndef CIGI_NO_EXCEPT
-         throw CigiValueOutOfRangeException("Pos",Pos,0,0);
+         throw CigiValueOutOfRangeException("Pos",Pos,0,2);
 #endif
       }
 #endif
@@ -659,7 +659,7 @@ int CigiCompCtrlV3_3::SetCompData(const double CompDataIn,
       if(bndchk)
       {
 #ifndef CIGI_NO_EXCEPT
-         throw CigiValueOutOfRangeException("Pos",Pos,0,0);
+         throw CigiValueOutOfRangeException("Pos",Pos,0,2);
 #endif
       }
 #endif
@@ -777,7 +777,7 @@ Cigi_uint16 CigiCompCtrlV3_3::GetUShortCompData(const unsigned int Word,
    {
 #ifndef CIGI_NO_EXCEPT
       if(Err == 1)
-         throw CigiValueOutOfRangeException("Word",Word,0,1);
+         throw CigiValueOutOfRangeException("Word",Word,0,5);
       else
          throw CigiValueOutOfRangeException("Pos",Pos,0,1);
 #endif
@@ -813,7 +813,7 @@ Cigi_int16 CigiCompCtrlV3_3::GetShortCompData(const unsigned int Word,
    {
 #ifndef CIGI_NO_EXCEPT
       if(Err == 1)
-         throw CigiValueOutOfRangeException("Word",Word,0,1);
+         throw CigiValueOutOfRangeException("Word",Word,0,5);
       else
          throw CigiValueOutOfRangeException("Pos",Pos,0,1);
 #endif
@@ -839,7 +839,7 @@ Cigi_uint32 CigiCompCtrlV3_3::GetULongCompData(const unsigned int Word)
    if(Word > 5)
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Word",Word,0,1);
+      throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
 
       tDta = 0;
@@ -866,7 +866,7 @@ Cigi_int32 CigiCompCtrlV3_3::GetLongCompData(const unsigned int Word)
    if(Word > 5)
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Word",Word,0,1);
+      throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
 
       tDta.u32 = 0;
@@ -893,7 +893,7 @@ float CigiCompCtrlV3_3::GetFloatCompData(const unsigned int Word)
    if(Word > 5)
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Word",Word,0,1);
+      throw CigiValueOutOfRangeException("Word",Word,0,5);
 #endif
 
       tDta.u32 = 0;
@@ -917,7 +917,7 @@ Cigi_uint64 CigiCompCtrlV3_3::GetI64CompData(const unsigned int Pos)
    if(Pos > 2)
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Pos",Pos,0,0);
+      throw CigiValueOutOfRangeException("Pos",Pos,0,2);
 #endif
 
       tDta = 0;
@@ -956,7 +956,7 @@ double CigiCompCtrlV3_3::GetDoubleCompData(const unsigned int Pos)
    if(Pos > 2)
    {
 #ifndef CIGI_NO_EXCEPT
-      throw CigiValueOutOfRangeException("Pos",Pos,0,0);
+      throw CigiValueOutOfRangeException("Pos",Pos,0,2);
 #endif
 
       tDta = 0;

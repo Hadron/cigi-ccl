@@ -238,6 +238,15 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
                {
                   // To V1 or V2
                   // V1 Env Ctrl & V2 Env Ctrl have the same ID number
+                  EnvHoldObj.SetPacketID(CIGI_ENV_CTRL_PACKET_ID_V2);
+                  if(ProcessingVersion.CigiMajorVersion == 1)
+                  {
+                     EnvHoldObj.SetPacketSize(CIGI_ENV_CTRL_PACKET_SIZE_V1);
+                  }
+                  else
+                  {
+                     EnvHoldObj.SetPacketSize(CIGI_ENV_CTRL_PACKET_SIZE_V2);
+                  }
                   ProcessPacket(CIGI_ENV_CTRL_PACKET_ID_V2,&EnvHoldObj);
                }
             }
@@ -246,13 +255,27 @@ int CigiIncomingMsg::ProcessIncomingMsg(Cigi_uint8 *Buff, int Size)
                if(ReaderVersion.CigiMajorVersion >= 3)
                {
                   // To V3 or above
+                  EnvHoldObj.SetPacketID(CIGI_ATMOS_CTRL_PACKET_ID_V3);
+                  EnvHoldObj.SetPacketSize(CIGI_ATMOS_CTRL_PACKET_SIZE_V3);
                   ProcessPacket(CIGI_ATMOS_CTRL_PACKET_ID_V3,&EnvHoldObj);
+
+                  EnvHoldObj.SetPacketID(CIGI_CELESTIAL_CTRL_PACKET_ID_V3);
+                  EnvHoldObj.SetPacketSize(CIGI_CELESTIAL_CTRL_PACKET_SIZE_V3);
                   ProcessPacket(CIGI_CELESTIAL_CTRL_PACKET_ID_V3,&EnvHoldObj);
                }
                else
                {
                   // To V1 or V2
                   // V1 Env Ctrl & V2 Env Ctrl have the same ID number
+                  EnvHoldObj.SetPacketID(CIGI_ENV_CTRL_PACKET_ID_V2);
+                  if(ProcessingVersion.CigiMajorVersion == 1)
+                  {
+                     EnvHoldObj.SetPacketSize(CIGI_ENV_CTRL_PACKET_SIZE_V1);
+                  }
+                  else
+                  {
+                     EnvHoldObj.SetPacketSize(CIGI_ENV_CTRL_PACKET_SIZE_V2);
+                  }
                   ProcessPacket(CIGI_ENV_CTRL_PACKET_ID_V2,tPckt);
                }
             }
@@ -896,7 +919,7 @@ CigiBasePacket * CigiIncomingMsg::GetNextPacket()
          Cigi_uint8 PacketID = *CrntPacket;
          Cigi_uint8 PacketSize = *(CrntPacket+1);
 
-         CigiBasePacket *tPckt = IncomingHandlerTbl[PacketID];
+         tPckt = IncomingHandlerTbl[PacketID];
 
          CigiCnvtInfoType::Type CnvtDta;
          tPckt->GetCnvt(ReaderVersion,CnvtDta);

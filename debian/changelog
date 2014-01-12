@@ -1,4 +1,4 @@
-cigi-ccl (3.3.3~svn818-3) unstable; urgency=low
+cigi-ccl (3.3.3a+svn818-1) unstable; urgency=low
 
   * Remove DEB_BUILD_OPTIONS cruft.
   * Update control with new version, descriptions.
@@ -6,24 +6,9 @@ cigi-ccl (3.3.3~svn818-3) unstable; urgency=low
   * Remove sonumber from -dev package.
   * Update symbols.
   * Rename section from lib to libs.
-
- -- Klee Dienes <klee@mit.edu>  Sat, 11 Jan 2014 22:33:39 -0500
-
-cigi-ccl (3.3.3~svn818-2) unstable; urgency=low
-
   * Update Standards-Version.
-
- -- Klee Dienes <klee@mit.edu>  Sat, 11 Jan 2014 21:17:59 -0500
-
-cigi-ccl (3.3.3~svn818-1) unstable; urgency=low
-
   * Update to latest snapshot.
   * Improve version numbering.
-
- -- Klee Dienes <klee@mit.edu>  Thu, 03 Oct 2013 12:44:28 -0400
-
-cigi-ccl (3.3.3~a-2) unstable; urgency=low
-
   * Update example specification from /usr/bin/ to /usr/bin/*.
   * Update debian/copyright to new FSF address.
   * Add debian/watch to point to SourceForge.

@@ -8,15 +8,6 @@ DPKG_EXPORT_BUILDFLAGS = 1
 CFLAGS   += $(CPPFLAGS)
 CXXFLAGS += $(CPPFLAGS)
 
-ifeq (,$(filter nostrip,$(DEB_BUILD_OPTIONS)))
-  INSTALL_PROGRAM += -s
-endif
-
-ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-  NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-  MAKEFLAGS += -j$(NUMJOBS)
-endif
-
 DH_WITHFLAGS = --with pkgkde_symbolshelper
 DH_FLAGS = --parallel
 

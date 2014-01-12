@@ -5,6 +5,7 @@ cigi-ccl (3.3.3~svn818-3) unstable; urgency=low
   * Remove leading slash from install file.
   * Remove sonumber from -dev package.
   * Update symbols.
+  * Rename section from lib to libs.
 
  -- Klee Dienes <klee@mit.edu>  Sat, 11 Jan 2014 22:33:39 -0500
 

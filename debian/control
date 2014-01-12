@@ -48,7 +48,7 @@ Description: debug symbols for the CIGI class library (CCL)
   * Can translate between different versions of CIGI
 
 Package: libcigicl1
-Section: lib
+Section: libs
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}

@@ -1,5 +1,6 @@
 cigi-ccl (3.3.3a+svn818-1) unstable; urgency=low
 
+  * Do not apply copyright file patch.
   * Remove DEB_BUILD_OPTIONS cruft.
   * Update control with new version, descriptions.
   * Remove leading slash from install file.

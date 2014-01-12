@@ -17,8 +17,11 @@ ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
   MAKEFLAGS += -j$(NUMJOBS)
 endif
 
+DH_WITHFLAGS = --with pkgkde_symbolshelper
+DH_FLAGS = --parallel
+
 %:
-	dh $@ --parallel
+	dh $@ $(DH_WITHFLAGS) $(DH_FLAGS)
 
 override_dh_installdocs:
 	dh_installdocs --link-doc=libcigicl1 --exclude=license.html

@@ -1,3 +1,9 @@
+cigi-ccl (3.3.3~svn818-2) unstable; urgency=low
+
+  * Update Standards-Version.
+
+ -- Klee Dienes <klee@mit.edu>  Sat, 11 Jan 2014 21:17:59 -0500
+
 cigi-ccl (3.3.3~svn818-1) unstable; urgency=low
 
   * Update to latest snapshot.

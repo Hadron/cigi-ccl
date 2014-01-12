@@ -11,7 +11,7 @@ cigi-ccl (3.3.3~svn818-1) unstable; urgency=low
 
  -- Klee Dienes <klee@mit.edu>  Thu, 03 Oct 2013 12:44:28 -0400
 
-cigi-ccl (3.3.3a-2) unstable; urgency=low
+cigi-ccl (3.3.3~a-2) unstable; urgency=low
 
   * Update example specification from /usr/bin/ to /usr/bin/*.
   * Update debian/copyright to new FSF address.
@@ -19,7 +19,7 @@ cigi-ccl (3.3.3a-2) unstable; urgency=low
 
  -- Klee Dienes <klee@mit.edu>  Sat, 08 Jun 2013 11:20:37 -0400
 
-cigi-ccl (3.3.3a-1) unstable; urgency=low
+cigi-ccl (3.3.3~a-1) unstable; urgency=low
 
   * Initial packaging. (Closes: #723033)
 

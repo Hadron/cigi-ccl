@@ -1,5 +1,6 @@
 cigi-ccl (3.3.3a+svn818-1) unstable; urgency=low
 
+  * Add Build-Depends on pkgkde-tools.
   * Do not apply copyright file patch.
   * Remove DEB_BUILD_OPTIONS cruft.
   * Update control with new version, descriptions.

@@ -9,16 +9,16 @@ CFLAGS   += $(CPPFLAGS)
 CXXFLAGS += $(CPPFLAGS)
 
 DH_WITHFLAGS = --with pkgkde_symbolshelper
-DH_FLAGS = --parallel
+DH_FLAGS = --parallel --buildsystem=cmake
 
 %:
 	dh $@ $(DH_WITHFLAGS) $(DH_FLAGS)
 
-override_dh_installdocs:
-	dh_installdocs --link-doc=libcigicl1 --exclude=license.html
+override_dh_auto_configure:
+	dh_auto_configure --buildsystem=cmake
 
 override_dh_strip:
 	dh_strip --dbg-package=libcigicl1-dbg
 
-override_dh_auto_configure:
-	dh_auto_configure --buildsystem=cmake
+override_dh_installdocs:
+	dh_installdocs --link-doc=libcigicl1 --exclude=license.html

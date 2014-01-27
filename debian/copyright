@@ -35,22 +35,22 @@ License: Unlimited
  unlimited permission to copy, distribute and modify it.
 
 Files:
- ./Testing/HostRcvCcl/HostRcvCcl.cpp
- ./Testing/HostSendCcl/HostSendCcl.cpp
- ./Testing/IgRcvCcl/IgRcvCcl.cpp
- ./Testing/IgSendCcl/IgSendCcl.cpp
- ./Testing/Networking/Network.cpp
- ./Testing/Networking/Network.h
- ./examples/CigiDummyIG/DummyIG.cpp
- ./examples/CigiDummyIG/Network.cpp
- ./examples/CigiDummyIG/Network.h
- ./examples/CigiMiniHost/MiniHost.cpp
- ./examples/CigiMiniHost/Network.cpp
- ./examples/CigiMiniHost/Network.h
+ Testing/HostRcvCcl/HostRcvCcl.cpp
+ Testing/HostSendCcl/HostSendCcl.cpp
+ Testing/IgRcvCcl/IgRcvCcl.cpp
+ Testing/IgSendCcl/IgSendCcl.cpp
+ Testing/Networking/Network.cpp
+ Testing/Networking/Network.h
+ examples/CigiDummyIG/DummyIG.cpp
+ examples/CigiDummyIG/Network.cpp
+ examples/CigiDummyIG/Network.h
+ examples/CigiMiniHost/MiniHost.cpp
+ examples/CigiMiniHost/Network.cpp
+ examples/CigiMiniHost/Network.h
 Copyright: 2004, The Boeing Company
 License: GPL-1+
 
-Files: ./scripting/ruby/powermate.rb
+Files: scripting/ruby/powermate.rb
 Copyright: Oliver M. Bolzer <oliver@fakeroot.net>, 2002
 License: BSD-3-Clause
 

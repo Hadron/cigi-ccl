@@ -84,3 +84,39 @@ Description: compiled examples for the CIGI class library (CCL)
   * Handles output buffer management
   * Can handle most of the input buffer management with simple calls
   * Can translate between different versions of CIGI
+
+Package: python-cigi
+Section: python
+Architecture: any
+Description: Python bindings for the CIGI class library
+ This package contains SWIG-generated Python interfaces for the CIGI
+ class library (CCL).  The primary goal of the Common Image Generator
+ Interface (CIGI) standard is to standardise the interface between a
+ simulators host computer and the Image Generator.  The CCL is a C++
+ language library for implementing CIGI in both host and IG
+ applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI
+
+Package: python3-cigi
+Section: python
+Architecture: any
+Description: Python bindings for the CIGI class library
+ This package contains SWIG-generated Python interfaces for the CIGI
+ class library (CCL).  The primary goal of the Common Image Generator
+ Interface (CIGI) standard is to standardise the interface between a
+ simulators host computer and the Image Generator.  The CCL is a C++
+ language library for implementing CIGI in both host and IG
+ applications.
+ .
+ Some features of the CCL include:
+ .
+  * Handles packing, unpacking, and byte swapping automatically
+  * Handles output buffer management
+  * Can handle most of the input buffer management with simple calls
+  * Can translate between different versions of CIGI

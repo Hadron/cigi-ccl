@@ -3,7 +3,7 @@ Date: Tue, 14 May 2013 17:06:26 -0400
 Subject: Add pkgconfig files.
 
 ---
- cigicl.pc.in_cmake |    4 ++--
+ cigicl.pc.in_cmake | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/cigicl.pc.in_cmake b/cigicl.pc.in_cmake

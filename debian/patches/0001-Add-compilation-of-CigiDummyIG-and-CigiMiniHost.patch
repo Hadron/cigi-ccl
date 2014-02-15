@@ -3,10 +3,10 @@ Date: Tue, 14 May 2013 17:00:45 -0400
 Subject: Add compilation of CigiDummyIG and CigiMiniHost.
 
 ---
- examples/CigiDummyIG/CMakeLists.txt  |   89 ++++++++++++++++++++++++++++++++++
- examples/CigiDummyIG/DummyIG.cpp     |    2 +-
- examples/CigiMiniHost/CMakeLists.txt |   21 ++++++++
- examples/CigiMiniHost/MiniHost.cpp   |    2 +-
+ examples/CigiDummyIG/CMakeLists.txt  | 89 ++++++++++++++++++++++++++++++++++++
+ examples/CigiDummyIG/DummyIG.cpp     |  2 +-
+ examples/CigiMiniHost/CMakeLists.txt | 21 +++++++++
+ examples/CigiMiniHost/MiniHost.cpp   |  2 +-
  4 files changed, 112 insertions(+), 2 deletions(-)
  create mode 100644 examples/CigiDummyIG/CMakeLists.txt
  create mode 100644 examples/CigiMiniHost/CMakeLists.txt
@@ -147,7 +147,7 @@ index 0000000..c565cd0
 +
 +INSTALL(TARGETS CigiMiniHost DESTINATION bin)
 diff --git a/examples/CigiMiniHost/MiniHost.cpp b/examples/CigiMiniHost/MiniHost.cpp
-index 22e4dae..1684834 100644
+index 93d780b..5f57e54 100644
 --- a/examples/CigiMiniHost/MiniHost.cpp
 +++ b/examples/CigiMiniHost/MiniHost.cpp
 @@ -45,7 +45,7 @@

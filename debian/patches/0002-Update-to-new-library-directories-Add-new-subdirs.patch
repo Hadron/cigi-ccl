@@ -3,7 +3,7 @@ Date: Tue, 14 May 2013 17:05:58 -0400
 Subject: Update to new library directories; Add new subdirs.
 
 ---
- CMakeLists.txt |   11 +++++++----
+ CMakeLists.txt | 11 +++++++----
  1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt

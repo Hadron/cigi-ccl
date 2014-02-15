@@ -1,3 +1,9 @@
+cigi-ccl (3.3.3a+svn818-4) unstable; urgency=low
+
+  * Update SWIG Python support.
+
+ -- Klee Dienes <klee@mit.edu>  Sat, 15 Feb 2014 17:29:54 -0500
+
 cigi-ccl (3.3.3a+svn818-2) unstable; urgency=low
 
   * Update debian/copyright.

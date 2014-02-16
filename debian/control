@@ -2,9 +2,14 @@ Source: cigi-ccl
 Section: libs
 Priority: optional
 Maintainer: Klee Dienes <klee@mit.edu>
-Build-Depends: debhelper (>= 9), autotools-dev, cmake, cmake-data, libtinyxml-dev, pkg-kde-tools, swig, python, python-dev, python3, python3-dev
+Build-Depends: debhelper (>= 9), dh-python,
+	       swig, cmake, cmake-data, libtinyxml-dev, pkg-kde-tools,
+	       python-all, python-all-dev, python-setuptools,
+	       python3-all, python3-all-dev, python3-setuptools
 Standards-Version: 3.9.5
 Homepage: http://cigi.sourceforge.net/
+X-Python-Version: >= 2.6
+X-Python3-Version: >= 3.2
 
 Package: libcigicl-dev
 Section: libdevel

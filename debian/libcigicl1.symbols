@@ -1,3 +1,4 @@
+# SymbolsHelper-Confirmed: 3.3.3a amd64 i386
 libcigicl.so.1 libcigicl1 #MINVER#
  _Z9CigiCopy8PvPKv@Base 3.3.3a
  _Z9CigiSwap2PvPKv@Base 3.3.3a
@@ -217,9 +218,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN14CigiCompCtrlV111SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEijb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEjjb@Base 3.3.3a
- _ZN14CigiCompCtrlV111SetCompDataEmjb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN14CigiCompCtrlV111SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN14CigiCompCtrlV112SetCompAssocEN16CigiBaseCompCtrl12CompAssocGrpEb@Base 3.3.3a
  _ZN14CigiCompCtrlV114CompClassV1xV3E@Base 3.3.3a
  _ZN14CigiCompCtrlV114GetI64CompDataEj@Base 3.3.3a
@@ -245,9 +246,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN14CigiCompCtrlV211SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV211SetCompDataEijb@Base 3.3.3a
  _ZN14CigiCompCtrlV211SetCompDataEjjb@Base 3.3.3a
- _ZN14CigiCompCtrlV211SetCompDataEmjb@Base 3.3.3a
  _ZN14CigiCompCtrlV211SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV211SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN14CigiCompCtrlV211SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN14CigiCompCtrlV214CompClassV2xV1E@Base 3.3.3a
  _ZN14CigiCompCtrlV214CompClassV2xV3E@Base 3.3.3a
  _ZN14CigiCompCtrlV214GetI64CompDataEj@Base 3.3.3a
@@ -273,9 +274,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN14CigiCompCtrlV311SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV311SetCompDataEijb@Base 3.3.3a
  _ZN14CigiCompCtrlV311SetCompDataEjjb@Base 3.3.3a
- _ZN14CigiCompCtrlV311SetCompDataEmjb@Base 3.3.3a
  _ZN14CigiCompCtrlV311SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV311SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN14CigiCompCtrlV311SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN14CigiCompCtrlV314CompClassV3xV1E@Base 3.3.3a
  _ZN14CigiCompCtrlV314CompClassV3xV2E@Base 3.3.3a
  _ZN14CigiCompCtrlV314GetI64CompDataEj@Base 3.3.3a
@@ -550,9 +551,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN16CigiCompCtrlV3_311SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN16CigiCompCtrlV3_311SetCompDataEijb@Base 3.3.3a
  _ZN16CigiCompCtrlV3_311SetCompDataEjjb@Base 3.3.3a
- _ZN16CigiCompCtrlV3_311SetCompDataEmjb@Base 3.3.3a
  _ZN16CigiCompCtrlV3_311SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN16CigiCompCtrlV3_311SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN16CigiCompCtrlV3_311SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN16CigiCompCtrlV3_314CompClassV3xV1E@Base 3.3.3a
  _ZN16CigiCompCtrlV3_314CompClassV3xV2E@Base 3.3.3a
  _ZN16CigiCompCtrlV3_314GetI64CompDataEj@Base 3.3.3a
@@ -1107,9 +1108,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN19CigiShortCompCtrlV311SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN19CigiShortCompCtrlV311SetCompDataEijb@Base 3.3.3a
  _ZN19CigiShortCompCtrlV311SetCompDataEjjb@Base 3.3.3a
- _ZN19CigiShortCompCtrlV311SetCompDataEmjb@Base 3.3.3a
  _ZN19CigiShortCompCtrlV311SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN19CigiShortCompCtrlV311SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN19CigiShortCompCtrlV311SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN19CigiShortCompCtrlV314CompClassV3xV1E@Base 3.3.3a
  _ZN19CigiShortCompCtrlV314CompClassV3xV2E@Base 3.3.3a
  _ZN19CigiShortCompCtrlV314GetI64CompDataEj@Base 3.3.3a
@@ -1268,9 +1269,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN21CigiShortCompCtrlV3_311SetCompDataEhjN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_311SetCompDataEijb@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_311SetCompDataEjjb@Base 3.3.3a
- _ZN21CigiShortCompCtrlV3_311SetCompDataEmjb@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_311SetCompDataEsjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_311SetCompDataEtjN16CigiBaseCompCtrl11HalfWordPosEb@Base 3.3.3a
+ (subst)_ZN21CigiShortCompCtrlV3_311SetCompDataE{uint64_t}jb@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_314CompClassV3xV1E@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_314CompClassV3xV2E@Base 3.3.3a
  _ZN21CigiShortCompCtrlV3_314GetI64CompDataEj@Base 3.3.3a
@@ -1745,17 +1746,12 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZNK9CigiSOFV14PackEP14CigiBasePacketPhPv@Base 3.3.3a
  _ZNK9CigiSOFV24PackEP14CigiBasePacketPhPv@Base 3.3.3a
  _ZNK9CigiSOFV34PackEP14CigiBasePacketPhPv@Base 3.3.3a
- _ZNSs12_S_constructIPcEES0_T_S1_RKSaIcESt20forward_iterator_tag@Base 3.3.3a
-#MISSING: 3.3.3a-1# _ZNSs12_S_constructIPhEEPcT_S2_RKSaIcESt20forward_iterator_tag@Base 3.3.3a
-#MISSING: 3.3.3a-1# _ZNSt10_List_baseIP17CigiMessageBufferSaIS1_EE8_M_clearEv@Base 3.3.3a
-#MISSING: 3.3.3a-1# _ZNSt10_List_baseIP22CigiBaseEventProcessorSaIS1_EE8_M_clearEv@Base 3.3.3a
-#MISSING: 3.3.3a-1# _ZNSt10_List_baseIP24CigiBaseSignalProcessingSaIS1_EE8_M_clearEv@Base 3.3.3a
-#MISSING: 3.3.3a-1# _ZNSt10_List_baseIPFvP14CigiBasePacketESaIS3_EE8_M_clearEv@Base 3.3.3a
- _ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED0Ev@Base 3.3.3a
- _ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED1Ev@Base 3.3.3a
- _ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED2Ev@Base 3.3.3a
- _ZNSt6vectorIP24CigiBaseCircleSymbolDataSaIS1_EE13_M_insert_auxEN9__gnu_cxx17__normal_iteratorIPS1_S3_EERKS1_@Base 3.3.3a
- _ZNSt6vectorIP24CigiBaseVertexSymbolDataSaIS1_EE13_M_insert_auxEN9__gnu_cxx17__normal_iteratorIPS1_S3_EERKS1_@Base 3.3.3a
+ (optional=templinst)_ZNSs12_S_constructIPcEES0_T_S1_RKSaIcESt20forward_iterator_tag@Base 3.3.3a
+ (optional=templinst)_ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED0Ev@Base 3.3.3a
+ (optional=templinst)_ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED1Ev@Base 3.3.3a
+ (optional=templinst)_ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED2Ev@Base 3.3.3a
+ (optional=templinst)_ZNSt6vectorIP24CigiBaseCircleSymbolDataSaIS1_EE13_M_insert_auxEN9__gnu_cxx17__normal_iteratorIPS1_S3_EERKS1_@Base 3.3.3a
+ (optional=templinst)_ZNSt6vectorIP24CigiBaseVertexSymbolDataSaIS1_EE13_M_insert_auxEN9__gnu_cxx17__normal_iteratorIPS1_S3_EERKS1_@Base 3.3.3a
  _ZTI11CigiBaseSOF@Base 3.3.3a
  _ZTI11CigiIGMsgV2@Base 3.3.3a
  _ZTI11CigiIGMsgV3@Base 3.3.3a

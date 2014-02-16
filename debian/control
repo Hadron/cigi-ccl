@@ -88,6 +88,7 @@ Description: compiled examples for the CIGI class library (CCL)
 Package: python-cigi
 Section: python
 Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
 Description: Python bindings for the CIGI class library
  This package contains SWIG-generated Python interfaces for the CIGI
  class library (CCL).  The primary goal of the Common Image Generator
@@ -106,6 +107,7 @@ Description: Python bindings for the CIGI class library
 Package: python3-cigi
 Section: python
 Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}
 Description: Python bindings for the CIGI class library
  This package contains SWIG-generated Python interfaces for the CIGI
  class library (CCL).  The primary goal of the Common Image Generator

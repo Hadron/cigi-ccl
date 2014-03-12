@@ -1,7 +1,7 @@
 cigi-ccl (3.3.3a+svn818-5) unstable; urgency=medium
 
   * Add lintian override for FSF copyright address.
-  * Update symbols files to include i386 and arm.
+  * Update symbols files to include i386 and arm. (Closes: #741393)
 
  -- Klee Dienes <klee@mit.edu>  Wed, 12 Mar 2014 09:04:47 -0400
 

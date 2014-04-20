@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-.PHONY: override_dh_installdocs override_dh_strip override_dh_auto_configure
+.PHONY: override_dh_installdocs override_dh_strip override_dh_auto_configure overrid_dh_clean
 
 DPKG_EXPORT_BUILDFLAGS = 1
 -include /usr/share/dpkg/buildflags.mk
@@ -8,7 +8,7 @@ DPKG_EXPORT_BUILDFLAGS = 1
 CFLAGS   += $(CPPFLAGS)
 CXXFLAGS += $(CPPFLAGS)
 
-DH_WITHFLAGS = --with pkgkde_symbolshelper
+DH_WITHFLAGS = --with pkgkde_symbolshelper --with python2 --with python3
 DH_FLAGS = --parallel --buildsystem=cmake
 
 %:
@@ -22,3 +22,10 @@ override_dh_strip:
 
 override_dh_installdocs:
 	dh_installdocs --link-doc=libcigicl1 --exclude=license.html
+
+override_dh_clean:
+	dh_clean
+	rm -f scripting/__init__.py
+	rm -f scripting/cigi.py
+	rm -rf scripting/python/cigi.egg-info
+	rm -f scripting/swig_wrap.cpp

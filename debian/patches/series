@@ -1,4 +1,4 @@
 0001-Add-compilation-of-CigiDummyIG-and-CigiMiniHost.patch
 0002-Update-to-new-library-directories-Add-new-subdirs.patch
 0003-Add-pkgconfig-files.patch
-0004-Add-python-cigi-support.patch
+0004-Update-python-cmakefile.patch

@@ -91,9 +91,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN12CigiIGCtrlV3D1Ev@Base 3.3.3a
  _ZN12CigiIGCtrlV3D2Ev@Base 3.3.3a
  _ZN13CigiBaseIGMsg7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN13CigiBaseIGMsgD0Ev@Base 3.3.3a
- _ZN13CigiBaseIGMsgD1Ev@Base 3.3.3a
- _ZN13CigiBaseIGMsgD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN13CigiBaseIGMsgD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN13CigiBaseIGMsgD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN13CigiBaseIGMsgD2Ev@Base 3.3.3a
  _ZN13CigiEnvCtrlV110SetWindDirEfb@Base 3.3.3a
  _ZN13CigiEnvCtrlV111SetHumidityEhb@Base 3.3.3a
  _ZN13CigiEnvCtrlV113SetVisibilityEfb@Base 3.3.3a
@@ -209,9 +209,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN14CigiBaseIGCtrlD1Ev@Base 3.3.3a
  _ZN14CigiBaseIGCtrlD2Ev@Base 3.3.3a
  _ZN14CigiBasePacket7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN14CigiBasePacketD0Ev@Base 3.3.3a
- _ZN14CigiBasePacketD1Ev@Base 3.3.3a
- _ZN14CigiBasePacketD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN14CigiBasePacketD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN14CigiBasePacketD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN14CigiBasePacketD2Ev@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEajN16CigiBaseCompCtrl7BytePosEb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEdjb@Base 3.3.3a
  _ZN14CigiCompCtrlV111SetCompDataEfjb@Base 3.3.3a
@@ -515,13 +515,13 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN15CigiOutgoingMsglsER15CigiBaseEnvCtrl@Base 3.3.3a
  _ZN15CigiOutgoingMsglsER18CigiBaseEntityCtrl@Base 3.3.3a
  _ZN15CigiOutgoingMsglsER24CigiBaseVariableSizePckt@Base 3.3.3a
- _ZN16CigiBaseCompCtrlD0Ev@Base 3.3.3a
- _ZN16CigiBaseCompCtrlD1Ev@Base 3.3.3a
- _ZN16CigiBaseCompCtrlD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseCompCtrlD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseCompCtrlD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseCompCtrlD2Ev@Base 3.3.3a
  _ZN16CigiBaseRateCtrl7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN16CigiBaseRateCtrlD0Ev@Base 3.3.3a
- _ZN16CigiBaseRateCtrlD1Ev@Base 3.3.3a
- _ZN16CigiBaseRateCtrlD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseRateCtrlD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseRateCtrlD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN16CigiBaseRateCtrlD2Ev@Base 3.3.3a
  _ZN16CigiBaseViewCtrl6SetYawEfb@Base 3.3.3a
  _ZN16CigiBaseViewCtrl7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
  _ZN16CigiBaseViewCtrl7SetRollEfb@Base 3.3.3a
@@ -894,9 +894,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN18CigiBaseEnvRgnCtrlD0Ev@Base 3.3.3a
  _ZN18CigiBaseEnvRgnCtrlD1Ev@Base 3.3.3a
  _ZN18CigiBaseEnvRgnCtrlD2Ev@Base 3.3.3a
- _ZN18CigiBaseHatHotRespD0Ev@Base 3.3.3a
- _ZN18CigiBaseHatHotRespD1Ev@Base 3.3.3a
- _ZN18CigiBaseHatHotRespD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN18CigiBaseHatHotRespD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN18CigiBaseHatHotRespD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN18CigiBaseHatHotRespD2Ev@Base 3.3.3a
  _ZN18CigiBaseLosVectReq7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
  _ZN18CigiBaseLosVectReq9SetSrcLatEdb@Base 3.3.3a
  _ZN18CigiBaseLosVectReq9SetSrcLonEdb@Base 3.3.3a
@@ -1204,13 +1204,13 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN20CigiCollDetVolRespV3D1Ev@Base 3.3.3a
  _ZN20CigiCollDetVolRespV3D2Ev@Base 3.3.3a
  _ZN21CigiBaseAnimationStop7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN21CigiBaseAnimationStopD0Ev@Base 3.3.3a
- _ZN21CigiBaseAnimationStopD1Ev@Base 3.3.3a
- _ZN21CigiBaseAnimationStopD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseAnimationStopD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseAnimationStopD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseAnimationStopD2Ev@Base 3.3.3a
  _ZN21CigiBaseCollDetSegDef7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN21CigiBaseCollDetSegDefD0Ev@Base 3.3.3a
- _ZN21CigiBaseCollDetSegDefD1Ev@Base 3.3.3a
- _ZN21CigiBaseCollDetSegDefD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseCollDetSegDefD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseCollDetSegDefD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseCollDetSegDefD2Ev@Base 3.3.3a
  _ZN21CigiBaseCollDetVolDef7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
  _ZN21CigiBaseCollDetVolDefC1Ev@Base 3.3.3a
  _ZN21CigiBaseCollDetVolDefC2Ev@Base 3.3.3a
@@ -1218,9 +1218,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN21CigiBaseCollDetVolDefD1Ev@Base 3.3.3a
  _ZN21CigiBaseCollDetVolDefD2Ev@Base 3.3.3a
  _ZN21CigiBaseEarthModelDef7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN21CigiBaseEarthModelDefD0Ev@Base 3.3.3a
- _ZN21CigiBaseEarthModelDefD1Ev@Base 3.3.3a
- _ZN21CigiBaseEarthModelDefD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseEarthModelDefD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseEarthModelDefD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN21CigiBaseEarthModelDefD2Ev@Base 3.3.3a
  _ZN21CigiBaseSymbolLineDef12SetLineWidthEfb@Base 3.3.3a
  _ZN21CigiBaseSymbolLineDef12SetPrimitiveENS_12PrimitiveGrpEb@Base 3.3.3a
  _ZN21CigiBaseSymbolLineDef13ClearVerticesEv@Base 3.3.3a
@@ -1435,6 +1435,65 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN24CigiBaseShortArtPartCtrlD0Ev@Base 3.3.3a
  _ZN24CigiBaseShortArtPartCtrlD1Ev@Base 3.3.3a
  _ZN24CigiBaseShortArtPartCtrlD2Ev@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing10OnCompCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing10OnLosXRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing10OnRateCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing10OnViewCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing10OnWaveCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing11OnAtmosCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing11OnHatHotReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing11OnLosSegReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnEntityCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnEnvCondReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnEnvRgnCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnHatHotRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnLosVectReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnPostionReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnSensorCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnSensorRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnSpecEffDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnSymbolCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing12OnTrajectoryEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnAerosolRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnArtPartCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnHatHotXRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnSensorXRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnSymbolCloneEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing13OnWeatherCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing14OnPositionRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing14OnUnrecognizedEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnAnimationStopEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnCelestialCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnCollDetSegDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnCollDetVolDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnEarthModelDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnShortCompCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnSymbolLineDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing15OnSymbolTextDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing16OnCollDetSegRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing16OnCollDetVolRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing17OnMotionTrackCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing17OnShortSymbolCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing17OnSymbolCircleDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing17OnWeatherCondRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing18OnShortArtPartCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing18OnSymbolSurfaceDefEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing19OnEventNotificationEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing21OnConfClampEntityCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing21OnMaritimeSurfaceCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing21OnMaritimeSurfaceRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing24OnTerrestrialSurfaceCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing24OnTerrestrialSurfaceRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing5OnSOFEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing7OnIGMsgEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing8OnHatReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing8OnHotReqEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing8OnIGCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing9OnEnvCtrlEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing9OnHatRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing9OnHotRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing9OnLosRespEP14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-4.9)_ZN24CigiBaseSignalProcessing9OnViewDefEP14CigiBasePacket@Base 3.3.3a
  _ZN24CigiBaseSymbolSurfaceDef11SetAttachedENS_14AttachStateGrpEb@Base 3.3.3a
  _ZN24CigiBaseSymbolSurfaceDef15SetSurfaceStateENS_8StateGrpEb@Base 3.3.3a
  _ZN24CigiBaseSymbolSurfaceDef17SetBillboardStateENS_17BillboardStateGrpEb@Base 3.3.3a
@@ -1452,12 +1511,12 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN24CigiBaseSymbolSurfaceDefD0Ev@Base 3.3.3a
  _ZN24CigiBaseSymbolSurfaceDefD1Ev@Base 3.3.3a
  _ZN24CigiBaseSymbolSurfaceDefD2Ev@Base 3.3.3a
- _ZN24CigiBaseVariableSizePcktD0Ev@Base 3.3.3a
- _ZN24CigiBaseVariableSizePcktD1Ev@Base 3.3.3a
- _ZN24CigiBaseVariableSizePcktD2Ev@Base 3.3.3a
- _ZN24CigiBaseVertexSymbolDataD0Ev@Base 3.3.3a
- _ZN24CigiBaseVertexSymbolDataD1Ev@Base 3.3.3a
- _ZN24CigiBaseVertexSymbolDataD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVariableSizePcktD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVariableSizePcktD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVariableSizePcktD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVertexSymbolDataD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVertexSymbolDataD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN24CigiBaseVertexSymbolDataD2Ev@Base 3.3.3a
  _ZN24CigiCircleSymbolDataV3_36UnpackEPhb@Base 3.3.3a
  _ZN24CigiCircleSymbolDataV3_3C1Ev@Base 3.3.3a
  _ZN24CigiCircleSymbolDataV3_3C2Ev@Base 3.3.3a
@@ -1574,9 +1633,9 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZN30CigiBaseTerrestrialSurfaceCtrlD1Ev@Base 3.3.3a
  _ZN30CigiBaseTerrestrialSurfaceCtrlD2Ev@Base 3.3.3a
  _ZN30CigiBaseTerrestrialSurfaceResp7GetCnvtER13CigiVersionIDRN16CigiCnvtInfoType18CigiCnvtInfoStructE@Base 3.3.3a
- _ZN30CigiBaseTerrestrialSurfaceRespD0Ev@Base 3.3.3a
- _ZN30CigiBaseTerrestrialSurfaceRespD1Ev@Base 3.3.3a
- _ZN30CigiBaseTerrestrialSurfaceRespD2Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN30CigiBaseTerrestrialSurfaceRespD0Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN30CigiBaseTerrestrialSurfaceRespD1Ev@Base 3.3.3a
+ (optional=gcc-4.8)_ZN30CigiBaseTerrestrialSurfaceRespD2Ev@Base 3.3.3a
  _ZN32CigiCalledOutOfSequenceExceptionC1Ev@Base 3.3.3a
  _ZN32CigiCalledOutOfSequenceExceptionC2Ev@Base 3.3.3a
  _ZN32CigiCalledOutOfSequenceExceptionD0Ev@Base 3.3.3a
@@ -1746,6 +1805,7 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZNK9CigiSOFV14PackEP14CigiBasePacketPhPv@Base 3.3.3a
  _ZNK9CigiSOFV24PackEP14CigiBasePacketPhPv@Base 3.3.3a
  _ZNK9CigiSOFV34PackEP14CigiBasePacketPhPv@Base 3.3.3a
+ (optional=templinst)_ZNKSt5ctypeIcE8do_widenEc@Base 3.3.3a
  (optional=templinst)_ZNSs12_S_constructIPcEES0_T_S1_RKSaIcESt20forward_iterator_tag@Base 3.3.3a
  (optional=templinst)_ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED0Ev@Base 3.3.3a
  (optional=templinst)_ZNSt15basic_stringbufIcSt11char_traitsIcESaIcEED1Ev@Base 3.3.3a

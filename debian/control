@@ -1,7 +1,7 @@
 Source: cigi-ccl
 Section: libs
 Priority: optional
-Maintainer: Klee Dienes <klee@mit.edu>
+Maintainer: Klee Dienes <klee@debian.org>
 Build-Depends: debhelper (>= 9), dh-python,
 	       swig, cmake, cmake-data, libtinyxml-dev, pkg-kde-tools,
 	       python, python-dev,

@@ -50,12 +50,12 @@ index 0000000..1425a31
 +add_custom_command(OUTPUT ${OUTPUT}
 +  COMMAND ${PYTHON} ${SETUP_PY} build
 +  COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
-+  DEPENDS ${DEPS})
++  DEPENDS ${DEPS} cigicl-shared)
 +
 +add_custom_command(OUTPUT ${OUTPUT3}
 +  COMMAND ${PYTHON3} ${SETUP_PY} build
 +  COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT3}
-+  DEPENDS ${DEPS})
++  DEPENDS ${DEPS} cigicl-shared)
 +
 +add_custom_target(target ALL DEPENDS ${OUTPUT})
 +add_custom_target(target3 ALL DEPENDS ${OUTPUT3})

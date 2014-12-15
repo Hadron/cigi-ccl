@@ -1,3 +1,10 @@
+cigi-ccl (3.3.3a+svn818-8) unstable; urgency=medium
+
+  * Add dependency on the shared libraries to the python build.
+    (Closes: #770841).
+
+ -- Klee Dienes <klee@debian.org>  Sun, 14 Dec 2014 21:27:13 -0500
+
 cigi-ccl (3.3.3a+svn818-7) unstable; urgency=medium
 
   * Mark symbols as optional to support gcc-4.9.

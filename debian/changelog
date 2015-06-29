@@ -1,3 +1,9 @@
+cigi-ccl (3.3.3a+svn818-9) unstable; urgency=medium
+
+  * Mark symbols as optional to support gcc-5.0.
+
+ -- Klee Dienes <klee@debian.org>  Sun, 28 Jun 2015 22:56:31 -0400
+
 cigi-ccl (3.3.3a+svn818-8) unstable; urgency=medium
 
   * Add dependency on the shared libraries to the python build.

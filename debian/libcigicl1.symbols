@@ -2196,7 +2196,7 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV12CigiIGCtrlV1@Base 3.3.3a
  _ZTV12CigiIGCtrlV2@Base 3.3.3a
  _ZTV12CigiIGCtrlV3@Base 3.3.3a
- _ZTV13CigiBaseIGMsg@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV13CigiBaseIGMsg@Base 3.3.3a
  _ZTV13CigiEnvCtrlV1@Base 3.3.3a
  _ZTV13CigiEnvCtrlV2@Base 3.3.3a
  _ZTV13CigiException@Base 3.3.3a
@@ -2212,7 +2212,7 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV13CigiViewDefV2@Base 3.3.3a
  _ZTV13CigiViewDefV3@Base 3.3.3a
  _ZTV14CigiBaseIGCtrl@Base 3.3.3a
- _ZTV14CigiBasePacket@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV14CigiBasePacket@Base 3.3.3a
  _ZTV14CigiCompCtrlV1@Base 3.3.3a
  _ZTV14CigiCompCtrlV2@Base 3.3.3a
  _ZTV14CigiCompCtrlV3@Base 3.3.3a
@@ -2239,8 +2239,8 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV15CigiLosSegReqV2@Base 3.3.3a
  _ZTV15CigiLosSegReqV3@Base 3.3.3a
  _ZTV15CigiOutgoingMsg@Base 3.3.3a
- _ZTV16CigiBaseCompCtrl@Base 3.3.3a
- _ZTV16CigiBaseRateCtrl@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV16CigiBaseCompCtrl@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV16CigiBaseRateCtrl@Base 3.3.3a
  _ZTV16CigiBaseViewCtrl@Base 3.3.3a
  _ZTV16CigiBaseWaveCtrl@Base 3.3.3a
  _ZTV16CigiCompCtrlV3_3@Base 3.3.3a
@@ -2283,7 +2283,7 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV18CigiBaseEntityCtrl@Base 3.3.3a
  _ZTV18CigiBaseEnvCondReq@Base 3.3.3a
  _ZTV18CigiBaseEnvRgnCtrl@Base 3.3.3a
- _ZTV18CigiBaseHatHotResp@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV18CigiBaseHatHotResp@Base 3.3.3a
  _ZTV18CigiBaseLosVectReq@Base 3.3.3a
  _ZTV18CigiBaseSensorCtrl@Base 3.3.3a
  _ZTV18CigiBaseSensorResp@Base 3.3.3a
@@ -2319,10 +2319,10 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV20CigiCollDetSegRespV3@Base 3.3.3a
  _ZTV20CigiCollDetVolRespV2@Base 3.3.3a
  _ZTV20CigiCollDetVolRespV3@Base 3.3.3a
- _ZTV21CigiBaseAnimationStop@Base 3.3.3a
- _ZTV21CigiBaseCollDetSegDef@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV21CigiBaseAnimationStop@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV21CigiBaseCollDetSegDef@Base 3.3.3a
  _ZTV21CigiBaseCollDetVolDef@Base 3.3.3a
- _ZTV21CigiBaseEarthModelDef@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV21CigiBaseEarthModelDef@Base 3.3.3a
  _ZTV21CigiBaseSymbolLineDef@Base 3.3.3a
  _ZTV21CigiBaseSymbolTextDef@Base 3.3.3a
  _ZTV21CigiBaseTrajectoryDef@Base 3.3.3a
@@ -2344,8 +2344,8 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV24CigiBaseCircleSymbolData@Base 3.3.3a
  _ZTV24CigiBaseShortArtPartCtrl@Base 3.3.3a
  _ZTV24CigiBaseSymbolSurfaceDef@Base 3.3.3a
- _ZTV24CigiBaseVariableSizePckt@Base 3.3.3a
- _ZTV24CigiBaseVertexSymbolData@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV24CigiBaseVariableSizePckt@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV24CigiBaseVertexSymbolData@Base 3.3.3a
  _ZTV24CigiCircleSymbolDataV3_3@Base 3.3.3a
  _ZTV24CigiNullPointerException@Base 3.3.3a
  _ZTV24CigiSymbolSurfaceDefV3_3@Base 3.3.3a
@@ -2363,7 +2363,7 @@ libcigicl.so.1 libcigicl1 #MINVER#
  _ZTV28CigiValueOutOfRangeException@Base 3.3.3a
  _ZTV29CigiMissingIgControlException@Base 3.3.3a
  _ZTV30CigiBaseTerrestrialSurfaceCtrl@Base 3.3.3a
- _ZTV30CigiBaseTerrestrialSurfaceResp@Base 3.3.3a
+ (optional=gcc-5.0)_ZTV30CigiBaseTerrestrialSurfaceResp@Base 3.3.3a
  _ZTV32CigiCalledOutOfSequenceException@Base 3.3.3a
  _ZTV32CigiMissingStartOfFrameException@Base 3.3.3a
  _ZTV6CigiIO@Base 3.3.3a
